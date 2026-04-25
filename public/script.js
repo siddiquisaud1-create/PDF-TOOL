@@ -2,63 +2,89 @@ let selectedFile;
 let endpoint = "";
 let outputName = "";
 
-// select tool
-document.querySelectorAll(".card").forEach(card => {
-  card.addEventListener("click", () => {
-    document.querySelectorAll(".card").forEach(c => c.classList.remove("active"));
-    card.classList.add("active");
+// WAIT until DOM loads
+document.addEventListener("DOMContentLoaded", () => {
 
-    endpoint = card.dataset.endpoint;
-    outputName = card.dataset.output;
+  // SELECT TOOL
+  document.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("click", () => {
 
-    document.getElementById("status").innerText = "Selected: " + card.innerText;
+      document.querySelectorAll(".card").forEach(c => c.classList.remove("active"));
+      card.classList.add("active");
+
+      endpoint = card.dataset.endpoint;
+      outputName = card.dataset.output;
+
+      document.getElementById("status").innerText =
+        "Selected: " + card.innerText;
+    });
   });
-});
 
-// choose file
-document.getElementById("btn").addEventListener("click", () => {
-  document.getElementById("file").click();
-});
+  // CHOOSE FILE
+  const btn = document.getElementById("btn");
+  const fileInput = document.getElementById("file");
 
-document.getElementById("file").addEventListener("change", e => {
-  selectedFile = e.target.files[0];
-  document.getElementById("btn").innerText = selectedFile.name;
-});
+  btn.addEventListener("click", () => {
+    fileInput.click();
+  });
 
-// upload
-document.getElementById("startUpload").addEventListener("click", () => {
+  fileInput.addEventListener("change", (e) => {
+    selectedFile = e.target.files[0];
 
-  if (!selectedFile) return alert("Select file");
-  if (!endpoint) return alert("Select tool");
+    if (selectedFile) {
+      btn.innerText = selectedFile.name;
+    }
+  });
 
-  const formData = new FormData();
-  formData.append("file", selectedFile);
+  // UPLOAD
+  document.getElementById("startUpload").addEventListener("click", () => {
 
-  const xhr = new XMLHttpRequest();
-  xhr.open("POST", endpoint);
-
-  xhr.upload.onprogress = e => {
-    document.getElementById("bar").style.width =
-      (e.loaded / e.total) * 100 + "%";
-  };
-
-  xhr.onload = () => {
-    if (xhr.status !== 200) {
-      document.getElementById("status").innerText = "Upload failed";
+    if (!selectedFile) {
+      alert("Select file first");
       return;
     }
 
-    const blob = new Blob([xhr.response]);
-    const url = URL.createObjectURL(blob);
+    if (!endpoint) {
+      alert("Select a tool first");
+      return;
+    }
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = outputName;
-    a.click();
+    const formData = new FormData();
+    formData.append("file", selectedFile);
 
-    document.getElementById("status").innerText = "Done ✅";
-  };
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", endpoint);
 
-  xhr.responseType = "arraybuffer";
-  xhr.send(formData);
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) {
+        const percent = (e.loaded / e.total) * 100;
+        document.getElementById("bar").style.width = percent + "%";
+      }
+    };
+
+    xhr.onload = () => {
+      if (xhr.status !== 200) {
+        document.getElementById("status").innerText = "Upload failed ❌";
+        return;
+      }
+
+      const blob = new Blob([xhr.response]);
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = outputName;
+      a.click();
+
+      document.getElementById("status").innerText = "Done ✅";
+    };
+
+    xhr.onerror = () => {
+      document.getElementById("status").innerText = "Error ❌";
+    };
+
+    xhr.responseType = "arraybuffer";
+    xhr.send(formData);
+  });
+
 });
