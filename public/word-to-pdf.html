@@ -11,7 +11,120 @@
 <meta name="keywords" content="word to pdf, doc to pdf, convert word to pdf online, free pdf converter">
 <meta name="robots" content="index, follow">
 
-<link rel="stylesheet" href="styles.css">
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f6f8fc;
+}
+
+/* HEADER */
+header {
+  background: linear-gradient(90deg, #4f46e5, #2563eb);
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
+
+header nav {
+  margin-top: 8px;
+}
+
+header nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+header nav a:hover {
+  text-decoration: underline;
+}
+
+/* ADS */
+.ads {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 15px;
+  background: #eee;
+  text-align: center;
+  border-radius: 6px;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 500px;
+  margin: 60px auto 30px;
+}
+
+/* CARD */
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+/* DROP */
+#drop {
+  border: 2px dashed #4f46e5;
+  padding: 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 15px 0;
+  transition: 0.2s;
+}
+
+#drop:hover {
+  background: #eef2ff;
+}
+
+/* BUTTON */
+button {
+  background: #4f46e5;
+  color: white;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #4338ca;
+}
+
+/* PROGRESS */
+.progress {
+  width: 100%;
+  height: 10px;
+  background: #ddd;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+.bar {
+  height: 100%;
+  width: 0%;
+  background: #4f46e5;
+}
+
+/* CONTENT */
+.content {
+  max-width: 800px;
+  margin: 40px auto;
+  line-height: 1.6;
+  padding: 0 15px;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 20px;
+  background: #f1f1f1;
+  margin-top: 40px;
+}
+</style>
 
 </head>
 
@@ -19,7 +132,7 @@
 
 <!-- HEADER -->
 <header>
-  <div>PDF Master Hub</div>
+  <div><strong>PDF Master Hub</strong></div>
   <nav>
     <a href="/">Home</a>
     <a href="/pdf-to-word.html">PDF to Word</a>
@@ -40,15 +153,7 @@
 
 <h1>Word to PDF Converter</h1>
 
-<div id="drop" style="
-  border:2px dashed #4f46e5;
-  padding:30px;
-  border-radius:10px;
-  cursor:pointer;
-  margin:15px 0;
-">
-Drag & Drop Word file or Click
-</div>
+<div id="drop">Drag & Drop Word file or Click</div>
 
 <input type="file" id="file" accept=".doc,.docx" hidden onchange="filePicked(this)">
 
@@ -63,46 +168,30 @@ Drag & Drop Word file or Click
 </div>
 </div>
 
-<!-- CONTENT (SEO) -->
+<!-- CONTENT -->
 <section class="content">
 
 <h2>Convert Word to PDF Online Free</h2>
 
 <p>
-Our Word to PDF converter allows you to quickly convert DOC and DOCX files into high-quality PDF documents. This tool is fast, secure, and completely free to use.
+Our Word to PDF converter allows you to quickly convert DOC and DOCX files into high-quality PDF documents. This tool is fast, secure, and completely free.
 </p>
 
 <p>
-Whether you are converting resumes, reports, assignments, or business documents, our tool ensures that formatting remains intact and professional.
+You can upload your Word file, convert it instantly, and download a professional PDF without losing formatting.
 </p>
 
-<p>
-You don’t need to install any software. Simply upload your file, click convert, and download your PDF instantly. Your files are processed securely and deleted automatically.
-</p>
-
-<h2>Why Choose Our Word to PDF Tool?</h2>
+<h2>Why Use This Tool?</h2>
 
 <p>
-We provide a reliable and efficient conversion experience with high accuracy. The tool is optimized for speed and works on all devices including mobile, tablet, and desktop.
-</p>
-
-<p>
-Unlike many other converters, we focus on privacy and performance, ensuring your documents remain safe.
+No installation required, secure processing, fast conversion, and high-quality output make this tool ideal for students, professionals, and businesses.
 </p>
 
 <h2>FAQs</h2>
 
-<h3>Is this tool free?</h3>
-<p>Yes, our Word to PDF converter is completely free.</p>
-
-<h3>Is my file secure?</h3>
-<p>Yes, all files are automatically deleted after conversion.</p>
-
-<h3>Can I convert DOCX files?</h3>
-<p>Yes, both DOC and DOCX formats are supported.</p>
-
-<h3>Do I need to install anything?</h3>
-<p>No installation is required. Everything works online.</p>
+<p><strong>Is it free?</strong><br>Yes, completely free.</p>
+<p><strong>Is my file safe?</strong><br>Files are deleted after processing.</p>
+<p><strong>Supported formats?</strong><br>DOC and DOCX.</p>
 
 </section>
 
@@ -111,16 +200,11 @@ Unlike many other converters, we focus on privacy and performance, ensuring your
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2026 PDF Master Hub</p>
-  <a href="/">Home</a> |
-  <a href="/about.html">About</a> |
-  <a href="/contact.html">Contact</a> |
-  <a href="/privacy.html">Privacy</a>
+  © 2026 PDF Master Hub
 </footer>
 
 <!-- SCRIPT -->
 <script src="app.js"></script>
-
 <script>
 setup({
   types: ["doc","docx"],
