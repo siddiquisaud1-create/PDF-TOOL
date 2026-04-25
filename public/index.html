@@ -134,7 +134,7 @@ footer {
 <p>Fast • Secure • No Installation Required</p>
 
 <div class="search">
-<input type="text" placeholder="Search tools...">
+<input type="text" id="search" placeholder="Search tools..." onkeyup="filterTools()">
 </div>
 </div>
 
@@ -156,7 +156,7 @@ footer {
 </a>
 
 <a href="/pdf-to-excel.html">
-<div class="card">
+<div class="card tool">
 <div class="icon">📊</div>
 <span>PDF → Excel</span>
 </div>
@@ -199,7 +199,27 @@ footer {
 
 </div>
 </div>
+</footer>
 
+<script>
+function filterTools() {
+  const input = document.getElementById("search").value.toLowerCase();
+  const tools = document.getElementsByClassName("tool");
+
+  for (let i = 0; i < tools.length; i++) {
+    const text = tools[i].innerText.toLowerCase();
+
+    if (text.includes(input)) {
+      tools[i].style.display = "block";
+    } else {
+      tools[i].style.display = "none";
+    }
+  }
+}
+</script>
+
+</body>
+</html>
 <footer>
 © 2026 PDF Master Hub
 </footer>
