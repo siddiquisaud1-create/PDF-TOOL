@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
+<body onload="init()">
 
 <header>PDF Master Hub</header>
 
@@ -14,11 +14,21 @@
 
 <h2>TOOL_NAME</h2>
 
-<input type="file" id="file"><br><br>
+<!-- Drag & Drop -->
+<div id="drop" style="
+  border:2px dashed #4f46e5;
+  padding:30px;
+  border-radius:10px;
+  cursor:pointer;
+  margin:15px 0;
+">
+Drag & Drop file or Click
+</div>
 
-<button onclick="upload('API_ROUTE','OUTPUT_NAME')">
-Convert
-</button>
+<!-- File input -->
+<input type="file" id="file" accept="FILE_TYPES" hidden onchange="filePicked(this)">
+
+<button onclick="upload()">Convert</button>
 
 <div class="progress">
   <div class="bar" id="bar"></div>
@@ -26,10 +36,21 @@ Convert
 
 <p id="status"></p>
 
+<a href="/" class="home">⬅ Back to Home</a>
+
 </div>
 </div>
 
-<script src="script.js"></script>
+<!-- Main script -->
+<script src="app.js"></script>
+
+<script>
+setup({
+  types: FILE_TYPES_ARRAY,
+  endpoint: "API_ROUTE",
+  output: "OUTPUT_NAME"
+});
+</script>
 
 </body>
 </html>

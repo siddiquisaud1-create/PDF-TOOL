@@ -1,24 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Word to PDF</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Word to PDF Converter Free Online | PDF Master Hub</title>
+
+<meta name="description" content="Convert Word to PDF online for free. Fast DOC to PDF converter with high quality and secure processing.">
+<meta name="keywords" content="word to pdf, doc to pdf, convert word to pdf online, free pdf converter">
+<meta name="robots" content="index, follow">
+
 <link rel="stylesheet" href="styles.css">
+
 </head>
 
-<body>
+<body onload="init()">
 
-<header>PDF Master Hub</header>
+<!-- HEADER -->
+<header>
+  <div>PDF Master Hub</div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/pdf-to-word.html">PDF to Word</a>
+    <a href="/word-to-pdf.html">Word to PDF</a>
+    <a href="/pdf-to-excel.html">PDF to Excel</a>
+    <a href="/about.html">About</a>
+    <a href="/contact.html">Contact</a>
+    <a href="/privacy.html">Privacy</a>
+  </nav>
+</header>
 
+<!-- ADS TOP -->
+<div class="ads">Ad Space (Top)</div>
+
+<!-- TOOL -->
 <div class="container">
 <div class="card">
 
-<h2>Word to PDF</h2>
+<h1>Word to PDF Converter</h1>
 
-<input type="file" id="file"><br><br>
+<div id="drop" style="
+  border:2px dashed #4f46e5;
+  padding:30px;
+  border-radius:10px;
+  cursor:pointer;
+  margin:15px 0;
+">
+Drag & Drop Word file or Click
+</div>
 
-<button onclick="upload('/word-to-pdf','converted.pdf')">
-Convert
-</button>
+<input type="file" id="file" accept=".doc,.docx" hidden onchange="filePicked(this)">
+
+<button onclick="upload()">Convert</button>
 
 <div class="progress">
   <div class="bar" id="bar"></div>
@@ -29,7 +63,71 @@ Convert
 </div>
 </div>
 
-<script src="script.js"></script>
+<!-- CONTENT (SEO) -->
+<section class="content">
+
+<h2>Convert Word to PDF Online Free</h2>
+
+<p>
+Our Word to PDF converter allows you to quickly convert DOC and DOCX files into high-quality PDF documents. This tool is fast, secure, and completely free to use.
+</p>
+
+<p>
+Whether you are converting resumes, reports, assignments, or business documents, our tool ensures that formatting remains intact and professional.
+</p>
+
+<p>
+You don’t need to install any software. Simply upload your file, click convert, and download your PDF instantly. Your files are processed securely and deleted automatically.
+</p>
+
+<h2>Why Choose Our Word to PDF Tool?</h2>
+
+<p>
+We provide a reliable and efficient conversion experience with high accuracy. The tool is optimized for speed and works on all devices including mobile, tablet, and desktop.
+</p>
+
+<p>
+Unlike many other converters, we focus on privacy and performance, ensuring your documents remain safe.
+</p>
+
+<h2>FAQs</h2>
+
+<h3>Is this tool free?</h3>
+<p>Yes, our Word to PDF converter is completely free.</p>
+
+<h3>Is my file secure?</h3>
+<p>Yes, all files are automatically deleted after conversion.</p>
+
+<h3>Can I convert DOCX files?</h3>
+<p>Yes, both DOC and DOCX formats are supported.</p>
+
+<h3>Do I need to install anything?</h3>
+<p>No installation is required. Everything works online.</p>
+
+</section>
+
+<!-- ADS BOTTOM -->
+<div class="ads">Ad Space (Bottom)</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 PDF Master Hub</p>
+  <a href="/">Home</a> |
+  <a href="/about.html">About</a> |
+  <a href="/contact.html">Contact</a> |
+  <a href="/privacy.html">Privacy</a>
+</footer>
+
+<!-- SCRIPT -->
+<script src="app.js"></script>
+
+<script>
+setup({
+  types: ["doc","docx"],
+  endpoint: "/word-to-pdf",
+  output: "converted.pdf"
+});
+</script>
 
 </body>
 </html>
