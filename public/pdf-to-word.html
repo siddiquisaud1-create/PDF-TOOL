@@ -66,6 +66,34 @@ button:hover {
   background: #4f46e5;
 }
 
+/* SPINNER */
+.spinner {
+  display: none;
+  margin-top: 10px;
+}
+
+.loader {
+  border: 4px solid #eee;
+  border-top: 4px solid #4f46e5;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+/* ADS */
+.ads {
+  margin-top: 20px;
+  padding: 10px;
+  background: #eee;
+  font-size: 12px;
+}
+
 /* HOME LINK */
 .home {
   display: block;
@@ -95,7 +123,8 @@ button:hover {
 Drag & Drop file or Click
 </div>
 
-<input type="file" id="file" hidden onchange="filePicked(this)">
+<!-- ✅ Only PDF allowed -->
+<input type="file" id="file" accept=".pdf" hidden onchange="filePicked(this)">
 
 <button onclick="upload()">Convert</button>
 
@@ -103,7 +132,15 @@ Drag & Drop file or Click
   <div class="bar" id="bar"></div>
 </div>
 
+<!-- ✅ Spinner -->
+<div class="spinner" id="spinner">
+  <div class="loader"></div>
+</div>
+
 <p id="status"></p>
+
+<!-- ✅ AdSense placeholder -->
+<div class="ads">Ad Space (Google AdSense)</div>
 
 <a href="/" class="home">⬅ Back to Home</a>
 
@@ -131,18 +168,33 @@ function init() {
     e.preventDefault();
     drop.style.background = "white";
 
-    selectedFile = e.dataTransfer.files[0];
-    drop.innerText = selectedFile.name;
+    handleFile(e.dataTransfer.files[0]);
   };
 }
 
 function filePicked(input) {
-  selectedFile = input.files[0];
-  document.getElementById("drop").innerText = selectedFile.name;
+  handleFile(input.files[0]);
+}
+
+/* ✅ File validation */
+function handleFile(file) {
+  if (!file) return;
+
+  const ext = file.name.split(".").pop().toLowerCase();
+
+  if (ext !== "pdf") {
+    document.getElementById("status").innerText = "❌ Only PDF files allowed";
+    return;
+  }
+
+  selectedFile = file;
+  document.getElementById("drop").innerText = file.name;
 }
 
 function upload() {
   if (!selectedFile) return alert("Select file");
+
+  document.getElementById("spinner").style.display = "block";
 
   const formData = new FormData();
   formData.append("file", selectedFile);
@@ -157,6 +209,7 @@ function upload() {
   document.getElementById("status").innerText = "Uploading...";
 
   xhr.onload = function() {
+    document.getElementById("spinner").style.display = "none";
     document.getElementById("status").innerText = "Processing...";
 
     const blob = new Blob([xhr.response]);
