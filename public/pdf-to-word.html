@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>PDF to Word</title>
+
+<style>
+body { font-family: Arial; text-align: center; background:#f3f5f9; }
+.box { margin-top:80px; }
+.progress { width:300px; height:20px; background:#ddd; margin:20px auto; }
+.bar { height:100%; width:0%; background:blue; }
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>PDF to Word</h2>
+
+<input type="file" id="file"><br><br>
+
+<button onclick="upload()">Convert</button>
+
+<div class="progress">
+  <div class="bar" id="bar"></div>
+</div>
+
+<p id="status"></p>
+
+</div>
+
+<script>
+function upload() {
+  const file = document.getElementById("file").files[0];
+  if (!file) return alert("Select file");
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const xhr = new XMLHttpRequest();
+
+  xhr.upload.onprogress = function(e) {
+    const percent = (e.loaded / e.total) * 100;
+    document.getElementById("bar").style.width = percent + "%";
+  };
+
+  document.getElementById("status").innerText = "Uploading...";
+
+  xhr.onload = function() {
+    document.getElementById("status").innerText = "Done";
+
+    const blob = new Blob([xhr.response]);
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "converted.docx";
+    a.click();
+  };
+
+  xhr.open("POST", "/pdf-to-word");
+  xhr.responseType = "blob";
+  xhr.send(formData);
+}
+</script>
+
+</body>
+</html>

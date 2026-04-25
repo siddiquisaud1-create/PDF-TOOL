@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Word to PDF</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header>PDF Master Hub</header>
+
+<div class="container">
+<div class="card">
+
+<h2>Word to PDF</h2>
+
+<input type="file" id="file"><br><br>
+
+<button onclick="upload('/word-to-pdf','converted.pdf')">
+Convert
+</button>
+
+<div class="progress">
+  <div class="bar" id="bar"></div>
+</div>
+
+<p id="status"></p>
+
+</div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
