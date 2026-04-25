@@ -60,6 +60,44 @@ nav a {
   text-align: center;
 }
 
+.card {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 25px 60px rgba(79, 70, 229, 0.25);
+  transform: translateY(-2px);
+}
+button {
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(79,70,229,0.4);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+#drop {
+  transition: all 0.25s ease;
+}
+
+#drop:hover {
+  background: #eef2ff;
+  border-color: #2563eb;
+}
+body {
+  scroll-behavior: smooth;
+}
+#status {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #4f46e5;
+}
+
+
 /* ===== TITLE ===== */
 .card h1 {
   margin-bottom: 20px;
