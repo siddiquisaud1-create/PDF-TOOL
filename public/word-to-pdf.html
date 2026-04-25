@@ -10,7 +10,7 @@
 <meta name="description" content="Convert Word to PDF online for free. Fast, secure DOC/DOCX to PDF converter with high-quality output.">
 <meta name="keywords" content="word to pdf, doc to pdf, convert word to pdf online, free pdf converter">
 <meta name="robots" content="index, follow">
-
+<script src="https://unpkg.com/lucide@latest"></script>
 <style>
 
 /* ===== BASE ===== */
@@ -135,7 +135,52 @@ footer {
   grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
   gap: 12px;
   margin-top: 20px;
+
+.tools {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+  gap: 12px;
 }
+
+.tool {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #1f2937;
+  color: #e5e7eb;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+/* ICON BASE */
+.tool i {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.25s ease;
+}
+
+/* HOVER EFFECT */
+.tool:hover {
+  transform: translateY(-3px);
+  background: #111827;
+  color: white;
+}
+
+.tool:hover i {
+  transform: scale(1.2);
+}
+
+/* COLORS */
+.tool.pdf i { color: #ef4444; }
+.tool.excel i { color: #22c55e; }
+.tool.image i { color: #f59e0b; }
+.tool.compress i { color: #3b82f6; }
+.tool.merge i { color: #8b5cf6; }
+.tool.split i { color: #ec4899; }
+}
+
 
 .tools a {
   display: flex;
@@ -248,69 +293,45 @@ We provide fast conversion, high accuracy, and a clean user experience without a
 
 <div class="tools">
 
-<a href="/pdf-to-word.html">
-<svg width="18" height="18" viewBox="0 0 24 24" fill="#4f46e5">
-<path d="M6 2h9l5 5v15H6z"/>
-</svg>
-PDF to Word
+<div class="tools">
+
+<a href="/pdf-to-word.html" class="tool pdf">
+<i data-lucide="file-text"></i>PDF to Word
 </a>
 
-<a href="/word-to-pdf.html">
-<svg width="18" height="18" viewBox="0 0 24 24" fill="#4f46e5">
-<path d="M6 2h9l5 5v15H6z"/>
-</svg>
-Word to PDF
+<a href="/word-to-pdf.html" class="tool pdf">
+<i data-lucide="file"></i>Word to PDF
 </a>
 
-<a href="/pdf-to-excel.html">
-<svg width="18" height="18" viewBox="0 0 24 24" fill="#16a34a">
-<path d="M4 3h16v18H4z"/>
-</svg>
-PDF to Excel
+<a href="/pdf-to-excel.html" class="tool excel">
+<i data-lucide="table"></i>PDF to Excel
 </a>
 
-<a href="/excel-to-pdf.html">
-<svg width="18" height="18" viewBox="0 0 24 24" fill="#16a34a">
-<path d="M4 3h16v18H4z"/>
-</svg>
-Excel to PDF
+<a href="/excel-to-pdf.html" class="tool excel">
+<i data-lucide="table"></i>Excel to PDF
 </a>
 
-<a href="/jpg-to-pdf.html">
-<svg width="18" height="18" viewBox="0 0 24 24" fill="#f59e0b">
-<circle cx="12" cy="12" r="10"/>
-</svg>
-JPG to PDF
+<a href="/jpg-to-pdf.html" class="tool image">
+<i data-lucide="image"></i>JPG to PDF
 </a>
 
-<a href="/png-to-jpg.html">
-<svg width="18" height="18" viewBox="0 0 24 24" fill="#f59e0b">
-<circle cx="12" cy="12" r="10"/>
-</svg>
-PNG to JPG
+<a href="/png-to-jpg.html" class="tool image">
+<i data-lucide="image"></i>PNG to JPG
 </a>
 
-<a href="/compress-pdf.html">
-<svg width="18" height="18" viewBox="0 0 24 24" fill="#ef4444">
-<path d="M4 10h16v4H4z"/>
-</svg>
-Compress PDF
+<a href="/compress-pdf.html" class="tool compress">
+<i data-lucide="minimize-2"></i>Compress PDF
 </a>
 
-<a href="/merge-pdf.html">
-<svg width="18" height="18" viewBox="0 0 24 24" fill="#6366f1">
-<path d="M6 6h6v6H6zM12 12h6v6h-6z"/>
-</svg>
-Merge PDF
+<a href="/merge-pdf.html" class="tool merge">
+<i data-lucide="layers"></i>Merge PDF
 </a>
 
-<a href="/split-pdf.html">
-<svg width="18" height="18" viewBox="0 0 24 24" fill="#6366f1">
-<path d="M6 6h6v12H6zM12 6h6v12h-6z"/>
-</svg>
-Split PDF
+<a href="/split-pdf.html" class="tool split">
+<i data-lucide="split"></i>Split PDF
 </a>
 
+</div>
 </div>
 <p style="margin-top:20px;">© 2026 PDF Master Hub</p>
 
@@ -324,6 +345,9 @@ setup({
   endpoint: "/word-to-pdf",
   output: "converted.pdf"
 });
+</script>
+<script>
+lucide.createIcons();
 </script>
 
 </body>
