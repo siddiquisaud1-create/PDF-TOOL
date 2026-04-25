@@ -5,25 +5,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Word to PDF Converter Free Online | Fast DOC to PDF Tool</title>
-
-<meta name="description" content="Convert Word to PDF online for free. Fast, secure DOC/DOCX to PDF converter with high-quality output. No signup required.">
-<meta name="keywords" content="word to pdf, doc to pdf, convert word to pdf online, free pdf converter, docx to pdf">
-<meta name="robots" content="index, follow">
-
-<link rel="stylesheet" href="styles.css">
+<title>Word to PDF Converter | PDF Master Hub</title>
 
 <style>
 
-/* ===== PREMIUM UI ===== */
-
+/* ===== BODY ===== */
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: #f5f7fb;
+  background: linear-gradient(180deg, #eef2ff, #f8fafc);
 }
 
-/* HEADER */
+/* ===== HEADER ===== */
 header {
   display: flex;
   justify-content: space-between;
@@ -45,42 +38,57 @@ nav a {
   font-size: 14px;
 }
 
-/* TOOL */
-.container {
+/* ===== HERO CENTER ===== */
+.hero {
   display: flex;
   justify-content: center;
-  margin: 40px 0;
+  align-items: center;
+  height: 70vh;
 }
 
+/* ===== CARD ===== */
 .card {
   background: white;
   padding: 45px;
-  width: 500px;
-  border-radius: 16px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+  width: 480px;
+  border-radius: 18px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
   text-align: center;
 }
 
+/* ===== TITLE ===== */
+.card h1 {
+  margin-bottom: 20px;
+}
+
+/* ===== DROP ===== */
 #drop {
   border: 2px dashed #4f46e5;
-  padding: 35px;
+  padding: 40px;
   border-radius: 12px;
   margin: 20px 0;
   cursor: pointer;
+  transition: 0.2s;
 }
 
+#drop:hover {
+  background: #eef2ff;
+}
+
+/* ===== BUTTON ===== */
 button {
-  background: #4f46e5;
+  background: linear-gradient(90deg, #4f46e5, #2563eb);
   color: white;
-  padding: 12px 30px;
+  padding: 12px 35px;
   border: none;
   border-radius: 8px;
   font-size: 14px;
+  cursor: pointer;
 }
 
-/* PROGRESS */
+/* ===== PROGRESS ===== */
 .progress {
-  height: 10px;
+  height: 8px;
   background: #ddd;
   margin-top: 20px;
   border-radius: 10px;
@@ -89,37 +97,19 @@ button {
 .bar {
   height: 100%;
   width: 0%;
-  background: #4f46e5;
+  background: linear-gradient(90deg, #4f46e5, #2563eb);
 }
 
-/* ADS */
-.ads {
-  max-width: 900px;
-  margin: 20px auto;
-  padding: 15px;
-  background: #eee;
-  text-align: center;
-  border-radius: 10px;
-}
-
-/* CONTENT */
+/* ===== CONTENT ===== */
 .content {
-  max-width: 850px;
-  margin: 50px auto;
+  max-width: 800px;
+  margin: 60px auto;
   padding: 0 20px;
   line-height: 1.7;
+  text-align: center;
 }
 
-.content h2 {
-  margin-top: 40px;
-}
-
-/* FAQ */
-.faq h3 {
-  margin-top: 20px;
-}
-
-/* FOOTER */
+/* ===== FOOTER ===== */
 footer {
   background: #111827;
   color: white;
@@ -129,14 +119,31 @@ footer {
 .tools {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
-  gap: 10px;
+  gap: 12px;
   margin-top: 20px;
 }
 
 .tools a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   color: #cbd5e1;
   text-decoration: none;
-  font-size: 14px;
+  padding: 8px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.tools a:hover {
+  background: #1f2937;
+}
+
+/* ICON STYLE */
+.icon {
+  width: 18px;
+  height: 18px;
+  background: #4f46e5;
+  border-radius: 4px;
 }
 
 </style>
@@ -156,77 +163,38 @@ footer {
   </nav>
 </header>
 
-<!-- ADS -->
-<div class="ads">Ad Space (Top)</div>
+<!-- HERO CENTER -->
+<div class="hero">
 
-<!-- TOOL -->
-<div class="container">
-<div class="card">
+  <div class="card">
 
-<h1>Word to PDF Converter</h1>
+    <h1>Word to PDF Converter</h1>
 
-<div id="drop">Drag & Drop Word file or Click</div>
+    <div id="drop">Drag & Drop Word file or Click</div>
 
-<input type="file" id="file" accept=".doc,.docx" hidden onchange="filePicked(this)">
+    <input type="file" id="file" accept=".doc,.docx" hidden onchange="filePicked(this)">
 
-<button onclick="upload()">Convert</button>
+    <button onclick="upload()">Convert</button>
 
-<div class="progress"><div class="bar" id="bar"></div></div>
+    <div class="progress">
+      <div class="bar" id="bar"></div>
+    </div>
 
-<p id="status"></p>
+    <p id="status"></p>
+
+  </div>
 
 </div>
-</div>
 
-<!-- ARTICLE -->
+<!-- CONTENT -->
 <div class="content">
 
 <h2>Convert Word to PDF Online Free</h2>
-
 <p>
-Our Word to PDF converter allows you to easily transform DOC and DOCX files into high-quality PDF documents. Whether you're working on reports, resumes, or business files, this tool ensures accurate formatting and fast conversion.
+Convert DOC and DOCX files into high-quality PDFs instantly with our fast and secure tool.
 </p>
-
-<p>
-Unlike many tools, PDF Master Hub provides a smooth experience without requiring any installation or signup. Simply upload your file and download the converted PDF instantly.
-</p>
-
-<p>
-The tool is optimized for performance and security. All uploaded files are processed securely and automatically deleted after conversion.
-</p>
-
-<h2>Why Use Our Word to PDF Tool?</h2>
-
-<p>
-Our converter offers fast processing, high accuracy, and a user-friendly interface. It works on all devices and ensures your documents maintain their original formatting.
-</p>
-
-<p>
-This makes it ideal for students, professionals, and businesses who need reliable document conversion.
-</p>
-
-<h2>FAQs</h2>
-
-<div class="faq">
-
-<h3>Is this Word to PDF converter free?</h3>
-<p>Yes, it is completely free with no hidden charges.</p>
-
-<h3>Is my file safe?</h3>
-<p>Your files are securely processed and automatically deleted after conversion.</p>
-
-<h3>Can I convert DOCX files?</h3>
-<p>Yes, both DOC and DOCX formats are supported.</p>
-
-<h3>Do I need to install anything?</h3>
-<p>No, everything works directly in your browser.</p>
 
 </div>
-
-</div>
-
-<!-- ADS -->
-<div class="ads">Ad Space (Bottom)</div>
 
 <!-- FOOTER -->
 <footer>
@@ -234,26 +202,24 @@ This makes it ideal for students, professionals, and businesses who need reliabl
 <h3>All Tools</h3>
 
 <div class="tools">
-<a href="/pdf-to-word.html">PDF to Word</a>
-<a href="/word-to-pdf.html">Word to PDF</a>
-<a href="/pdf-to-excel.html">PDF to Excel</a>
-<a href="/excel-to-pdf.html">Excel to PDF</a>
-<a href="/jpg-to-pdf.html">JPG to PDF</a>
-<a href="/png-to-jpg.html">PNG to JPG</a>
-<a href="/jpg-to-png.html">JPG to PNG</a>
-<a href="/compress-pdf.html">Compress PDF</a>
-<a href="/merge-pdf.html">Merge PDF</a>
-<a href="/split-pdf.html">Split PDF</a>
+
+<a href="/pdf-to-word.html"><div class="icon"></div>PDF to Word</a>
+<a href="/word-to-pdf.html"><div class="icon"></div>Word to PDF</a>
+<a href="/pdf-to-excel.html"><div class="icon"></div>PDF to Excel</a>
+<a href="/excel-to-pdf.html"><div class="icon"></div>Excel to PDF</a>
+<a href="/jpg-to-pdf.html"><div class="icon"></div>JPG to PDF</a>
+<a href="/png-to-jpg.html"><div class="icon"></div>PNG to JPG</a>
+<a href="/jpg-to-png.html"><div class="icon"></div>JPG to PNG</a>
+<a href="/compress-pdf.html"><div class="icon"></div>Compress PDF</a>
+
 </div>
 
-<br>
-<p>© 2026 PDF Master Hub</p>
+<p style="margin-top:20px;">© PDF Master Hub</p>
 
 </footer>
 
 <!-- SCRIPT -->
 <script src="app.js"></script>
-
 <script>
 setup({
   types: ["doc","docx"],
