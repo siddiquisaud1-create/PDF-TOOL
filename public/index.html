@@ -11,7 +11,8 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: #f3f4f6;
+  background: linear-gradient(135deg,#0f172a,#1e3a8a);
+  color: white;
 }
 
 /* HEADER */
@@ -19,36 +20,28 @@ header {
   display: flex;
   justify-content: space-between;
   padding: 20px 60px;
-  background: white;
+  background: rgba(255,255,255,0.05);
 }
 
 nav a {
   margin-left: 20px;
   text-decoration: none;
-  color: #333;
+  color: #ddd;
 }
 
-/* HERO */
-.hero {
-  text-align: center;
-  margin-top: 30px;
-  color: #555;
-}
-
-/* UPLOAD BOX */
+/* UPLOAD */
 .upload-box {
   max-width: 500px;
-  margin: 20px auto;
+  margin: 40px auto;
   padding: 30px;
-  border: 2px dashed #6366f1;
+  border: 2px dashed #3b82f6;
   border-radius: 12px;
   text-align: center;
-  background: white;
+  background: rgba(255,255,255,0.05);
 }
 
 .upload-btn {
-  background: #ef4444;
-  color: white;
+  background: linear-gradient(45deg,#ef4444,#3b82f6);
   padding: 10px 20px;
   border-radius: 6px;
   cursor: pointer;
@@ -57,7 +50,7 @@ nav a {
 /* PROGRESS */
 .progress {
   height: 8px;
-  background: #ddd;
+  background: #222;
   margin-top: 10px;
   border-radius: 10px;
 }
@@ -65,29 +58,33 @@ nav a {
 .bar {
   height: 100%;
   width: 0%;
-  background: #4f46e5;
+  background: linear-gradient(90deg,#ef4444,#3b82f6);
 }
 
-/* TOOLS */
+/* TOOLS GRID */
 .tools {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
+  gap: 20px;
+  padding: 40px;
 }
 
 .card {
-  background: #f9fafb;
+  background: rgba(255,255,255,0.08);
   padding: 20px;
   border-radius: 12px;
   text-align: center;
-  width: 150px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-.card a {
-  text-decoration: none;
-  color: black;
-  font-weight: 500;
+.card:hover {
+  transform: translateY(-5px);
+  background: rgba(59,130,246,0.3);
+}
+
+.card.active {
+  border: 2px solid #ef4444;
 }
 
 /* ICON */
@@ -105,9 +102,21 @@ nav a {
 .teal { background:#14b8a6 }
 .orange { background:#f59e0b }
 
+button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(45deg,#ef4444,#3b82f6);
+  color: white;
+  cursor: pointer;
+}
+
 footer {
   text-align: center;
-  margin-top: 50px;
+  margin-top: 40px;
+  color: #ccc;
 }
 </style>
 
@@ -125,9 +134,10 @@ footer {
   </nav>
 </header>
 
+<!-- UPLOAD -->
 <div class="upload-box" id="drop">
   Drag & Drop file here <br><br>
-  <span class="upload-btn" id="btn">Upload File</span>
+  <span class="upload-btn" id="btn">Choose File</span>
   <input type="file" id="file" hidden>
 
   <div class="progress">
@@ -136,99 +146,44 @@ footer {
 </div>
 
 <button id="startUpload">Start Upload</button>
-
 <div id="status"></div>
 
-<!-- Load JS safely -->
-<script src="/script.js" defer></script>
-
-  <p id="status"></p>
-</div>
-
+<!-- TOOLS -->
 <div class="tools">
 
-<div class="card">
+<div class="card" data-endpoint="/pdf-to-word" data-output="converted.docx">
 <div class="icon red"></div>
-<a href="/pdf-to-word.html">PDF → Word</a>
+PDF → Word
 </div>
 
-<div class="card">
+<div class="card" data-endpoint="/word-to-pdf" data-output="converted.pdf">
 <div class="icon blue"></div>
-<a href="/word-to-pdf.html">Word → PDF</a>
+Word → PDF
 </div>
 
-<div class="card">
+<div class="card" data-endpoint="/pdf-to-excel" data-output="converted.xlsx">
 <div class="icon green"></div>
-<a href="/pdf-to-excel.html">PDF → Excel</a>
+PDF → Excel
 </div>
 
-<div class="card">
+<div class="card" data-endpoint="/merge-pdf" data-output="merged.pdf">
 <div class="icon teal"></div>
-<a href="/merge-pdf.html">Merge PDF</a>
+Merge PDF
 </div>
 
-<div class="card">
+<div class="card" data-endpoint="/compress-pdf" data-output="compressed.pdf">
 <div class="icon orange"></div>
-<a href="/compress-pdf.html">Compress PDF</a>
+Compress PDF
 </div>
 
 </div>
 
 <footer>
-© 2026 PDF Master Hub |
-<a href="/">Home</a>
-<a href="#">About</a>
-<a href="#">Privacy</a>
-<a href="#">Contact</a>
+© 2026 PDF Master Hub
 </footer>
 
-<script>
-const fileInput = document.getElementById("file");
-const btn = document.getElementById("btn");
-const bar = document.getElementById("bar");
-const status = document.getElementById("status");
-
-btn.onclick = () => fileInput.click();
-
-fileInput.onchange = () => {
-  const file = fileInput.files[0];
-  if (!file) return;
-
-  const formData = new FormData();
-  formData.append("file", file);
-
-  // ⚠️ USE ONLY WORKING ROUTE FROM YOUR BACKEND
-  const endpoint = "/merge-pdf"; 
-
-  const xhr = new XMLHttpRequest();
-  xhr.open("POST", endpoint);
-
-  xhr.upload.onprogress = e => {
-    const percent = (e.loaded / e.total) * 100;
-    bar.style.width = percent + "%";
-  };
-
-  xhr.onload = () => {
-    if (xhr.status !== 200) {
-      status.innerText = "Server error";
-      return;
-    }
-
-    const blob = new Blob([xhr.response]);
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "file.pdf";
-    a.click();
-
-    status.innerText = "Done ✅";
-  };
-
-  xhr.responseType = "arraybuffer";
-  xhr.send(formData);
-};
-</script>
+<!-- ONLY external JS -->
+<script src="/script.js" defer></script>
 
 </body>
 </html>
