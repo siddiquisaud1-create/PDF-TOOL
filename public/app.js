@@ -36,25 +36,37 @@ function upload(endpoint, output) {
 
   const xhr = new XMLHttpRequest();
 
-  xhr.upload.onprogress = e => {
-    document.getElementById("bar").style.width =
-      (e.loaded / e.total) * 100 + "%";
-  };
-
+  // 🔥 STATUS: Uploading
   document.getElementById("status").innerText = "Uploading...";
 
+  // 🔥 PROGRESS BAR
+  xhr.upload.onprogress = e => {
+    const percent = Math.round((e.loaded / e.total) * 100);
+    document.getElementById("bar").style.width = percent + "%";
+    document.getElementById("status").innerText = "Uploading " + percent + "%";
+  };
+
   xhr.onload = () => {
+    // 🔥 STATUS: Processing
     document.getElementById("status").innerText = "Processing...";
 
     const blob = new Blob([xhr.response]);
     const url = URL.createObjectURL(blob);
+
+    // 🔥 STATUS: Downloading
+    document.getElementById("status").innerText = "Downloading...";
 
     const a = document.createElement("a");
     a.href = url;
     a.download = output;
     a.click();
 
-    document.getElementById("status").innerText = "Done";
+    // 🔥 FINAL STATUS
+    document.getElementById("status").innerText = "Done ✅";
+  };
+
+  xhr.onerror = () => {
+    document.getElementById("status").innerText = "❌ Error occurred";
   };
 
   xhr.open("POST", endpoint);
