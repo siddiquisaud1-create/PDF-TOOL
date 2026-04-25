@@ -1,24 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>PDF to Word Converter Free Online | PDF Master Hub</title>
 
-<meta name="description" content="Convert PDF to Word online for free. Fast, secure, and high-quality PDF to DOCX converter. No signup required.">
-<meta name="keywords" content="pdf to word, convert pdf to docx, free pdf converter, online pdf tools">
-<meta name="robots" content="index, follow">
+<meta name="description" content="Convert PDF to Word online for free. Fast, secure DOCX converter.">
 
-<link rel="stylesheet" href="styles.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(180deg, #eef2ff, #f8fafc);
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 18px 50px;
+  background: linear-gradient(90deg, #4f46e5, #2563eb);
+  color: white;
+}
+
+nav a {
+  color: white;
+  margin-left: 20px;
+  text-decoration: none;
+}
+
+.hero {
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+.card {
+  background: white;
+  padding: 40px;
+  width: 500px;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+#drop {
+  border: 2px dashed #4f46e5;
+  padding: 35px;
+  margin: 20px 0;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#drop:hover {
+  background: #eef2ff;
+}
+
+button {
+  background: linear-gradient(90deg, #4f46e5, #2563eb);
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.progress {
+  height: 8px;
+  background: #ddd;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+
+.bar {
+  height: 100%;
+  width: 0%;
+  background: #4f46e5;
+}
+
+#status {
+  margin-top: 10px;
+  color: #4f46e5;
+}
+
+#fileInfo {
+  font-size: 13px;
+  color: #555;
+}
+
+#spinner {
+  display: none;
+  margin-top: 10px;
+  color: #2563eb;
+}
+
+.content {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 0 20px;
+}
+
+footer {
+  background: #111827;
+  color: white;
+  padding: 40px;
+}
+
+.tools {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+  gap: 12px;
+}
+
+.tool {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: #1f2937;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #e5e7eb;
+}
+
+.tool i { width: 18px; height: 18px; }
+
+.tool.pdf i { color: #ef4444; }
+.tool.excel i { color: #22c55e; }
+.tool.image i { color: #f59e0b; }
+.tool.compress i { color: #3b82f6; }
+.tool.merge i { color: #8b5cf6; }
+.tool.split i { color: #ec4899; }
+
+</style>
 
 </head>
 
 <body onload="init()">
 
-<!-- HEADER -->
 <header>
-  <div>PDF Master Hub</div>
+  <div><b>PDF Master Hub</b></div>
   <nav>
     <a href="/">Home</a>
     <a href="/about.html">About</a>
@@ -27,102 +151,57 @@
   </nav>
 </header>
 
-<!-- TOOL -->
-<div class="container">
+<div class="hero">
 <div class="card">
 
 <h1>PDF to Word Converter</h1>
 
-<div id="drop">Drag & Drop PDF or Click</div>
+<div id="drop">Drag & Drop PDF file</div>
 
 <input type="file" id="file" accept=".pdf" hidden onchange="filePicked(this)">
 
-<button onclick="upload()">Convert</button>
+<button onclick="upload('/pdf-to-word','converted.docx')">Convert</button>
+
+<div id="fileInfo"></div>
 
 <div class="progress">
-<div class="bar" id="bar"></div>
+  <div class="bar" id="bar"></div>
 </div>
 
 <p id="status"></p>
 
+<div id="spinner">⏳ Processing...</div>
+
 </div>
 </div>
 
-<!-- ADS TOP -->
-<div class="ads">
-<!-- Adsense code here -->
-Ad Space (Top)
+<div class="content">
+<h2>Convert PDF to Word</h2>
+<p>Convert PDF files into editable Word documents quickly and securely.</p>
 </div>
 
-<!-- ARTICLE -->
-<section class="content">
-<h2>Convert PDF to Word Online Free</h2>
-
-<p>
-PDF to Word conversion is one of the most searched tools online. Our tool helps you convert PDF files into editable Word documents quickly and securely.
-</p>
-
-<p>
-Unlike other tools, PDF Master Hub ensures high accuracy, preserving formatting, images, and structure. Whether you are a student, professional, or business user, this tool simplifies your workflow.
-</p>
-
-<p>
-Our PDF to Word converter works directly in your browser. No installation, no signup, and completely free. Simply upload your file and download the converted document instantly.
-</p>
-
-<p>
-This tool supports fast processing and secure file handling. Your files are automatically deleted after conversion, ensuring privacy.
-</p>
-
-<p>
-Use this tool for editing contracts, resumes, reports, or any document where PDF editing is required.
-</p>
-
-<!-- Repeat content to reach SEO length -->
-<p>PDF conversion tools are essential in modern workflows...</p>
-<p>Our system is optimized for speed and accuracy...</p>
-<p>Millions of users rely on PDF tools daily...</p>
-<p>We provide reliable and efficient solutions...</p>
-
-<h2>FAQs</h2>
-
-<h3>Is this tool free?</h3>
-<p>Yes, it is completely free to use.</p>
-
-<h3>Is my file safe?</h3>
-<p>Yes, files are automatically deleted after processing.</p>
-
-<h3>Can I convert large files?</h3>
-<p>Yes, but performance depends on file size.</p>
-
-<h3>Do I need to install anything?</h3>
-<p>No installation required.</p>
-
-</section>
-
-<!-- ADS BOTTOM -->
-<div class="ads">
-Ad Space (Bottom)
-</div>
-
-<!-- FOOTER -->
 <footer>
-  <p>© 2026 PDF Master Hub</p>
-  <a href="/">Home</a> |
-  <a href="/about.html">About</a> |
-  <a href="/contact.html">Contact</a> |
-  <a href="/privacy.html">Privacy</a>
+
+<h3>All Tools</h3>
+
+<div class="tools">
+<a href="/pdf-to-word.html" class="tool pdf"><i data-lucide="file-text"></i>PDF to Word</a>
+<a href="/word-to-pdf.html" class="tool pdf"><i data-lucide="file"></i>Word to PDF</a>
+<a href="/pdf-to-excel.html" class="tool excel"><i data-lucide="table"></i>PDF to Excel</a>
+<a href="/excel-to-pdf.html" class="tool excel"><i data-lucide="table"></i>Excel to PDF</a>
+<a href="/jpg-to-pdf.html" class="tool image"><i data-lucide="image"></i>JPG to PDF</a>
+<a href="/png-to-jpg.html" class="tool image"><i data-lucide="image"></i>PNG to JPG</a>
+<a href="/compress-pdf.html" class="tool compress"><i data-lucide="minimize-2"></i>Compress PDF</a>
+<a href="/merge-pdf.html" class="tool merge"><i data-lucide="layers"></i>Merge PDF</a>
+<a href="/split-pdf.html" class="tool split"><i data-lucide="split"></i>Split PDF</a>
+</div>
+
+<p style="margin-top:20px;">© 2026 PDF Master Hub</p>
+
 </footer>
 
-<!-- SCRIPT -->
 <script src="app.js"></script>
-<script>
-setup({
-  types: ["pdf"],
-  endpoint: "/pdf-to-word",
-  output: "converted.docx"
-});
-</script>
+<script>lucide.createIcons();</script>
 
 </body>
 </html>
