@@ -37,11 +37,6 @@ header {
   text-align: center;
 }
 
-/* INPUT */
-input[type="file"] {
-  margin: 15px 0;
-}
-
 /* BUTTON */
 button {
   background: #4f46e5;
@@ -81,7 +76,7 @@ button:hover {
 </style>
 </head>
 
-<body>
+<body onload="init()">
 
 <header>PDF Master Hub</header>
 
@@ -90,7 +85,17 @@ button:hover {
 
 <h2>PDF to Word</h2>
 
-<input type="file" id="file"><br>
+<div id="drop" style="
+  border:2px dashed #4f46e5;
+  padding:30px;
+  border-radius:10px;
+  cursor:pointer;
+  margin:15px 0;
+">
+Drag & Drop file or Click
+</div>
+
+<input type="file" id="file" hidden onchange="filePicked(this)">
 
 <button onclick="upload()">Convert</button>
 
@@ -106,12 +111,41 @@ button:hover {
 </div>
 
 <script>
+let selectedFile;
+
+function init() {
+  const drop = document.getElementById("drop");
+
+  drop.onclick = () => document.getElementById("file").click();
+
+  drop.ondragover = e => {
+    e.preventDefault();
+    drop.style.background = "#eef2ff";
+  };
+
+  drop.ondragleave = () => {
+    drop.style.background = "white";
+  };
+
+  drop.ondrop = e => {
+    e.preventDefault();
+    drop.style.background = "white";
+
+    selectedFile = e.dataTransfer.files[0];
+    drop.innerText = selectedFile.name;
+  };
+}
+
+function filePicked(input) {
+  selectedFile = input.files[0];
+  document.getElementById("drop").innerText = selectedFile.name;
+}
+
 function upload() {
-  const file = document.getElementById("file").files[0];
-  if (!file) return alert("Select file");
+  if (!selectedFile) return alert("Select file");
 
   const formData = new FormData();
-  formData.append("file", file);
+  formData.append("file", selectedFile);
 
   const xhr = new XMLHttpRequest();
 
@@ -141,6 +175,6 @@ function upload() {
   xhr.send(formData);
 }
 </script>
-<script src="app.js"></script>
-<body onload="init()">
+
+</body>
 </html>
