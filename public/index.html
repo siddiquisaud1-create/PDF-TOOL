@@ -8,76 +8,196 @@
 <style>
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f7fb;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f6f8fc;
 }
 
+/* HEADER */
 header {
-  background: #0d6efd;
-  color: white;
-  padding: 15px;
-  text-align: center;
-  font-size: 22px;
-  font-weight: bold;
+  position: sticky;
+  top: 0;
+  background: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  z-index: 1000;
 }
 
+.logo {
+  font-weight: bold;
+  font-size: 20px;
+  color: #4f46e5;
+}
+
+nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #444;
+  font-weight: 500;
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #4f46e5, #2563eb);
+  color: white;
+}
+
+.hero h1 {
+  font-size: 36px;
+}
+
+.hero p {
+  margin-top: 10px;
+  opacity: 0.9;
+}
+
+/* SEARCH */
+.search {
+  margin-top: 20px;
+}
+
+.search input {
+  padding: 12px;
+  width: 300px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+/* GRID */
 .container {
-  max-width: 900px;
-  margin: 30px auto;
-  padding: 10px;
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 20px;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
 }
 
+/* CARD */
 .card {
   background: white;
-  border-radius: 10px;
-  padding: 20px;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.06);
   text-align: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  transition: 0.2s;
+  transition: 0.25s;
 }
 
 .card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
 }
 
-.card a {
+.icon {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.card span {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+a {
   text-decoration: none;
-  color: #0d6efd;
-  font-weight: bold;
 }
 
+/* FOOTER */
 footer {
   text-align: center;
-  padding: 15px;
-  color: #666;
+  padding: 30px;
+  color: #888;
 }
 </style>
 </head>
 
 <body>
 
-<header>PDF Master Hub</header>
+<header>
+<div class="logo">PDF Master Hub</div>
+<nav>
+<a href="#">Tools</a>
+<a href="#">About</a>
+</nav>
+</header>
 
-<div class="container">
+<div class="hero">
+<h1>All PDF Tools in One Place</h1>
+<p>Fast • Secure • No Installation Required</p>
 
-<div class="grid">
-
-<a href="/pdf-to-word.html">PDF to Word</a><br>
-<a href="/word-to-pdf.html">Word to PDF</a><br>
-<a href="/pdf-to-excel.html">PDF to Excel</a><br>
-<a href="/excel-to-pdf.html">Excel to PDF</a><br>
-<a href="/jpg-to-pdf.html">JPG to PDF</a><br>
-<a href="/png-to-jpg.html">PNG to JPG</a><br>
-<a href="/jpg-to-png.html">JPG to PNG</a><br>
-<a href="/compress-ppt.html">Compress PPT</a><br>
+<div class="search">
+<input type="text" placeholder="Search tools...">
+</div>
 </div>
 
+<div class="container">
+<div class="grid">
+
+<a href="/pdf-to-word.html">
+<div class="card">
+<div class="icon">📄</div>
+<span>PDF → Word</span>
+</div>
+</a>
+
+<a href="/word-to-pdf.html">
+<div class="card">
+<div class="icon">📝</div>
+<span>Word → PDF</span>
+</div>
+</a>
+
+<a href="/pdf-to-excel.html">
+<div class="card">
+<div class="icon">📊</div>
+<span>PDF → Excel</span>
+</div>
+</a>
+
+<a href="/excel-to-pdf.html">
+<div class="card">
+<div class="icon">📈</div>
+<span>Excel → PDF</span>
+</div>
+</a>
+
+<a href="/jpg-to-pdf.html">
+<div class="card">
+<div class="icon">🖼️</div>
+<span>JPG → PDF</span>
+</div>
+</a>
+
+<a href="/png-to-jpg.html">
+<div class="card">
+<div class="icon">🖼️</div>
+<span>PNG → JPG</span>
+</div>
+</a>
+
+<a href="/jpg-to-png.html">
+<div class="card">
+<div class="icon">🖼️</div>
+<span>JPG → PNG</span>
+</div>
+</a>
+
+<a href="/compress-ppt.html">
+<div class="card">
+<div class="icon">📦</div>
+<span>Compress PPT</span>
+</div>
+</a>
+
+</div>
 </div>
 
 <footer>
