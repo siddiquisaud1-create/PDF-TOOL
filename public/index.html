@@ -8,8 +8,6 @@
 <title>PDF Master Hub - All PDF Tools</title>
 <meta name="description" content="All PDF tools in one place. Convert, merge, split, compress PDFs online for free.">
 
-<script src="https://unpkg.com/lucide@latest"></script>
-
 <style>
 
 body {
@@ -84,23 +82,11 @@ nav a {
   transform: translateY(-8px);
 }
 
+/* ICON (emoji based) */
 .icon {
-  width: 60px;
-  height: 60px;
-  margin: auto;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 28px;
   margin-bottom: 10px;
 }
-
-.red { background:#ef4444;color:white }
-.blue { background:#3b82f6;color:white }
-.green { background:#22c55e;color:white }
-.orange { background:#f59e0b;color:white }
-.purple { background:#8b5cf6;color:white }
-.teal { background:#14b8a6;color:white }
 
 footer {
   text-align:center;
@@ -146,42 +132,42 @@ footer {
 <div class="tools">
 
 <a href="/pdf-to-word.html" class="card">
-  <div class="icon red"><i data-lucide="file-text"></i></div>
+  <div class="icon">📄</div>
   PDF → Word
 </a>
 
 <a href="/word-to-pdf.html" class="card">
-  <div class="icon blue"><i data-lucide="file"></i></div>
+  <div class="icon">📝</div>
   Word → PDF
 </a>
 
 <a href="/pdf-to-excel.html" class="card">
-  <div class="icon green"><i data-lucide="table"></i></div>
+  <div class="icon">📊</div>
   PDF → Excel
 </a>
 
 <a href="/excel-to-pdf.html" class="card">
-  <div class="icon green"><i data-lucide="table"></i></div>
+  <div class="icon">📈</div>
   Excel → PDF
 </a>
 
 <a href="/merge-pdf.html" class="card">
-  <div class="icon teal"><i data-lucide="layers"></i></div>
+  <div class="icon">📚</div>
   Merge PDF
 </a>
 
 <a href="/split-pdf.html" class="card">
-  <div class="icon orange"><i data-lucide="scissors"></i></div>
+  <div class="icon">✂️</div>
   Split PDF
 </a>
 
 <a href="/compress-pdf.html" class="card">
-  <div class="icon orange"><i data-lucide="minimize-2"></i></div>
+  <div class="icon">🗜️</div>
   Compress PDF
 </a>
 
 <a href="/jpg-to-pdf.html" class="card">
-  <div class="icon purple"><i data-lucide="image"></i></div>
+  <div class="icon">🖼️</div>
   JPG → PDF
 </a>
 
@@ -191,13 +177,12 @@ footer {
   © 2026 PDF Master Hub
 </footer>
 
-<!-- 🔥 WORKING SCRIPT -->
+<!-- WORKING SCRIPT -->
 <script>
 const fileInput = document.getElementById("file");
 const fileName = document.getElementById("fileName");
 const drop = document.getElementById("drop");
 
-// click open file
 drop.addEventListener("click", () => fileInput.click());
 
 fileInput.addEventListener("change", () => {
@@ -244,8 +229,6 @@ fileInput.addEventListener("change", () => {
     fileName.innerText = "Error uploading";
   });
 });
-
-lucide.createIcons();
 </script>
 
 </body>
