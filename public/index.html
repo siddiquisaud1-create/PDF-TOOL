@@ -1,228 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PDF Master Hub</title>
+
+<title>PDF Master Hub - All PDF Tools</title>
+<meta name="description" content="All PDF tools in one place. Convert, merge, split, compress PDFs online for free.">
+
+<script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
+
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: #f6f8fc;
+  background: linear-gradient(180deg,#eef2ff,#f8fafc);
 }
 
 /* HEADER */
 header {
-  position: sticky;
-  top: 0;
-  background: white;
-  padding: 15px 30px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  padding: 20px 60px;
+  background: white;
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  z-index: 1000;
 }
 
-.logo {
-  font-weight: bold;
-  font-size: 20px;
-  color: #4f46e5;
-}
+header h2 { margin: 0; }
 
 nav a {
-  margin-left: 20px;
+  margin-left: 25px;
   text-decoration: none;
   color: #444;
-  font-weight: 500;
 }
 
 /* HERO */
 .hero {
   text-align: center;
-  padding: 60px 20px;
-  background: linear-gradient(135deg, #4f46e5, #2563eb);
-  color: white;
+  margin-top: 40px;
 }
 
-.hero h1 {
-  font-size: 36px;
+.hero h1 { font-size: 32px; }
+
+/* UPLOAD */
+.upload-box {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 40px;
+  border-radius: 20px;
+  background: white;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+  text-align: center;
 }
 
-.hero p {
-  margin-top: 10px;
-  opacity: 0.9;
-}
-
-/* SEARCH */
-.search {
-  margin-top: 20px;
-}
-
-.search input {
-  padding: 12px;
-  width: 300px;
-  border-radius: 6px;
-  border: none;
-  outline: none;
+.drop {
+  border: 2px dashed #6366f1;
+  padding: 30px;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 15px;
 }
 
 /* GRID */
-.container {
-  max-width: 1100px;
-  margin: 40px auto;
-  padding: 20px;
-}
-
-.grid {
+.tools {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(170px,1fr));
+  gap: 25px;
+  padding: 50px 80px;
 }
 
-/* CARD */
 .card {
   background: white;
   padding: 25px;
-  border-radius: 14px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+  border-radius: 16px;
   text-align: center;
+  cursor: pointer;
   transition: 0.25s;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
 .card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  transform: translateY(-8px);
 }
 
 .icon {
-  font-size: 28px;
+  width: 60px;
+  height: 60px;
+  margin: auto;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 10px;
 }
 
-.card span {
-  font-weight: 600;
-  color: #1e293b;
-}
+.red { background:#ef4444;color:white }
+.blue { background:#3b82f6;color:white }
+.green { background:#22c55e;color:white }
+.orange { background:#f59e0b;color:white }
+.purple { background:#8b5cf6;color:white }
+.teal { background:#14b8a6;color:white }
 
-a {
-  text-decoration: none;
-}
-
-/* FOOTER */
 footer {
-  text-align: center;
-  padding: 30px;
-  color: #888;
+  text-align:center;
+  padding:30px;
+  color:#777;
 }
+
 </style>
+
 </head>
 
 <body>
 
 <header>
-<div class="logo">PDF Master Hub</div>
-<nav>
-<a href="#">Tools</a>
-<a href="#">About</a>
-</nav>
+  <h2>PDFMasterHub</h2>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/about.html">About</a>
+    <a href="/privacy.html">Privacy</a>
+    <a href="/contact.html">Contact</a>
+  </nav>
 </header>
 
 <div class="hero">
-<h1>All PDF Tools in One Place</h1>
-<p>Fast • Secure • No Installation Required</p>
-
-<div class="search">
-<input type="text" id="search" placeholder="Search tools..." onkeyup="filterTools()">
-</div>
+  <h1>All PDF Tools in One Place</h1>
+  <p>⚡ Fast • 🔒 Secure • 🚀 No Installation Required</p>
 </div>
 
-<div class="container">
-<div class="grid">
+<!-- ✅ SMART UPLOAD -->
+<div class="upload-box">
+  <h3>Start with your file</h3>
 
-<a href="/pdf-to-word.html">
-<div class="card">
-<div class="icon">📄</div>
-<span>PDF → Word</span>
+  <div class="drop" onclick="document.getElementById('file').click()">
+    Drag & Drop your file or Click
+  </div>
+
+  <input type="file" id="file" hidden>
+
+  <p id="fileName"></p>
 </div>
+
+<!-- TOOLS -->
+<div class="tools">
+
+<a href="/pdf-to-word.html" class="card">
+  <div class="icon red"><i data-lucide="file-text"></i></div>
+  PDF → Word
 </a>
 
-<a href="/word-to-pdf.html">
-<div class="card">
-<div class="icon">📝</div>
-<span>Word → PDF</span>
-</div>
+<a href="/word-to-pdf.html" class="card">
+  <div class="icon blue"><i data-lucide="file"></i></div>
+  Word → PDF
 </a>
 
-<a href="/pdf-to-excel.html">
-<div class="card tool">
-<div class="icon">📊</div>
-<span>PDF → Excel</span>
-</div>
+<a href="/pdf-to-excel.html" class="card">
+  <div class="icon green"><i data-lucide="table"></i></div>
+  PDF → Excel
 </a>
 
-<a href="/excel-to-pdf.html">
-<div class="card">
-<div class="icon">📈</div>
-<span>Excel → PDF</span>
-</div>
+<a href="/excel-to-pdf.html" class="card">
+  <div class="icon green"><i data-lucide="table"></i></div>
+  Excel → PDF
 </a>
 
-<a href="/jpg-to-pdf.html">
-<div class="card">
-<div class="icon">🖼️</div>
-<span>JPG → PDF</span>
-</div>
+<a href="/merge-pdf.html" class="card">
+  <div class="icon teal"><i data-lucide="layers"></i></div>
+  Merge PDF
 </a>
 
-<a href="/png-to-jpg.html">
-<div class="card">
-<div class="icon">🖼️</div>
-<span>PNG → JPG</span>
-</div>
+<a href="/split-pdf.html" class="card">
+  <div class="icon orange"><i data-lucide="scissors"></i></div>
+  Split PDF
 </a>
 
-<a href="/jpg-to-png.html">
-<div class="card">
-<div class="icon">🖼️</div>
-<span>JPG → PNG</span>
-</div>
+<a href="/compress-pdf.html" class="card">
+  <div class="icon orange"><i data-lucide="minimize-2"></i></div>
+  Compress PDF
 </a>
 
-<a href="/compress-ppt.html">
-<div class="card">
-<div class="icon">📦</div>
-<span>Compress PPT</span>
-</div>
+<a href="/jpg-to-pdf.html" class="card">
+  <div class="icon purple"><i data-lucide="image"></i></div>
+  JPG → PDF
 </a>
 
 </div>
-</div>
-</footer>
 
-<script>
-function filterTools() {
-  const input = document.getElementById("search").value.toLowerCase();
-  const tools = document.getElementsByClassName("tool");
-
-  for (let i = 0; i < tools.length; i++) {
-    const text = tools[i].innerText.toLowerCase();
-
-    if (text.includes(input)) {
-      tools[i].style.display = "block";
-    } else {
-      tools[i].style.display = "none";
-    }
-  }
-}
-</script>
-
-</body>
-</html>
 <footer>
-© 2026 PDF Master Hub
+  © 2026 PDF Master Hub
 </footer>
+
+<!-- ✅ SMART SCRIPT -->
+<script>
+const fileInput = document.getElementById("file");
+const fileName = document.getElementById("fileName");
+
+fileInput.addEventListener("change", () => {
+  const file = fileInput.files[0];
+  if (!file) return;
+
+  fileName.innerText = "Selected: " + file.name;
+
+  const ext = file.name.split(".").pop().toLowerCase();
+
+  if (ext === "pdf") {
+    window.location.href = "/pdf-to-word.html";
+  } else if (ext === "doc" || ext === "docx") {
+    window.location.href = "/word-to-pdf.html";
+  } else if (ext === "xls" || ext === "xlsx") {
+    window.location.href = "/excel-to-pdf.html";
+  } else if (ext === "jpg" || ext === "jpeg") {
+    window.location.href = "/jpg-to-pdf.html";
+  } else if (ext === "png") {
+    window.location.href = "/png-to-jpg.html";
+  } else {
+    alert("Unsupported file type");
+  }
+});
+
+lucide.createIcons();
+</script>
 
 </body>
 </html>
