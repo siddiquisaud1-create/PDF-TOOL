@@ -8,171 +8,122 @@
 <title>Word to PDF Converter Free Online | PDF Master Hub</title>
 
 <meta name="description" content="Convert Word to PDF online for free. Fast, secure DOC/DOCX to PDF converter with high-quality output.">
-<meta name="keywords" content="word to pdf, doc to pdf, convert word to pdf online, free pdf converter">
-<meta name="robots" content="index, follow">
+
 <script src="https://unpkg.com/lucide@latest"></script>
+
 <style>
 
-/* ===== BASE ===== */
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(180deg, #eef2ff, #f8fafc);
 }
 
-/* ===== HEADER ===== */
+/* HEADER */
 header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 18px 60px;
+  padding: 18px 50px;
   background: linear-gradient(90deg, #4f46e5, #2563eb);
   color: white;
-}
-
-.logo {
-  font-size: 20px;
-  font-weight: bold;
 }
 
 nav a {
   color: white;
-  margin-left: 25px;
+  margin-left: 20px;
   text-decoration: none;
-  font-size: 14px;
 }
 
-/* ===== HERO CENTER ===== */
+/* HERO */
 .hero {
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 60px 20px 30px;
+  padding: 60px 20px;
 }
 
-/* ===== CARD ===== */
+/* CARD */
 .card {
   background: white;
-  padding: 45px;
+  padding: 40px;
   width: 500px;
-  border-radius: 18px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
   text-align: center;
 }
 
-.card {
-  transition: all 0.3s ease;
-}
-
 .card:hover {
-  box-shadow: 0 25px 60px rgba(79, 70, 229, 0.25);
-  transform: translateY(-2px);
-}
-button {
-  transition: all 0.2s ease;
+  transform: translateY(-3px);
 }
 
-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(79,70,229,0.4);
-}
-
-button:active {
-  transform: scale(0.97);
-}
-#drop {
-  transition: all 0.25s ease;
-}
-
-#drop:hover {
-  background: #eef2ff;
-  border-color: #2563eb;
-}
-body {
-  scroll-behavior: smooth;
-}
-#status {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #4f46e5;
-}
-
-
-/* ===== TITLE ===== */
-.card h1 {
-  margin-bottom: 20px;
-  font-size: 26px;
-}
-
-/* ===== DROP ===== */
+/* DROP */
 #drop {
   border: 2px dashed #4f46e5;
-  padding: 40px;
-  border-radius: 12px;
+  padding: 35px;
   margin: 20px 0;
+  border-radius: 10px;
   cursor: pointer;
-  transition: 0.2s;
 }
 
 #drop:hover {
   background: #eef2ff;
 }
 
-/* ===== BUTTON ===== */
+/* BUTTON */
 button {
   background: linear-gradient(90deg, #4f46e5, #2563eb);
   color: white;
-  padding: 12px 35px;
+  padding: 12px 30px;
   border: none;
   border-radius: 8px;
-  font-size: 14px;
   cursor: pointer;
 }
 
-/* ===== PROGRESS ===== */
+/* PROGRESS */
 .progress {
   height: 8px;
   background: #ddd;
-  margin-top: 20px;
   border-radius: 10px;
+  margin-top: 15px;
 }
 
 .bar {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #4f46e5, #2563eb);
+  background: #4f46e5;
 }
 
-/* ===== CONTENT ===== */
+/* STATUS */
+#status {
+  margin-top: 10px;
+  color: #4f46e5;
+}
+
+/* FILE INFO */
+#fileInfo {
+  font-size: 13px;
+  color: #555;
+}
+
+/* SPINNER */
+#spinner {
+  display: none;
+  margin-top: 10px;
+  color: #2563eb;
+}
+
+/* CONTENT */
 .content {
-  max-width: 850px;
-  margin: 40px auto;
+  max-width: 800px;
+  margin: 50px auto;
   padding: 0 20px;
-  line-height: 1.7;
 }
 
-.content h2 {
-  margin-top: 35px;
-}
-
-/* ===== FAQ ===== */
-.faq h3 {
-  margin-top: 20px;
-}
-
-/* ===== FOOTER ===== */
+/* FOOTER */
 footer {
   background: #111827;
   color: white;
   padding: 40px;
-  margin-top: 50px;
 }
-
-.tools {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
-  gap: 12px;
-  margin-top: 20px;
 
 .tools {
   display: grid;
@@ -184,83 +135,38 @@ footer {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px;
-  border-radius: 10px;
+  padding: 10px;
   background: #1f2937;
-  color: #e5e7eb;
+  border-radius: 8px;
   text-decoration: none;
-  transition: all 0.25s ease;
+  color: #e5e7eb;
+  transition: 0.2s;
 }
 
-/* ICON BASE */
-.tool i {
-  width: 20px;
-  height: 20px;
-  transition: transform 0.25s ease;
-}
-
-/* HOVER EFFECT */
 .tool:hover {
-  transform: translateY(-3px);
   background: #111827;
-  color: white;
 }
 
-.tool:hover i {
-  transform: scale(1.2);
+.tool i {
+  width: 18px;
+  height: 18px;
 }
 
-/* COLORS */
 .tool.pdf i { color: #ef4444; }
 .tool.excel i { color: #22c55e; }
 .tool.image i { color: #f59e0b; }
 .tool.compress i { color: #3b82f6; }
 .tool.merge i { color: #8b5cf6; }
 .tool.split i { color: #ec4899; }
-}
 
-
-.tools a {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #cbd5e1;
-  text-decoration: none;
-  padding: 8px;
-  border-radius: 6px;
-}
-
-.tools a:hover {
-  background: #1f2937;
-}
-
-.icon {
-  width: 16px;
-  height: 16px;
-  background: #4f46e5;
-  border-radius: 4px;
-}
-.tools a {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px;
-  color: #cbd5e1;
-  text-decoration: none;
-}
-
-.tools a svg {
-  flex-shrink: 0;
-}
 </style>
 
 </head>
 
 <body onload="init()">
 
-<!-- HEADER -->
 <header>
-  <div class="logo">PDF Master Hub</div>
+  <div><b>PDF Master Hub</b></div>
   <nav>
     <a href="/">Home</a>
     <a href="/about.html">About</a>
@@ -269,121 +175,59 @@ footer {
   </nav>
 </header>
 
-<!-- HERO -->
 <div class="hero">
-  <div class="card">
+<div class="card">
 
-    <h1>Word to PDF Converter</h1>
+<h1>Word to PDF Converter</h1>
 
-    <div id="drop">Drag & Drop Word file or Click</div>
+<div id="drop">Drag & Drop Word file</div>
 
-    <input type="file" id="file" accept=".doc,.docx" hidden onchange="filePicked(this)">
+<input type="file" id="file" hidden onchange="filePicked(this)">
 
-    <button onclick="upload()">Convert</button>
+<button onclick="upload('/word-to-pdf','converted.pdf')">Convert</button>
 
-    <div class="progress">
-      <div class="bar" id="bar"></div>
-    </div>
+<div id="fileInfo"></div>
 
-    <p id="status"></p>
-
-  </div>
+<div class="progress">
+  <div class="bar" id="bar"></div>
 </div>
 
-<!-- CONTENT -->
+<p id="status"></p>
+
+<div id="spinner">⏳ Processing...</div>
+
+</div>
+</div>
+
 <div class="content">
-
-<h2>Convert Word to PDF Online Free</h2>
-
-<p>
-Convert DOC and DOCX files into high-quality PDFs instantly using our fast and secure online tool. No installation required and works on all devices.
-</p>
-
-<p>
-Our tool ensures that formatting remains intact, making it perfect for resumes, reports, and professional documents.
-</p>
-
-<h2>Why Choose Our Tool?</h2>
-
-<p>
-We provide fast conversion, high accuracy, and a clean user experience without ads overload or login requirements.
-</p>
-
-<h2>FAQs</h2>
-
-<div class="faq">
-<h3>Is this tool free?</h3>
-<p>Yes, completely free.</p>
-
-<h3>Is my file secure?</h3>
-<p>Files are automatically deleted after conversion.</p>
-
-<h3>Which formats are supported?</h3>
-<p>DOC and DOCX.</p>
+<h2>Convert Word to PDF</h2>
+<p>Convert DOC and DOCX files into PDF easily and securely.</p>
 </div>
 
-</div>
-
-<!-- FOOTER -->
 <footer>
 
 <h3>All Tools</h3>
 
 <div class="tools">
 
-<div class="tools">
-
-<a href="/pdf-to-word.html" class="tool pdf">
-<i data-lucide="file-text"></i>PDF to Word
-</a>
-
-<a href="/word-to-pdf.html" class="tool pdf">
-<i data-lucide="file"></i>Word to PDF
-</a>
-
-<a href="/pdf-to-excel.html" class="tool excel">
-<i data-lucide="table"></i>PDF to Excel
-</a>
-
-<a href="/excel-to-pdf.html" class="tool excel">
-<i data-lucide="table"></i>Excel to PDF
-</a>
-
-<a href="/jpg-to-pdf.html" class="tool image">
-<i data-lucide="image"></i>JPG to PDF
-</a>
-
-<a href="/png-to-jpg.html" class="tool image">
-<i data-lucide="image"></i>PNG to JPG
-</a>
-
-<a href="/compress-pdf.html" class="tool compress">
-<i data-lucide="minimize-2"></i>Compress PDF
-</a>
-
-<a href="/merge-pdf.html" class="tool merge">
-<i data-lucide="layers"></i>Merge PDF
-</a>
-
-<a href="/split-pdf.html" class="tool split">
-<i data-lucide="split"></i>Split PDF
-</a>
+<a href="/pdf-to-word.html" class="tool pdf"><i data-lucide="file-text"></i>PDF to Word</a>
+<a href="/word-to-pdf.html" class="tool pdf"><i data-lucide="file"></i>Word to PDF</a>
+<a href="/pdf-to-excel.html" class="tool excel"><i data-lucide="table"></i>PDF to Excel</a>
+<a href="/excel-to-pdf.html" class="tool excel"><i data-lucide="table"></i>Excel to PDF</a>
+<a href="/jpg-to-pdf.html" class="tool image"><i data-lucide="image"></i>JPG to PDF</a>
+<a href="/png-to-jpg.html" class="tool image"><i data-lucide="image"></i>PNG to JPG</a>
+<a href="/compress-pdf.html" class="tool compress"><i data-lucide="minimize-2"></i>Compress PDF</a>
+<a href="/merge-pdf.html" class="tool merge"><i data-lucide="layers"></i>Merge PDF</a>
+<a href="/split-pdf.html" class="tool split"><i data-lucide="split"></i>Split PDF</a>
 
 </div>
-</div>
+
 <p style="margin-top:20px;">© 2026 PDF Master Hub</p>
 
 </footer>
 
-<!-- SCRIPT -->
 <script src="app.js"></script>
-<script>
-setup({
-  types: ["doc","docx"],
-  endpoint: "/word-to-pdf",
-  output: "converted.pdf"
-});
-</script>
+
 <script>
 lucide.createIcons();
 </script>
