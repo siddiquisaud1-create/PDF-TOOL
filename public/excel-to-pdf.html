@@ -1,24 +1,192 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>TOOL_NAME</title>
-<link rel="stylesheet" href="styles.css">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Excel to PDF Converter Free Online | PDF Master Hub</title>
+
+<meta name="description" content="Convert Excel to PDF online for free. Fast, secure XLS/XLSX to PDF converter with high-quality output.">
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(180deg, #eef2ff, #f8fafc);
+}
+
+/* HEADER */
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 18px 50px;
+  background: linear-gradient(90deg, #4f46e5, #2563eb);
+  color: white;
+}
+
+nav a {
+  color: white;
+  margin-left: 20px;
+  text-decoration: none;
+}
+
+/* HERO */
+.hero {
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+/* CARD */
+.card {
+  background: white;
+  padding: 40px;
+  width: 500px;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+/* DROP */
+#drop {
+  border: 2px dashed #4f46e5;
+  padding: 35px;
+  margin: 20px 0;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#drop:hover {
+  background: #eef2ff;
+}
+
+/* BUTTON */
+button {
+  background: linear-gradient(90deg, #4f46e5, #2563eb);
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* PROGRESS */
+.progress {
+  height: 8px;
+  background: #ddd;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+
+.bar {
+  height: 100%;
+  width: 0%;
+  background: #4f46e5;
+}
+
+/* STATUS */
+#status {
+  margin-top: 10px;
+  color: #4f46e5;
+}
+
+/* FILE INFO */
+#fileInfo {
+  font-size: 13px;
+  color: #555;
+}
+
+/* SPINNER */
+#spinner {
+  display: none;
+  margin-top: 10px;
+  color: #2563eb;
+}
+
+/* CONTENT */
+.content {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 0 20px;
+}
+
+/* FOOTER */
+footer {
+  background: #111827;
+  color: white;
+  padding: 40px;
+}
+
+.tools {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+  gap: 12px;
+}
+
+.tool {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: #1f2937;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #e5e7eb;
+  transition: 0.2s;
+}
+
+.tool:hover {
+  background: #111827;
+}
+
+.tool i {
+  width: 18px;
+  height: 18px;
+}
+
+.tool.pdf i { color: #ef4444; }
+.tool.excel i { color: #22c55e; }
+.tool.image i { color: #f59e0b; }
+.tool.compress i { color: #3b82f6; }
+.tool.merge i { color: #8b5cf6; }
+.tool.split i { color: #ec4899; }
+
+</style>
+
 </head>
 
-<body>
+<body onload="init()">
 
-<header>PDF Master Hub</header>
+<header>
+  <div><b>PDF Master Hub</b></div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/about.html">About</a>
+    <a href="/contact.html">Contact</a>
+    <a href="/privacy.html">Privacy</a>
+  </nav>
+</header>
 
-<div class="container">
+<div class="hero">
 <div class="card">
 
-<h2>TOOL_NAME</h2>
+<h1>Excel to PDF Converter</h1>
 
-<input type="file" id="file"><br><br>
+<div id="drop">Drag & Drop Excel file</div>
 
-<button onclick="upload('API_ROUTE','OUTPUT_NAME')">
-Convert
-</button>
+<input type="file" id="file" accept=".xls,.xlsx" hidden onchange="filePicked(this)">
+
+<button onclick="upload('/excel-to-pdf','converted.pdf')">Convert</button>
+
+<div id="fileInfo"></div>
 
 <div class="progress">
   <div class="bar" id="bar"></div>
@@ -26,10 +194,43 @@ Convert
 
 <p id="status"></p>
 
+<div id="spinner">⏳ Processing...</div>
+
 </div>
 </div>
 
-<script src="script.js"></script>
+<div class="content">
+<h2>Convert Excel to PDF</h2>
+<p>Convert XLS and XLSX files into PDF easily and securely.</p>
+</div>
+
+<footer>
+
+<h3>All Tools</h3>
+
+<div class="tools">
+
+<a href="/pdf-to-word.html" class="tool pdf"><i data-lucide="file-text"></i>PDF to Word</a>
+<a href="/word-to-pdf.html" class="tool pdf"><i data-lucide="file"></i>Word to PDF</a>
+<a href="/pdf-to-excel.html" class="tool excel"><i data-lucide="table"></i>PDF to Excel</a>
+<a href="/excel-to-pdf.html" class="tool excel"><i data-lucide="table"></i>Excel to PDF</a>
+<a href="/jpg-to-pdf.html" class="tool image"><i data-lucide="image"></i>JPG to PDF</a>
+<a href="/png-to-jpg.html" class="tool image"><i data-lucide="image"></i>PNG to JPG</a>
+<a href="/compress-pdf.html" class="tool compress"><i data-lucide="minimize-2"></i>Compress PDF</a>
+<a href="/merge-pdf.html" class="tool merge"><i data-lucide="layers"></i>Merge PDF</a>
+<a href="/split-pdf.html" class="tool split"><i data-lucide="split"></i>Split PDF</a>
+
+</div>
+
+<p style="margin-top:20px;">© 2026 PDF Master Hub</p>
+
+</footer>
+
+<script src="app.js"></script>
+
+<script>
+lucide.createIcons();
+</script>
 
 </body>
 </html>
