@@ -52,7 +52,8 @@ app.use(
       }
     }
   })
-);scriptSrc: [
+);
+scriptSrc: [
   "'self'",
   "'unsafe-inline'",
   "https://pagead2.googlesyndication.com",
