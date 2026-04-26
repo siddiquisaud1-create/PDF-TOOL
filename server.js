@@ -6,7 +6,7 @@ const FormData = require("form-data");
 require("dotenv").config();
 
 const app = express();
-
+app.use(express.static("public"));
 // Upload config
 const upload = multer({ dest: "uploads/" });
 
