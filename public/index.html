@@ -31,45 +31,104 @@ nav a:hover{color:#4f46e5}
 
 /* HERO */
 .hero{
-text-align:center;padding:60px 20px
+text-align:center;padding:70px 20px
 }
-.hero h1{font-size:34px;margin-bottom:10px}
-.hero p{color:#666;margin-bottom:20px}
+.hero h1{font-size:36px;margin-bottom:10px}
+.hero p{color:#666;margin-bottom:25px}
 
 .cta{
 background:#4f46e5;color:#fff;
-padding:12px 28px;border:none;border-radius:8px;
-cursor:pointer;font-size:15px
+padding:14px 32px;border:none;border-radius:10px;
+cursor:pointer;font-size:15px;
+box-shadow:0 8px 20px rgba(79,70,229,0.2);
+transition:0.3s;
+}
+.cta:hover{
+transform:translateY(-2px);
+box-shadow:0 12px 28px rgba(79,70,229,0.3);
 }
 
 /* GRID */
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:20px;padding:30px 40px
+gap:22px;padding:30px 40px
 }
 
+/* CARD */
 .card{
-background:#fff;padding:25px;border-radius:14px;
+background:#fff;
+padding:26px;
+border-radius:16px;
 text-align:center;
-box-shadow:0 4px 15px rgba(0,0,0,0.05);
-transition:0.3s;cursor:pointer
-}
-.card:hover{
-transform:translateY(-6px);
-box-shadow:0 10px 25px rgba(0,0,0,0.08)
+text-decoration:none;
+color:#333;
+box-shadow:0 6px 18px rgba(0,0,0,0.06);
+transition:all 0.25s ease;
+position:relative;
+overflow:hidden;
 }
 
-.icon{
-font-size:26px;margin-bottom:10px
+/* HOVER EFFECT */
+.card:hover{
+transform:translateY(-8px) scale(1.02);
+box-shadow:0 14px 35px rgba(79,70,229,0.15);
 }
+
+/* GLOW */
+.card::before{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(120deg,transparent,rgba(79,70,229,0.08),transparent);
+opacity:0;
+transition:0.3s;
+}
+.card:hover::before{opacity:1}
+
+/* CLICK */
+.card:active{
+transform:scale(0.98);
+}
+
+/* ICON */
+.icon{
+width:56px;
+height:56px;
+margin:auto;
+border-radius:14px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+margin-bottom:12px;
+transition:0.3s;
+}
+
+.card:hover .icon{
+transform:translateY(-4px) scale(1.1);
+}
+
+/* COLORS */
+.purple{background:#ede9fe;color:#7c3aed;}
+.blue{background:#e0f2fe;color:#2563eb;}
+.green{background:#dcfce7;color:#16a34a;}
+.red{background:#fee2e2;color:#dc2626;}
+.orange{background:#ffedd5;color:#ea580c;}
+.teal{background:#ccfbf1;color:#0f766e;}
+
+.card span{
+font-size:14px;
+font-weight:500;
+transition:0.2s;
+}
+.card:hover span{color:#4f46e5}
 
 /* SECTION */
 .section{
-padding:60px 40px;text-align:center
+padding:70px 40px;text-align:center
 }
-
-.section h2{margin-bottom:15px}
+.section h2{margin-bottom:20px}
 
 /* FEATURES */
 .features{
@@ -77,9 +136,9 @@ display:grid;
 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 gap:20px;margin-top:20px
 }
-
 .feature{
-background:#fff;padding:20px;border-radius:10px
+background:#fff;padding:22px;border-radius:12px;
+box-shadow:0 4px 15px rgba(0,0,0,0.05)
 }
 
 /* BLOG */
@@ -88,9 +147,9 @@ display:grid;
 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 gap:20px;margin-top:20px
 }
-
 .post{
-background:#fff;padding:20px;border-radius:10px
+background:#fff;padding:22px;border-radius:12px;
+box-shadow:0 4px 15px rgba(0,0,0,0.05)
 }
 
 /* FAQ */
@@ -107,7 +166,6 @@ padding:40px;text-align:center
 footer a{
 color:#aaa;margin:0 10px;text-decoration:none
 }
-
 </style>
 </head>
 
@@ -132,29 +190,67 @@ color:#aaa;margin:0 10px;text-decoration:none
 <!-- TOOLS -->
 <div class="grid">
 
-<div class="card">🖼️ JPG → PNG</div>
-<div class="card">📄 PDF → Word</div>
-<div class="card">📘 Word → PDF</div>
-<div class="card">📊 PDF → Excel</div>
-<div class="card">📈 Excel → PDF</div>
-<div class="card">📑 Merge PDF</div>
-<div class="card">✂️ Split PDF</div>
-<div class="card">🗜️ Compress PDF</div>
-<div class="card">🖼️ JPG → PDF</div>
-<div class="card">📐 Resize Image</div>
+<a href="/jpg-to-png.html" class="card">
+<div class="icon blue">🖼️</div>
+<span>JPG → PNG</span>
+</a>
+
+<a href="/pdf-to-word.html" class="card">
+<div class="icon red">📄</div>
+<span>PDF → Word</span>
+</a>
+
+<a href="/word-to-pdf.html" class="card">
+<div class="icon green">📘</div>
+<span>Word → PDF</span>
+</a>
+
+<a href="/pdf-to-excel.html" class="card">
+<div class="icon teal">📊</div>
+<span>PDF → Excel</span>
+</a>
+
+<a href="/excel-to-pdf.html" class="card">
+<div class="icon green">📈</div>
+<span>Excel → PDF</span>
+</a>
+
+<a href="/merge-pdf.html" class="card">
+<div class="icon purple">📑</div>
+<span>Merge PDF</span>
+</a>
+
+<a href="/split-pdf.html" class="card">
+<div class="icon red">✂️</div>
+<span>Split PDF</span>
+</a>
+
+<a href="/compress-pdf.html" class="card">
+<div class="icon orange">🗜️</div>
+<span>Compress PDF</span>
+</a>
+
+<a href="/jpg-to-pdf.html" class="card">
+<div class="icon purple">🖼️</div>
+<span>JPG → PDF</span>
+</a>
+
+<a href="/resize-image.html" class="card">
+<div class="icon blue">📐</div>
+<span>Resize Image</span>
+</a>
 
 </div>
 
-<!-- WHY CHOOSE US -->
+<!-- WHY -->
 <section class="section">
-<h2>Why Choose Us</h2>
+<h2>Why Choose PDFMasterHub?</h2>
 
 <div class="features">
 <div class="feature">⚡ Fast processing with instant results</div>
 <div class="feature">🔒 Secure file handling & auto deletion</div>
 <div class="feature">🌐 Works on all devices & browsers</div>
 </div>
-
 </section>
 
 <!-- BLOG -->
@@ -164,20 +260,19 @@ color:#aaa;margin:0 10px;text-decoration:none
 <div class="blog">
 <div class="post">
 <h3>How to Compress PDF Without Losing Quality</h3>
-<p>Reduce file size while keeping quality intact.</p>
+<p>Reduce file size while keeping clarity.</p>
 </div>
 
 <div class="post">
 <h3>Best Free PDF Tools</h3>
-<p>Top tools to manage your documents efficiently.</p>
+<p>Top tools to manage documents online.</p>
 </div>
 
 <div class="post">
 <h3>Convert PDF to Word Easily</h3>
-<p>Step-by-step guide for beginners.</p>
+<p>Step-by-step beginner guide.</p>
 </div>
 </div>
-
 </section>
 
 <!-- FAQ -->
@@ -194,7 +289,6 @@ color:#aaa;margin:0 10px;text-decoration:none
 <h4>Do I need to install anything?</h4>
 <p>No, everything works in your browser.</p>
 </div>
-
 </section>
 
 <footer>
