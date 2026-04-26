@@ -38,11 +38,10 @@ const upload = multer({
   limits: { fileSize: 15 * 1024 * 1024 }
 });
 
-// =======================
 const API_KEY = process.env.API_KEY;
 
 if (!API_KEY) {
-  console.error("❌ API_KEY is missing in environment variables");
+  console.error("❌ API_KEY missing in Render environment");
 }
 
 // =======================
@@ -79,11 +78,18 @@ async function convertFile(filePath, input, output) {
 
     const uploadTask = job.data.data.tasks.find(t => t.name === "import-1");
 
+    // 🔥 FIXED UPLOAD (BUFFER METHOD)
     const form = new FormData();
+
     Object.entries(uploadTask.result.form).forEach(([k, v]) => {
       form.append(k, v);
     });
-    form.append("file", fs.createReadStream(filePath));
+
+    const fileBuffer = fs.readFileSync(filePath);
+
+    form.append("file", fileBuffer, {
+      filename: path.basename(filePath)
+    });
 
     await axios.post(uploadTask.result.url, form, {
       headers: form.getHeaders()
@@ -91,6 +97,7 @@ async function convertFile(filePath, input, output) {
 
     console.log("📤 File uploaded");
 
+    // Poll for result
     let fileUrl = null;
     let attempts = 0;
 
@@ -138,13 +145,12 @@ async function convertFile(filePath, input, output) {
 }
 
 // =======================
-// 🔄 UNIVERSAL CONVERT
+// 🔄 CONVERT ROUTE
 // =======================
 app.post("/convert", upload.single("file"), async (req, res) => {
   try {
 
     if (!req.file) {
-      console.log("❌ No file received");
       return res.status(400).send("No file uploaded");
     }
 
@@ -153,7 +159,6 @@ app.post("/convert", upload.single("file"), async (req, res) => {
     const { input, output } = req.body;
 
     if (!input || !output) {
-      console.log("❌ Missing input/output");
       return res.status(400).send("Missing format");
     }
 
@@ -176,90 +181,10 @@ app.post("/convert", upload.single("file"), async (req, res) => {
 });
 
 // =======================
-// 🧩 MERGE PDF
-// =======================
-app.post("/merge-pdf", upload.array("files"), async (req, res) => {
-  try {
-
-    if (!req.files || req.files.length < 2) {
-      return res.status(400).send("Upload at least 2 files");
-    }
-
-    console.log("🧩 Merging PDFs...");
-
-    const job = await axios.post(
-      "https://api.cloudconvert.com/v2/jobs",
-      {
-        tasks: {
-          "import-1": { operation: "import/upload" },
-          "merge-1": {
-            operation: "merge",
-            input: ["import-1"],
-            output_format: "pdf"
-          },
-          "export-1": {
-            operation: "export/url",
-            input: "merge-1"
-          }
-        }
-      },
-      {
-        headers: { Authorization: "Bearer " + API_KEY }
-      }
-    );
-
-    const uploadTask = job.data.data.tasks.find(t => t.name === "import-1");
-
-    for (let file of req.files) {
-      const form = new FormData();
-      Object.entries(uploadTask.result.form).forEach(([k, v]) => form.append(k, v));
-      form.append("file", fs.createReadStream(file.path));
-
-      await axios.post(uploadTask.result.url, form, {
-        headers: form.getHeaders()
-      });
-    }
-
-    let fileUrl = null;
-
-    while (!fileUrl) {
-      const status = await axios.get(
-        `https://api.cloudconvert.com/v2/jobs/${job.data.data.id}`,
-        {
-          headers: { Authorization: "Bearer " + API_KEY }
-        }
-      );
-
-      const exportTask = status.data.data.tasks.find(t => t.name === "export-1");
-
-      if (exportTask?.status === "finished") {
-        fileUrl = exportTask.result.files[0].url;
-      }
-
-      await new Promise(r => setTimeout(r, 2000));
-    }
-
-    const fileRes = await axios.get(fileUrl, { responseType: "arraybuffer" });
-
-    res.setHeader("Content-Disposition", "attachment; filename=merged.pdf");
-    res.send(fileRes.data);
-
-  } catch (err) {
-    console.error("🔥 Merge ERROR:", err);
-    res.status(500).send("Merge failed");
-  } finally {
-    req.files.forEach(f => {
-      if (fs.existsSync(f.path)) fs.unlinkSync(f.path);
-    });
-  }
-});
-
-// =======================
 // 🖼️ RESIZE IMAGE
 // =======================
 app.post("/resize-image", upload.single("file"), async (req, res) => {
   try {
-
     const width = parseInt(req.body.width);
     const height = parseInt(req.body.height);
 
@@ -271,7 +196,7 @@ app.post("/resize-image", upload.single("file"), async (req, res) => {
     res.send(buffer);
 
   } catch (err) {
-    console.error("🔥 Resize ERROR:", err);
+    console.error(err);
     res.status(500).send("Resize failed");
   } finally {
     if (req.file && fs.existsSync(req.file.path)) {
