@@ -17,50 +17,48 @@ const app = express();
 // =======================
 app.use(
   helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
+   contentSecurityPolicy: {
+  directives: {
+    defaultSrc: ["'self'"],
 
-        scriptSrc: [
-          "'self'",
-          "'unsafe-inline'",
-          "https://pagead2.googlesyndication.com",
-          "https://www.googletagmanager.com",
-          "https://ep1.adtrafficquality.google",
-          "https://ep2.adtrafficquality.google"
-        ],
+    scriptSrc: [
+      "'self'",
+      "'unsafe-inline'",
+      "https://pagead2.googlesyndication.com",
+      "https://www.googletagmanager.com",
+      "https://ep1.adtrafficquality.google",
+      "https://ep2.adtrafficquality.google"
+    ],
 
-        connectSrc: [
-          "'self'",
-          "https://www.google-analytics.com",
-          "https://pagead2.googlesyndication.com",
-          "https://googleads.g.doubleclick.net",
-          "https://ep1.adtrafficquality.google",
-          "https://ep2.adtrafficquality.google"
-        ],
+    connectSrc: [
+      "'self'",
+      "https://www.google-analytics.com",
+      "https://pagead2.googlesyndication.com",
+      "https://googleads.g.doubleclick.net",
+      "https://ep1.adtrafficquality.google",
+      "https://ep2.adtrafficquality.google",
+      "https://csi.gstatic.com"   // ✅ ADD THIS
+    ],
 
-     imgSrc: [
-  "'self'",
-  "data:",
-  "https://www.google-analytics.com",
-  "https://pagead2.googlesyndication.com",
-  "https://googleads.g.doubleclick.net",
-  "https://ep1.adtrafficquality.google",
-  "https://ep2.adtrafficquality.google"
-],
+    imgSrc: [
+      "'self'",
+      "data:",
+      "https://www.google-analytics.com",
+      "https://pagead2.googlesyndication.com",
+      "https://googleads.g.doubleclick.net",
+      "https://ep1.adtrafficquality.google",
+      "https://ep2.adtrafficquality.google"
+    ],
 
-       frameSrc: [
-  "https://googleads.g.doubleclick.net",
-  "https://tpc.googlesyndication.com",
-  "https://ep1.adtrafficquality.google",
-  "https://ep2.adtrafficquality.google",
-  "https://www.google.com"
-]
-      }
-    }
-  })
-);
-
+    frameSrc: [
+      "https://googleads.g.doubleclick.net",
+      "https://tpc.googlesyndication.com",
+      "https://ep1.adtrafficquality.google",
+      "https://ep2.adtrafficquality.google",
+      "https://www.google.com"
+    ]
+  }
+}
 app.use(cors({ origin: "*" }));
 app.disable("x-powered-by");
 
