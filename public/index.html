@@ -117,20 +117,19 @@ footer a{color:#aaa;margin:0 10px;text-decoration:none}
 <section class="hero">
 <h1>All-in-One PDF Tools</h1>
 <p>Merge, Split, Compress & Convert PDFs in seconds</p>
-
-<button class="cta" onclick="openFile()">Upload PDF</button>
-<input type="file" id="fileInput" accept=".pdf" hidden>
-
 </section>
 
 <!-- TOOLS -->
 <div class="grid">
 
-<a href="/merge-pdf.html" class="card"><div class="icon purple">📑</div>Merge PDF</a>
+<a href="/pdf-to-word.html" class="card"><div class="icon red">📄</div>PDF → Word</a>
+  
+<a href="/word-to-pdf.html" class="card"><div class="icon green">📘</div>Word → PDF</a>
+  <a href="/merge-pdf.html" class="card"><div class="icon purple">📑</div>Merge PDF</a>
+  
 <a href="/split-pdf.html" class="card"><div class="icon red">✂️</div>Split PDF</a>
 <a href="/compress-pdf.html" class="card"><div class="icon orange">🗜️</div>Compress PDF</a>
-<a href="/pdf-to-word.html" class="card"><div class="icon red">📄</div>PDF → Word</a>
-<a href="/word-to-pdf.html" class="card"><div class="icon green">📘</div>Word → PDF</a>
+
 <a href="/pdf-to-excel.html" class="card"><div class="icon teal">📊</div>PDF → Excel</a>
 <a href="/excel-to-pdf.html" class="card"><div class="icon green">📈</div>Excel → PDF</a>
 <a href="/jpg-to-pdf.html" class="card"><div class="icon purple">🖼️</div>JPG → PDF</a>
@@ -178,19 +177,6 @@ footer a{color:#aaa;margin:0 10px;text-decoration:none}
 <a href="/contact.html">Contact</a>
 </div>
 </footer>
-
-<script>
-function openFile(){
-document.getElementById("fileInput").click();
-}
-
-document.getElementById("fileInput").addEventListener("change", function(){
-const file = this.files[0];
-if(file){
-alert("Selected: " + file.name);
-}
-});
-</script>
 
 </body>
 </html>
