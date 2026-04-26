@@ -3,18 +3,16 @@ const fileName = document.getElementById("fileName");
 const convertBtn = document.getElementById("convertBtn");
 const uploadBox = document.getElementById("uploadBox");
 
-// detect tool type from HTML
+// 🔥 auto detect formats
 const inputFormat = document.body.dataset.input;
 const outputFormat = document.body.dataset.output;
 
-function openFile(){
-  fileInput.click();
-}
-
+// open file
 if (uploadBox) {
-  uploadBox.addEventListener("click", openFile);
+  uploadBox.addEventListener("click", () => fileInput.click());
 }
 
+// show file name
 if (fileInput) {
   fileInput.addEventListener("change", function(){
     if(this.files.length > 0){
@@ -23,6 +21,7 @@ if (fileInput) {
   });
 }
 
+// convert
 if (convertBtn) {
   convertBtn.addEventListener("click", async function(){
 
