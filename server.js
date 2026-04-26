@@ -41,7 +41,7 @@ const upload = multer({
 const API_KEY = process.env.API_KEY;
 
 if (!API_KEY) {
-  console.error("❌ API_KEY missing in Render");
+  console.error("❌ API_KEY missing in Render environment");
 }
 
 // =======================
@@ -67,9 +67,7 @@ app.post("/convert", upload.single("file"), async (req, res) => {
     // Create job
     const job = await cloudConvert.jobs.create({
       tasks: {
-        importFile: {
-          operation: "import/upload"
-        },
+        importFile: { operation: "import/upload" },
         convertFile: {
           operation: "convert",
           input: "importFile",
@@ -85,15 +83,28 @@ app.post("/convert", upload.single("file"), async (req, res) => {
 
     // Upload file
     const uploadTask = job.tasks.find(t => t.name === "importFile");
-
     await cloudConvert.tasks.upload(uploadTask, fs.createReadStream(req.file.path));
 
     console.log("📤 Uploaded");
 
-    // Wait for job
+    // Wait for job completion
     const completedJob = await cloudConvert.jobs.wait(job.id);
 
+    // 🔥 CHECK CONVERT TASK
+    const convertTask = completedJob.tasks.find(t => t.name === "convertFile");
+
+    if (!convertTask || convertTask.status !== "finished") {
+      console.error("🔥 Convert failed:", convertTask);
+      throw new Error(convertTask?.message || "Conversion failed");
+    }
+
+    // 🔥 CHECK EXPORT TASK
     const exportTask = completedJob.tasks.find(t => t.name === "exportFile");
+
+    if (!exportTask || !exportTask.result || !exportTask.result.files) {
+      console.error("🔥 Export failed:", exportTask);
+      throw new Error("Export step failed");
+    }
 
     const fileUrl = exportTask.result.files[0].url;
 
@@ -103,14 +114,14 @@ app.post("/convert", upload.single("file"), async (req, res) => {
     const response = await fetch(fileUrl);
     const buffer = Buffer.from(await response.arrayBuffer());
 
-    console.log("📦 Size:", buffer.length);
+    console.log("📦 File size:", buffer.length);
 
     res.setHeader("Content-Disposition", `attachment; filename=converted.${output}`);
     res.send(buffer);
 
   } catch (err) {
-    console.error("🔥 ERROR:", err.message || err);
-    res.status(500).send("Conversion failed");
+    console.error("🔥 FINAL ERROR:", err.message || err);
+    res.status(500).send(err.message || "Conversion failed");
   } finally {
     if (req.file && fs.existsSync(req.file.path)) {
       fs.unlinkSync(req.file.path);
@@ -123,6 +134,7 @@ app.post("/convert", upload.single("file"), async (req, res) => {
 // =======================
 app.post("/resize-image", upload.single("file"), async (req, res) => {
   try {
+
     const width = parseInt(req.body.width);
     const height = parseInt(req.body.height);
 
@@ -134,7 +146,7 @@ app.post("/resize-image", upload.single("file"), async (req, res) => {
     res.send(buffer);
 
   } catch (err) {
-    console.error(err);
+    console.error("🔥 Resize ERROR:", err);
     res.status(500).send("Resize failed");
   } finally {
     if (req.file && fs.existsSync(req.file.path)) {
