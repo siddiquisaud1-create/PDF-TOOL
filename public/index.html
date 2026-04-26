@@ -1,223 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PDF Master Hub</title>
+<title>PDFMasterHub - Free Online PDF Tools</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
 <style>
-body {
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
-  background: radial-gradient(circle at top, #1e3a8a, #020617);
-  color: white;
+}
+
+body {
+  background: #f5f7fb;
 }
 
 /* HEADER */
 header {
+  background: #fff;
+  padding: 15px 40px;
   display: flex;
   justify-content: space-between;
-  padding: 20px 60px;
-  background: rgba(255,255,255,0.05);
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+header h1 {
+  font-size: 22px;
 }
 
 nav a {
   margin-left: 20px;
   text-decoration: none;
-  color: #ccc;
+  color: #333;
+  font-size: 14px;
 }
 
-/* HERO */
-.hero {
+/* INFO BAR */
+.info {
   text-align: center;
-  margin-top: 40px;
-}
-.hero h1 {
-  font-size: 36px;
-  background: linear-gradient(45deg,#ef4444,#3b82f6);
-  -webkit-background-clip: text;
-  color: transparent;
-}
-.hero p {
-  color: #aaa;
+  padding: 20px;
+  color: #555;
 }
 
-/* UPLOAD */
-.upload-box {
-  max-width: 520px;
-  margin: 30px auto;
-  padding: 35px;
-  border: 2px dashed #3b82f6;
-  border-radius: 14px;
-  text-align: center;
-  background: rgba(255,255,255,0.05);
+.info p {
+  margin: 5px 0;
 }
 
-.upload-btn {
-  background: linear-gradient(45deg,#ef4444,#3b82f6);
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-/* PROGRESS */
-.progress {
-  height: 6px;
-  background: #111;
-  margin-top: 15px;
-  border-radius: 10px;
-}
-.bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg,#ef4444,#3b82f6);
-}
-
-/* TOOLS */
-.tools {
+/* GRID */
+.tools-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
-  gap: 25px;
-  padding: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  padding: 30px 40px;
 }
 
-.card {
-  background: rgba(255,255,255,0.06);
-  border-radius: 14px;
+.tool-card {
+  background: #fff;
+  border-radius: 15px;
   padding: 25px;
   text-align: center;
-  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
   transition: 0.3s;
+  cursor: pointer;
 }
 
-.card:hover {
-  transform: translateY(-6px);
-  background: rgba(59,130,246,0.2);
+.tool-card:hover {
+  transform: translateY(-5px);
 }
 
-.card.active {
-  border: 2px solid #ef4444;
-}
-
-/* ICON */
+/* ICON STYLES */
 .icon {
   width: 55px;
   height: 55px;
-  border-radius: 12px;
   margin: auto;
-  margin-bottom: 10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:24px;
-}
-
-.red { background:#ef4444 }
-.blue { background:#3b82f6 }
-.green { background:#22c55e }
-.teal { background:#14b8a6 }
-.orange { background:#f59e0b }
-
-/* BUTTON */
-button {
-  display: block;
-  margin: 20px auto;
-  padding: 12px 25px;
-  border: none;
-  border-radius: 8px;
-  background: linear-gradient(45deg,#ef4444,#3b82f6);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
   color: white;
-  cursor: pointer;
+  margin-bottom: 10px;
 }
 
-/* STATUS */
-#status {
-  text-align: center;
-  margin-top: 10px;
-  color: #aaa;
+.purple { background: #8e44ad; }
+.red { background: #e74c3c; }
+.blue { background: #3498db; }
+.green { background: #27ae60; }
+.teal { background: #16a085; }
+.orange { background: #f39c12; }
+
+.tool-card p {
+  font-size: 14px;
+  color: #333;
 }
 
-/* FOOTER */
-footer {
-  text-align: center;
-  margin-top: 40px;
-  color: #ccc;
-}
 </style>
-
 </head>
 
 <body>
 
 <header>
-  <h2>PDFMasterHub</h2>
+  <h1>PDFMasterHub</h1>
   <nav>
-    <a href="/">Home</a>
+    <a href="#">Home</a>
     <a href="#">About</a>
     <a href="#">Privacy</a>
+    <a href="#">Terms</a>
     <a href="#">Contact</a>
+    <a href="#">Blog</a>
   </nav>
 </header>
 
-<div class="hero">
-  <h1>All-in-One PDF Tools</h1>
-  <p>Fast • Secure • Free • No Installation Required</p>
+<div class="info">
+  <p>⚡ Fast • 🔒 Secure • 🚀 No Installation Required</p>
+  <p>🔐 Files are secure and automatically deleted</p>
 </div>
 
-<!-- UPLOAD -->
-<div class="upload-box" id="drop">
-  <p><strong>Drop your file here</strong></p>
-  <p style="color:#aaa">or</p>
-  <span class="upload-btn" id="btn">Choose File</span>
-  <input type="file" id="file" hidden>
+<div class="tools-grid">
 
-  <div class="progress">
-    <div class="bar" id="bar"></div>
+  <div class="tool-card">
+    <div class="icon purple">🖼️</div>
+    <p>JPG → PNG</p>
   </div>
+
+  <div class="tool-card">
+    <div class="icon red">📄</div>
+    <p>PDF → Word</p>
+  </div>
+
+  <div class="tool-card">
+    <div class="icon blue">📘</div>
+    <p>Word → PDF</p>
+  </div>
+
+  <div class="tool-card">
+    <div class="icon green">📊</div>
+    <p>PDF → Excel</p>
+  </div>
+
+  <div class="tool-card">
+    <div class="icon green">📈</div>
+    <p>Excel → PDF</p>
+  </div>
+
+  <div class="tool-card">
+    <div class="icon teal">📑</div>
+    <p>Merge PDF</p>
+  </div>
+
+  <div class="tool-card">
+    <div class="icon orange">✂️</div>
+    <p>Split PDF</p>
+  </div>
+
+  <div class="tool-card">
+    <div class="icon orange">🗜️</div>
+    <p>Compress PDF</p>
+  </div>
+
+  <div class="tool-card">
+    <div class="icon purple">🖼️</div>
+    <p>JPG to PDF</p>
+  </div>
+
+  <div class="tool-card">
+    <div class="icon red">📐</div>
+    <p>Resize Image</p>
+  </div>
+
 </div>
-
-<button id="startUpload">Start Upload</button>
-<div id="status"></div>
-
-<!-- TOOLS -->
-<div class="tools">
-
-<div class="card" data-endpoint="/pdf-to-word" data-output="converted.docx">
-  <div class="icon red">📄</div>
-  PDF → Word
-</div>
-
-<div class="card" data-endpoint="/word-to-pdf" data-output="converted.pdf">
-  <div class="icon blue">📝</div>
-  Word → PDF
-</div>
-
-<div class="card" data-endpoint="/pdf-to-excel" data-output="converted.xlsx">
-  <div class="icon green">📊</div>
-  PDF → Excel
-</div>
-
-<div class="card" data-endpoint="/merge-pdf" data-output="merged.pdf">
-  <div class="icon teal">🧩</div>
-  Merge PDF
-</div>
-
-<div class="card" data-endpoint="/compress-pdf" data-output="compressed.pdf">
-  <div class="icon orange">⚡</div>
-  Compress PDF
-</div>
-
-</div>
-
-<footer>
-© 2026 PDF Master Hub
-</footer>
-
-<script src="/script.js" defer></script>
 
 </body>
 </html>
