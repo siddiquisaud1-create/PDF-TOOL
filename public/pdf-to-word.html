@@ -315,22 +315,34 @@ text-decoration:none;
 <p style="margin-top:10px;">© 2026 PDFMasterHub</p>
 
 </footer>
-
 <script>
 const fileInput = document.getElementById("fileInput");
 const fileName = document.getElementById("fileName");
 const convertBtn = document.getElementById("convertBtn");
+const uploadBox = document.getElementById("uploadBox");
 
+// =======================
+// OPEN FILE (NO INLINE JS)
+// =======================
 function openFile(){
   fileInput.click();
 }
 
+// click upload box
+uploadBox.addEventListener("click", openFile);
+
+// =======================
+// FILE SELECT
+// =======================
 fileInput.addEventListener("change", function(){
   if(this.files.length > 0){
     fileName.innerText = "Selected: " + this.files[0].name;
   }
 });
 
+// =======================
+// CONVERT FUNCTION
+// =======================
 convertBtn.addEventListener("click", function(){
 
   const file = fileInput.files[0];
@@ -368,6 +380,7 @@ convertBtn.addEventListener("click", function(){
     setTimeout(() => location.reload(), 1000);
   })
   .catch(err => {
+    console.error(err);
     alert("Error: " + err.message);
   })
   .finally(() => {
