@@ -142,7 +142,7 @@ text-decoration:none;
 <h1>PDF to Word</h1>
 <p style="margin-bottom:20px;color:#666;">Convert PDF files into editable Word documents</p>
 
-<div class="upload-box" onclick="openFile()">
+<div class="upload-box" <div class="upload-box" id="uploadBox">>
 <h2>📂 Click to upload PDF</h2>
 <p>Select file to convert</p>
 </div>
@@ -315,81 +315,7 @@ text-decoration:none;
 <p style="margin-top:10px;">© 2026 PDFMasterHub</p>
 
 </footer>
-<script>
-const fileInput = document.getElementById("fileInput");
-const fileName = document.getElementById("fileName");
-const convertBtn = document.getElementById("convertBtn");
-const uploadBox = document.getElementById("uploadBox");
-
-// =======================
-// OPEN FILE (NO INLINE JS)
-// =======================
-function openFile(){
-  fileInput.click();
-}
-
-// click upload box
-uploadBox.addEventListener("click", openFile);
-
-// =======================
-// FILE SELECT
-// =======================
-fileInput.addEventListener("change", function(){
-  if(this.files.length > 0){
-    fileName.innerText = "Selected: " + this.files[0].name;
-  }
-});
-
-// =======================
-// CONVERT FUNCTION
-// =======================
-convertBtn.addEventListener("click", function(){
-
-  const file = fileInput.files[0];
-
-  if(!file){
-    alert("Please upload file first");
-    return;
-  }
-
-  convertBtn.innerText = "Processing...";
-  convertBtn.disabled = true;
-
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("input", "pdf");
-  formData.append("output", "docx");
-
-  fetch("/convert", {
-    method: "POST",
-    body: formData
-  })
-  .then(res => {
-    if(!res.ok) throw new Error("Conversion failed");
-    return res.blob();
-  })
-  .then(blob => {
-
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-
-    a.href = url;
-    a.download = "converted.docx";
-    a.click();
-
-    setTimeout(() => location.reload(), 1000);
-  })
-  .catch(err => {
-    console.error(err);
-    alert("Error: " + err.message);
-  })
-  .finally(() => {
-    convertBtn.innerText = "Convert to Word";
-    convertBtn.disabled = false;
-  });
-
-});
-</script>
+<script src="/js/pdf-to-word.js"></script>
 
 </body>
 </html>
