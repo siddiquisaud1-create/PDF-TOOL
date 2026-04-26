@@ -1,235 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Split PDF Online Free | PDF Master Hub</title>
+<title>Merge PDF Online Free | Combine PDF Files Easily</title>
+<meta name="description" content="Merge PDF files online for free. Combine multiple PDFs into one document easily, fast and secure.">
 
-<meta name="description" content="Split PDF files into separate pages online for free. Fast and secure PDF splitter tool.">
-
-<script src="https://unpkg.com/lucide@latest"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
+body{background:#f6f8fc;color:#333}
 
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(180deg, #eef2ff, #f8fafc);
+header{
+display:flex;justify-content:space-between;align-items:center;
+padding:15px 40px;background:#fff;
+box-shadow:0 2px 10px rgba(0,0,0,0.05)
 }
 
-/* HEADER */
-header {
-  display: flex;
-  justify-content: space-between;
-  padding: 18px 50px;
-  background: linear-gradient(90deg, #4f46e5, #2563eb);
-  color: white;
+.logo{
+font-size:20px;
+font-weight:600;
+text-decoration:none;
+color:#333;
+}
+.logo span{color:#4f46e5}
+
+nav a{
+margin-left:20px;text-decoration:none;color:#444;font-size:14px
 }
 
-nav a {
-  color: white;
-  margin-left: 20px;
-  text-decoration: none;
+.container{
+max-width:700px;
+margin:80px auto;
+text-align:center;
 }
 
-/* HERO */
-.hero {
-  display: flex;
-  justify-content: center;
-  padding: 60px 20px;
+.upload-box{
+border:2px dashed #c7d2fe;
+background:#fff;
+padding:40px;
+border-radius:16px;
+cursor:pointer;
+transition:0.3s;
 }
 
-/* CARD */
-.card {
-  background: white;
-  padding: 40px;
-  width: 500px;
-  border-radius: 16px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-  text-align: center;
+.upload-box:hover{
+border-color:#4f46e5;
+background:#eef2ff;
 }
 
-.card:hover {
-  transform: translateY(-3px);
+.file-info{
+margin-top:20px;
+font-size:14px;
+color:#4f46e5;
 }
 
-/* DROP */
-#drop {
-  border: 2px dashed #4f46e5;
-  padding: 35px;
-  margin: 20px 0;
-  border-radius: 10px;
-  cursor: pointer;
+.action-btn{
+margin-top:20px;
+background:#4f46e5;
+color:#fff;
+padding:12px 25px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+display:inline-block;
 }
 
-#drop:hover {
-  background: #eef2ff;
-}
-
-/* BUTTON */
-button {
-  background: linear-gradient(90deg, #4f46e5, #2563eb);
-  color: white;
-  padding: 12px 30px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-/* PROGRESS */
-.progress {
-  height: 8px;
-  background: #ddd;
-  border-radius: 10px;
-  margin-top: 15px;
-}
-
-.bar {
-  height: 100%;
-  width: 0%;
-  background: #4f46e5;
-}
-
-/* STATUS */
-#status {
-  margin-top: 10px;
-  color: #4f46e5;
-}
-
-/* FILE INFO */
-#fileInfo {
-  font-size: 13px;
-  color: #555;
-}
-
-/* SPINNER */
-#spinner {
-  display: none;
-  margin-top: 10px;
-  color: #2563eb;
-}
-
-/* CONTENT */
-.content {
-  max-width: 800px;
-  margin: 50px auto;
-  padding: 0 20px;
+section{
+max-width:900px;
+margin:60px auto;
+background:#fff;
+padding:40px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(0,0,0,0.05);
+line-height:1.7;
 }
 
 /* FOOTER */
-footer {
-  background: #111827;
-  color: white;
-  padding: 40px;
+footer{
+background:#111;
+color:#aaa;
+padding:40px;
+text-align:center;
+margin-top:60px
 }
 
-.tools {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
-  gap: 12px;
+.tool-links{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:12px;
+margin-bottom:20px;
 }
 
-.tool {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-  background: #1f2937;
-  border-radius: 8px;
-  text-decoration: none;
-  color: #e5e7eb;
-  transition: 0.2s;
+.tool-links a{
+display:flex;
+align-items:center;
+gap:6px;
+background:#1f1f1f;
+padding:8px 12px;
+border-radius:8px;
+font-size:13px;
+text-decoration:none;
+color:#ddd;
 }
 
-.tool:hover {
-  background: #111827;
+.tool-links a:hover{
+background:#4f46e5;
+color:#fff;
 }
 
-.tool i {
-  width: 18px;
-  height: 18px;
+.icon{
+font-size:14px;
 }
 
-.tool.pdf i { color: #ef4444; }
-.tool.excel i { color: #22c55e; }
-.tool.image i { color: #f59e0b; }
-.tool.compress i { color: #3b82f6; }
-.tool.merge i { color: #8b5cf6; }
-.tool.split i { color: #ec4899; }
-
+footer a{
+color:#aaa;
+margin:5px 10px;
+text-decoration:none;
+}
 </style>
-
 </head>
 
-<body onload="init()">
+<body>
 
 <header>
-  <div><b>PDF Master Hub</b></div>
-  <nav>
-    <a href="/">Home</a>
-    <a href="/about.html">About</a>
-    <a href="/contact.html">Contact</a>
-    <a href="/privacy.html">Privacy</a>
-  </nav>
+<a href="/" class="logo"><span>PDF</span>MasterHub</a>
+<nav>
+<a href="/">Home</a>
+<a href="/about.html">About</a>
+<a href="/terms.html">Terms</a>
+<a href="/privacy.html">Privacy</a>
+<a href="/contact.html">Contact</a>
+</nav>
 </header>
 
-<div class="hero">
-<div class="card">
+<div class="container">
 
-<h1>Split PDF</h1>
+<h1>Merge PDF</h1>
+<p style="margin-bottom:20px;color:#666;">Combine multiple PDF files into one document</p>
 
-<div id="drop">Drag & Drop PDF file</div>
-
-<input type="file" id="file" accept=".pdf" hidden onchange="filePicked(this)">
-
-<button onclick="upload('/split-pdf','split.pdf')">Split</button>
-
-<div id="fileInfo"></div>
-
-<div class="progress">
-  <div class="bar" id="bar"></div>
+<div class="upload-box" onclick="openFile()">
+<h2>📂 Click to upload PDFs</h2>
+<p>Select multiple files to merge</p>
 </div>
 
-<p id="status"></p>
+<input type="file" id="fileInput" accept=".pdf" multiple hidden>
 
-<div id="spinner">⏳ Processing...</div>
+<div class="file-info" id="fileName"></div>
+
+<button class="action-btn">Merge Now</button>
 
 </div>
-</div>
 
-<div class="content">
-<h2>Split PDF Files</h2>
-<p>Extract pages or split PDF documents into multiple files quickly and securely.</p>
-</div>
+<section>
+
+<h2>Merge PDF Online – Combine PDF Files Quickly and Securely</h2>
+
+<p>Merging PDF files is one of the most essential document management tasks today. Whether you are working with reports, contracts, assignments, or invoices, combining multiple files into a single document improves organization and efficiency. With PDFMasterHub, you can merge PDF files online for free without installing any software.</p>
+
+<p>Our merge PDF tool is designed to be simple, fast, and secure. You can upload multiple files and combine them into one document within seconds. This helps you save time and maintain a professional workflow.</p>
+
+<h3>Why Use a Merge PDF Tool?</h3>
+
+<p>Handling multiple PDF files separately can be confusing and inefficient. By using a merge PDF tool, you can combine files into a single document, making it easier to manage and share. This is especially useful for professionals who need to send multiple reports or documents at once.</p>
+
+<p>For students, merging PDF files allows combining notes, assignments, and research papers into one document. Businesses can merge contracts, invoices, and presentations for better organization.</p>
+
+<h3>How to Merge PDF Files Online</h3>
+
+<p>Using our merge PDF tool is very simple. Just upload your PDF files, arrange them in the desired order, and click merge. The tool processes your files instantly and generates a combined PDF ready for download.</p>
+
+<p>This process requires no installation and works directly in your browser, making it accessible from any device.</p>
+
+<h3>Key Features</h3>
+
+<ul>
+<li>Merge multiple PDF files quickly</li>
+<li>No software installation required</li>
+<li>Secure file processing</li>
+<li>Fast performance</li>
+<li>Works on all devices</li>
+</ul>
+
+<h3>More Tools Available</h3>
+
+<p>PDFMasterHub offers a complete suite of PDF tools beyond merge PDF. You can compress PDF files to reduce size, convert PDF to Word for editing, split PDF documents, and convert between formats like Excel and JPG.</p>
+
+<p>For example, if you want to edit content, you can convert PDF to Word. If you need to reduce file size, you can use the compress PDF tool. These tools work together to provide a complete document solution.</p>
+
+<h3>Benefits of Using Online PDF Tools</h3>
+
+<p>Online tools are convenient and efficient. You don’t need to install heavy software, and you can access them from anywhere. This makes them ideal for remote work, students, and professionals.</p>
+
+<p>Additionally, online PDF tools save time and simplify workflows by providing instant results.</p>
+
+<h3>Security and Privacy</h3>
+
+<p>Your files are processed securely and are automatically deleted after processing. We do not store or share your data, ensuring complete privacy.</p>
+
+<h3>Conclusion</h3>
+
+<p>If you need a reliable way to merge PDF files online, PDFMasterHub provides a fast and secure solution. With additional tools like compress PDF, PDF to Word, and split PDF, you can manage all your documents efficiently in one place.</p>
+
+</section>
 
 <footer>
 
-<h3>All Tools</h3>
+<div class="tool-links">
 
-<div class="tools">
-
-<a href="/pdf-to-word.html" class="tool pdf"><i data-lucide="file-text"></i>PDF to Word</a>
-<a href="/word-to-pdf.html" class="tool pdf"><i data-lucide="file"></i>Word to PDF</a>
-<a href="/pdf-to-excel.html" class="tool excel"><i data-lucide="table"></i>PDF to Excel</a>
-<a href="/excel-to-pdf.html" class="tool excel"><i data-lucide="table"></i>Excel to PDF</a>
-<a href="/jpg-to-pdf.html" class="tool image"><i data-lucide="image"></i>JPG to PDF</a>
-<a href="/png-to-jpg.html" class="tool image"><i data-lucide="image"></i>PNG to JPG</a>
-<a href="/compress-pdf.html" class="tool compress"><i data-lucide="minimize-2"></i>Compress PDF</a>
-<a href="/merge-pdf.html" class="tool merge"><i data-lucide="layers"></i>Merge PDF</a>
-<a href="/split-pdf.html" class="tool split"><i data-lucide="split"></i>Split PDF</a>
+<a href="/compress-pdf.html"><span class="icon">🗜️</span>Compress PDF</a>
+<a href="/merge-pdf.html"><span class="icon">📑</span>Merge PDF</a>
+<a href="/split-pdf.html"><span class="icon">✂️</span>Split PDF</a>
+<a href="/pdf-to-word.html"><span class="icon">📄</span>PDF to Word</a>
+<a href="/word-to-pdf.html"><span class="icon">📘</span>Word to PDF</a>
+<a href="/pdf-to-excel.html"><span class="icon">📊</span>PDF to Excel</a>
+<a href="/excel-to-pdf.html"><span class="icon">📈</span>Excel to PDF</a>
+<a href="/jpg-to-pdf.html"><span class="icon">🖼️</span>JPG to PDF</a>
+<a href="/jpg-to-png.html"><span class="icon">🖼️</span>JPG to PNG</a>
+<a href="/resize-image.html"><span class="icon">📐</span>Resize Image</a>
 
 </div>
 
-<p style="margin-top:20px;">© 2026 PDF Master Hub</p>
+<div>
+<a href="/">Home</a>
+<a href="/about.html">About</a>
+<a href="/terms.html">Terms</a>
+<a href="/privacy.html">Privacy</a>
+<a href="/contact.html">Contact</a>
+</div>
+
+<p style="margin-top:10px;">© 2026 PDFMasterHub</p>
 
 </footer>
 
-<script src="app.js"></script>
-
 <script>
-lucide.createIcons();
+const fileInput = document.getElementById("fileInput");
+const fileName = document.getElementById("fileName");
+
+function openFile(){
+  fileInput.click();
+}
+
+fileInput.addEventListener("change", function(){
+  if(this.files.length > 0){
+    fileName.innerText = this.files.length + " files selected";
+  }
+});
 </script>
 
 </body>
