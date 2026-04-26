@@ -19,10 +19,20 @@ app.use(helmet());
 app.use(cors({ origin: "*" }));
 app.disable("x-powered-by");
 
+// Global limiter (light)
 app.use(rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100
+  max: 200
 }));
+
+// =======================
+// 🚫 STRICT LIMIT FOR CONVERT (IMPORTANT)
+// =======================
+const convertLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 min
+  max: 5, // max 5 conversions per minute per IP
+  message: "Too many conversions, please wait 1 minute"
+});
 
 // =======================
 // 📁 STATIC FILES
@@ -47,10 +57,31 @@ if (!API_KEY) {
 const cloudConvert = new CloudConvert(API_KEY);
 
 // =======================
+// 🧠 COOLDOWN MEMORY
+// =======================
+const lastRequestMap = new Map();
+
+// =======================
 // 🔄 CONVERT ROUTE
 // =======================
-app.post("/convert", upload.single("file"), async (req, res) => {
+app.post("/convert", convertLimiter, upload.single("file"), async (req, res) => {
   try {
+
+    // 🚫 BLOCK BOTS (Googlebot etc.)
+    const ua = req.headers["user-agent"] || "";
+    if (ua.includes("Googlebot") || ua.includes("bot")) {
+      return res.status(403).send("Bots not allowed");
+    }
+
+    // ⏱️ COOLDOWN PER IP (3 sec)
+    const ip = req.ip;
+    const now = Date.now();
+
+    if (lastRequestMap.has(ip) && now - lastRequestMap.get(ip) < 3000) {
+      return res.status(429).send("Wait 3 seconds before next request");
+    }
+
+    lastRequestMap.set(ip, now);
 
     if (!req.file) {
       return res.status(400).send("No file uploaded");
@@ -61,7 +92,6 @@ app.post("/convert", upload.single("file"), async (req, res) => {
     console.log("📥 File:", req.file.originalname);
     console.log("🔁 Convert:", input, "→", output);
 
-    // 🔥 CREATE JOB
     const job = await cloudConvert.jobs.create({
       tasks: {
         importFile: { operation: "import/upload" },
@@ -80,7 +110,6 @@ app.post("/convert", upload.single("file"), async (req, res) => {
 
     console.log("🧠 JOB CREATED:", job.id);
 
-    // 🔥 GET UPLOAD TASK
     const uploadTask = job.tasks.find(t => t.name === "importFile");
 
     if (!uploadTask) {
@@ -89,7 +118,6 @@ app.post("/convert", upload.single("file"), async (req, res) => {
 
     console.log("📤 Uploading...");
 
-    // 🔥 FIXED UPLOAD (IMPORTANT)
     await cloudConvert.tasks.upload(
       uploadTask,
       fs.createReadStream(req.file.path),
@@ -98,45 +126,36 @@ app.post("/convert", upload.single("file"), async (req, res) => {
 
     console.log("✅ Upload complete");
 
-    // 🔥 WAIT FOR COMPLETION
     const completedJob = await cloudConvert.jobs.wait(job.id);
 
-    console.log("🧠 JOB RESULT:", JSON.stringify(completedJob, null, 2));
-
-    // =======================
-    // CHECK CONVERT
-    // =======================
     const convertTask = completedJob.tasks.find(t => t.name === "convertFile");
 
     if (!convertTask || convertTask.status !== "finished") {
-      console.error("🔥 Convert failed:", convertTask);
       throw new Error(convertTask?.message || "Conversion failed");
     }
 
-    // =======================
-    // CHECK EXPORT
-    // =======================
     const exportTask = completedJob.tasks.find(t => t.name === "exportFile");
 
     if (!exportTask || !exportTask.result || !exportTask.result.files) {
-      console.error("🔥 Export failed:", exportTask);
       throw new Error("Export failed");
     }
 
     const fileUrl = exportTask.result.files[0].url;
 
-    console.log("⬇️ Downloading...");
-
     const response = await fetch(fileUrl);
     const buffer = Buffer.from(await response.arrayBuffer());
-
-    console.log("📦 File size:", buffer.length);
 
     res.setHeader("Content-Disposition", `attachment; filename=converted.${output}`);
     res.send(buffer);
 
   } catch (err) {
     console.error("🔥 FINAL ERROR:", err.message || err);
+
+    // 👇 HANDLE 429 FROM API CLEANLY
+    if (err.message && err.message.includes("429")) {
+      return res.status(429).send("Server busy, try again after few seconds");
+    }
+
     res.status(500).send(err.message || "Conversion failed");
   } finally {
     if (req.file && fs.existsSync(req.file.path)) {
