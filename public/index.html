@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PDFMasterHub - Free Online PDF Tools</title>
-<meta name="description" content="Free online PDF tools to merge, split, compress and convert PDFs. Fast, secure and easy to use.">
+<title>Free PDF Tools Online | Merge, Split, Compress, Convert PDF - PDFMasterHub</title>
+<meta name="description" content="Use free online PDF tools to merge PDF, split PDF, compress PDF, convert PDF to Word, Excel, JPG, PNG and more. Fast, secure and easy PDF converter.">
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -23,22 +23,19 @@ box-shadow:0 2px 10px rgba(0,0,0,0.05)
 .logo{font-size:20px;font-weight:600}
 .logo span{color:#4f46e5}
 
-nav a{
-margin-left:20px;text-decoration:none;color:#444;font-size:14px
+nav{
+display:flex;gap:20px;
 }
-nav a:hover{color:#4f46e5}
+
+nav a{
+text-decoration:none;color:#444;font-size:14px;
+white-space:nowrap;
+}
 
 /* HERO */
 .hero{text-align:center;padding:70px 20px}
 .hero h1{font-size:36px;margin-bottom:10px}
 .hero p{color:#666;margin-bottom:25px}
-
-.cta{
-background:#4f46e5;color:#fff;
-padding:14px 32px;border:none;border-radius:10px;
-cursor:pointer;font-size:15px;
-box-shadow:0 8px 20px rgba(79,70,229,0.2);
-}
 
 /* GRID */
 .grid{
@@ -56,22 +53,40 @@ text-align:center;
 text-decoration:none;
 color:#333;
 box-shadow:0 6px 18px rgba(0,0,0,0.06);
-transition:all 0.25s ease;
+transition:0.25s;
 }
+.card:hover{transform:translateY(-5px)}
 
-/* ICON */
-.icon{
-width:56px;height:56px;margin:auto;border-radius:14px;
+/* 🔥 PREMIUM ICON */
+.pro-icon{
+width:80px;height:60px;
+margin:auto;margin-bottom:10px;
 display:flex;align-items:center;justify-content:center;
-font-size:22px;margin-bottom:12px;
+gap:6px;position:relative;
 }
 
-.purple{background:#ede9fe;color:#7c3aed;}
-.blue{background:#e0f2fe;color:#2563eb;}
-.green{background:#dcfce7;color:#16a34a;}
-.red{background:#fee2e2;color:#dc2626;}
-.orange{background:#ffedd5;color:#ea580c;}
-.teal{background:#ccfbf1;color:#0f766e;}
+.file{
+width:36px;height:48px;border-radius:8px;
+display:flex;align-items:flex-end;justify-content:center;
+font-size:10px;font-weight:600;color:#fff;
+padding-bottom:5px;
+}
+
+.file.red{background:linear-gradient(145deg,#ef4444,#b91c1c);}
+.file.green{background:linear-gradient(145deg,#22c55e,#15803d);}
+.file.blue{background:linear-gradient(145deg,#2563eb,#1e40af);}
+.file.yellow{background:linear-gradient(145deg,#eab308,#ca8a04);}
+
+.file::after{
+content:"";
+position:absolute;
+top:0;right:0;width:10px;height:10px;
+background:rgba(255,255,255,0.4);
+clip-path:polygon(0 0,100% 0,100% 100%);
+border-top-right-radius:8px;
+}
+
+.arrow{font-size:14px;color:#555}
 
 /* SECTION */
 .section{padding:70px 40px;text-align:center}
@@ -98,6 +113,37 @@ background:#111;color:#aaa;
 padding:40px;text-align:center
 }
 footer a{color:#aaa;margin:0 10px;text-decoration:none}
+
+/* 📱 MOBILE */
+@media (max-width:768px){
+
+header{
+flex-direction:column;
+align-items:flex-start;
+padding:12px 15px;
+}
+
+nav{
+overflow-x:auto;
+width:100%;
+gap:15px;
+margin-top:5px;
+}
+
+nav::-webkit-scrollbar{display:none}
+
+.hero h1{font-size:24px}
+
+.grid{
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+padding:20px 12px;
+}
+
+.card{padding:16px;font-size:13px}
+
+.section{padding:40px 15px}
+}
 </style>
 </head>
 
@@ -119,26 +165,67 @@ footer a{color:#aaa;margin:0 10px;text-decoration:none}
 <p>Merge, Split, Compress & Convert PDFs in seconds</p>
 </section>
 
-<!-- TOOLS -->
 <div class="grid">
 
-<a href="/pdf-to-word.html" class="card"><div class="icon red">📄</div>PDF → Word</a>
-  
-<a href="/word-to-pdf.html" class="card"><div class="icon green">📘</div>Word → PDF</a>
-  <a href="/merge-pdf.html" class="card"><div class="icon purple">📑</div>Merge PDF</a>
-  
-<a href="/split-pdf.html" class="card"><div class="icon red">✂️</div>Split PDF</a>
-<a href="/compress-pdf.html" class="card"><div class="icon orange">🗜️</div>Compress PDF</a>
+<a href="/pdf-to-word.html" class="card">
+<div class="pro-icon"><div class="file red">PDF</div><div class="arrow">→</div><div class="file blue">DOC</div></div>
+PDF → Word</a>
 
-<a href="/pdf-to-excel.html" class="card"><div class="icon teal">📊</div>PDF → Excel</a>
-<a href="/excel-to-pdf.html" class="card"><div class="icon green">📈</div>Excel → PDF</a>
-<a href="/jpg-to-pdf.html" class="card"><div class="icon purple">🖼️</div>JPG → PDF</a>
-<a href="/jpg-to-png.html" class="card"><div class="icon blue">🖼️</div>JPG → PNG</a>
-<a href="/resize-image.html" class="card"><div class="icon blue">📐</div>Resize Image</a>
+<a href="/word-to-pdf.html" class="card">
+<div class="pro-icon"><div class="file blue">DOC</div><div class="arrow">→</div><div class="file red">PDF</div></div>
+Word → PDF</a>
+
+<a href="/merge-pdf.html" class="card">
+<div class="pro-icon"><div class="file red">PDF</div></div>
+Merge PDF</a>
+
+<a href="/split-pdf.html" class="card">
+<div class="pro-icon"><div class="file red">PDF</div></div>
+Split PDF</a>
+
+<a href="/compress-pdf.html" class="card">
+<div class="pro-icon"><div class="file yellow">PDF</div></div>
+Compress PDF</a>
+
+<a href="/pdf-to-excel.html" class="card">
+<div class="pro-icon"><div class="file red">PDF</div><div class="arrow">→</div><div class="file green">XLS</div></div>
+PDF → Excel</a>
+
+<a href="/excel-to-pdf.html" class="card">
+<div class="pro-icon"><div class="file green">XLS</div><div class="arrow">→</div><div class="file red">PDF</div></div>
+Excel → PDF</a>
+
+<a href="/jpg-to-pdf.html" class="card">
+<div class="pro-icon"><div class="file yellow">JPG</div><div class="arrow">→</div><div class="file red">PDF</div></div>
+JPG → PDF</a>
+
+<a href="/jpg-to-png.html" class="card">
+<div class="pro-icon"><div class="file yellow">JPG</div><div class="arrow">→</div><div class="file green">PNG</div></div>
+JPG → PNG</a>
+
+<a href="/resize-image.html" class="card">
+<div class="pro-icon"><div class="file blue">IMG</div></div>
+Resize Image</a>
+
+<a href="/pdf-to-jpg.html" class="card">
+<div class="pro-icon"><div class="file red">PDF</div><div class="arrow">→</div><div class="file yellow">JPG</div></div>
+PDF to JPG</a>
+
+<a href="/png-to-jpg.html" class="card">
+<div class="pro-icon"><div class="file green">PNG</div><div class="arrow">→</div><div class="file yellow">JPG</div></div>
+PNG to JPG</a>
+
+<!-- NEW -->
+<a href="/pdf-to-png.html" class="card">
+<div class="pro-icon"><div class="file red">PDF</div><div class="arrow">→</div><div class="file green">PNG</div></div>
+PDF to PNG</a>
+
+<a href="/png-to-pdf.html" class="card">
+<div class="pro-icon"><div class="file green">PNG</div><div class="arrow">→</div><div class="file red">PDF</div></div>
+PNG to PDF</a>
 
 </div>
 
-<!-- WHY -->
 <section class="section">
 <h2>Why Choose PDFMasterHub?</h2>
 <div class="features">
@@ -148,7 +235,6 @@ footer a{color:#aaa;margin:0 10px;text-decoration:none}
 </div>
 </section>
 
-<!-- FAQ -->
 <section class="section">
 <h2>FAQ</h2>
 <div class="faq">
@@ -161,21 +247,13 @@ footer a{color:#aaa;margin:0 10px;text-decoration:none}
 </div>
 </section>
 
-<!-- PRIVACY -->
 <section class="section" id="privacy">
 <h2>Privacy Policy</h2>
-<p>Your privacy is important to us. Files uploaded are processed securely and automatically deleted. We do not store or share your data.</p>
+<p>Your privacy is important to us. Files uploaded are processed securely and automatically deleted.</p>
 </section>
 
 <footer>
 <p>© 2026 PDFMasterHub</p>
-<div>
-<a href="/">Home</a>
-<a href="/about.html">About</a>
-<a href="/terms.html">Terms</a>
-<a href="/privacy.html">Privacy</a>
-<a href="/contact.html">Contact</a>
-</div>
 </footer>
 
 </body>
