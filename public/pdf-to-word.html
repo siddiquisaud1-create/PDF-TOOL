@@ -333,7 +333,9 @@ fileInput.addEventListener("change", function(){
 
 convertBtn.addEventListener("click", function(){
 
-  if(!fileInput.files.length){
+  const file = fileInput.files[0];
+
+  if(!file){
     alert("Please upload file first");
     return;
   }
@@ -341,18 +343,37 @@ convertBtn.addEventListener("click", function(){
   convertBtn.innerText = "Processing...";
   convertBtn.disabled = true;
 
-  setTimeout(() => {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("input", "pdf");
+  formData.append("output", "docx");
 
-    const link = document.createElement("a");
-    link.href = "#";
-    link.download = "converted.docx";
-    link.click();
+  fetch("/convert", {
+    method: "POST",
+    body: formData
+  })
+  .then(res => {
+    if(!res.ok) throw new Error("Conversion failed");
+    return res.blob();
+  })
+  .then(blob => {
 
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
 
-  }, 1500);
+    a.href = url;
+    a.download = "converted.docx";
+    a.click();
+
+    setTimeout(() => location.reload(), 1000);
+  })
+  .catch(err => {
+    alert("Error: " + err.message);
+  })
+  .finally(() => {
+    convertBtn.innerText = "Convert to Word";
+    convertBtn.disabled = false;
+  });
 
 });
 </script>
