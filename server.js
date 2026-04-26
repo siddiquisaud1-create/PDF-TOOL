@@ -41,12 +41,9 @@ const upload = multer({
 const API_KEY = process.env.API_KEY;
 
 if (!API_KEY) {
-  console.error("❌ API_KEY missing in Render environment");
+  console.error("❌ API_KEY missing");
 }
 
-// =======================
-// 🔥 CLOUDCONVERT INIT
-// =======================
 const cloudConvert = new CloudConvert(API_KEY);
 
 // =======================
@@ -64,7 +61,7 @@ app.post("/convert", upload.single("file"), async (req, res) => {
     console.log("📥 File:", req.file.originalname);
     console.log("🔁 Convert:", input, "→", output);
 
-    // Create job
+    // 🔥 CREATE JOB
     const job = await cloudConvert.jobs.create({
       tasks: {
         importFile: { operation: "import/upload" },
@@ -81,16 +78,34 @@ app.post("/convert", upload.single("file"), async (req, res) => {
       }
     });
 
-    // Upload file
+    console.log("🧠 JOB CREATED:", job.id);
+
+    // 🔥 GET UPLOAD TASK
     const uploadTask = job.tasks.find(t => t.name === "importFile");
-    await cloudConvert.tasks.upload(uploadTask, fs.createReadStream(req.file.path));
 
-    console.log("📤 Uploaded");
+    if (!uploadTask) {
+      throw new Error("Upload task not found");
+    }
 
-    // Wait for job completion
+    console.log("📤 Uploading...");
+
+    // 🔥 FIXED UPLOAD (IMPORTANT)
+    await cloudConvert.tasks.upload(
+      uploadTask,
+      fs.createReadStream(req.file.path),
+      req.file.originalname
+    );
+
+    console.log("✅ Upload complete");
+
+    // 🔥 WAIT FOR COMPLETION
     const completedJob = await cloudConvert.jobs.wait(job.id);
 
-    // 🔥 CHECK CONVERT TASK
+    console.log("🧠 JOB RESULT:", JSON.stringify(completedJob, null, 2));
+
+    // =======================
+    // CHECK CONVERT
+    // =======================
     const convertTask = completedJob.tasks.find(t => t.name === "convertFile");
 
     if (!convertTask || convertTask.status !== "finished") {
@@ -98,19 +113,20 @@ app.post("/convert", upload.single("file"), async (req, res) => {
       throw new Error(convertTask?.message || "Conversion failed");
     }
 
-    // 🔥 CHECK EXPORT TASK
+    // =======================
+    // CHECK EXPORT
+    // =======================
     const exportTask = completedJob.tasks.find(t => t.name === "exportFile");
 
     if (!exportTask || !exportTask.result || !exportTask.result.files) {
       console.error("🔥 Export failed:", exportTask);
-      throw new Error("Export step failed");
+      throw new Error("Export failed");
     }
 
     const fileUrl = exportTask.result.files[0].url;
 
     console.log("⬇️ Downloading...");
 
-    // Download file
     const response = await fetch(fileUrl);
     const buffer = Buffer.from(await response.arrayBuffer());
 
@@ -146,7 +162,7 @@ app.post("/resize-image", upload.single("file"), async (req, res) => {
     res.send(buffer);
 
   } catch (err) {
-    console.error("🔥 Resize ERROR:", err);
+    console.error(err);
     res.status(500).send("Resize failed");
   } finally {
     if (req.file && fs.existsSync(req.file.path)) {
