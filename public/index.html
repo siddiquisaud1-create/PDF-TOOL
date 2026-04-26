@@ -4,9 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PDFMasterHub - Free Online PDF Tools</title>
+<title>PDFMasterHub - Free PDF Tools Online (Merge, Split, Compress)</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+<meta name="description" content="Free online PDF tools to merge, split, compress, convert PDF to Word, Excel and more. Secure, fast and no installation required.">
+<meta name="keywords" content="PDF tools, merge PDF, split PDF, compress PDF, PDF to Word, online PDF tools">
+<meta name="author" content="PDFMasterHub">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 * {
@@ -17,7 +21,8 @@
 }
 
 body {
-  background: #f5f7fb;
+  background: #f6f8fc;
+  color: #333;
 }
 
 /* HEADER */
@@ -27,29 +32,58 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
-header h1 {
-  font-size: 22px;
+.logo {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.logo span {
+  background: #4f46e5;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 8px;
+  margin-right: 8px;
 }
 
 nav a {
   margin-left: 20px;
   text-decoration: none;
-  color: #333;
+  color: #444;
   font-size: 14px;
 }
 
-/* INFO BAR */
-.info {
-  text-align: center;
-  padding: 20px;
-  color: #555;
+nav a:hover {
+  color: #4f46e5;
 }
 
-.info p {
-  margin: 5px 0;
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.hero h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.cta-btn {
+  background: #4f46e5;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 /* GRID */
@@ -62,119 +96,150 @@ nav a {
 
 .tool-card {
   background: #fff;
-  border-radius: 15px;
   padding: 25px;
+  border-radius: 12px;
   text-align: center;
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
   transition: 0.3s;
-  cursor: pointer;
 }
 
 .tool-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
 }
 
-/* ICON STYLES */
 .icon {
-  width: 55px;
-  height: 55px;
-  margin: auto;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  color: white;
+  font-size: 26px;
   margin-bottom: 10px;
 }
 
-.purple { background: #8e44ad; }
-.red { background: #e74c3c; }
-.blue { background: #3498db; }
-.green { background: #27ae60; }
-.teal { background: #16a085; }
-.orange { background: #f39c12; }
-
-.tool-card p {
-  font-size: 14px;
-  color: #333;
+/* SECTION */
+.section {
+  padding: 50px 40px;
+  text-align: center;
 }
 
+.section h2 {
+  margin-bottom: 20px;
+}
+
+/* ARTICLES */
+.articles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+  gap: 20px;
+}
+
+.article {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* FAQ */
+.faq {
+  text-align: left;
+  max-width: 800px;
+  margin: auto;
+}
+
+.faq h4 {
+  margin-top: 15px;
+}
+
+/* FOOTER */
+footer {
+  background: #111;
+  color: #aaa;
+  padding: 30px;
+  text-align: center;
+}
+
+footer a {
+  color: #aaa;
+  margin: 0 10px;
+  text-decoration: none;
+}
 </style>
 </head>
 
 <body>
 
 <header>
-  <h1>PDFMasterHub</h1>
+  <div class="logo"><span>PDF</span>MasterHub</div>
   <nav>
     <a href="#">Home</a>
-    <a href="#">About</a>
-    <a href="#">Privacy</a>
-    <a href="#">Terms</a>
-    <a href="#">Contact</a>
+    <a href="#">Tools</a>
     <a href="#">Blog</a>
+    <a href="#">Contact</a>
   </nav>
 </header>
 
-<div class="info">
-  <p>⚡ Fast • 🔒 Secure • 🚀 No Installation Required</p>
-  <p>🔐 Files are secure and automatically deleted</p>
-</div>
+<section class="hero">
+  <h1>All-in-One Free PDF Tools</h1>
+  <p>Merge, Split, Compress and Convert PDFs easily. Fast, secure & no installation.</p>
+  <button class="cta-btn">Upload PDF</button>
+</section>
 
 <div class="tools-grid">
 
-  <div class="tool-card">
-    <div class="icon purple">🖼️</div>
-    <p>JPG → PNG</p>
-  </div>
-
-  <div class="tool-card">
-    <div class="icon red">📄</div>
-    <p>PDF → Word</p>
-  </div>
-
-  <div class="tool-card">
-    <div class="icon blue">📘</div>
-    <p>Word → PDF</p>
-  </div>
-
-  <div class="tool-card">
-    <div class="icon green">📊</div>
-    <p>PDF → Excel</p>
-  </div>
-
-  <div class="tool-card">
-    <div class="icon green">📈</div>
-    <p>Excel → PDF</p>
-  </div>
-
-  <div class="tool-card">
-    <div class="icon teal">📑</div>
-    <p>Merge PDF</p>
-  </div>
-
-  <div class="tool-card">
-    <div class="icon orange">✂️</div>
-    <p>Split PDF</p>
-  </div>
-
-  <div class="tool-card">
-    <div class="icon orange">🗜️</div>
-    <p>Compress PDF</p>
-  </div>
-
-  <div class="tool-card">
-    <div class="icon purple">🖼️</div>
-    <p>JPG to PDF</p>
-  </div>
-
-  <div class="tool-card">
-    <div class="icon red">📐</div>
-    <p>Resize Image</p>
-  </div>
+  <div class="tool-card"><div class="icon">🖼️</div>JPG → PNG</div>
+  <div class="tool-card"><div class="icon">📄</div>PDF → Word</div>
+  <div class="tool-card"><div class="icon">📘</div>Word → PDF</div>
+  <div class="tool-card"><div class="icon">📊</div>PDF → Excel</div>
+  <div class="tool-card"><div class="icon">📈</div>Excel → PDF</div>
+  <div class="tool-card"><div class="icon">📑</div>Merge PDF</div>
+  <div class="tool-card"><div class="icon">✂️</div>Split PDF</div>
+  <div class="tool-card"><div class="icon">🗜️</div>Compress PDF</div>
+  <div class="tool-card"><div class="icon">🖼️</div>JPG → PDF</div>
+  <div class="tool-card"><div class="icon">📐</div>Resize Image</div>
 
 </div>
+
+<section class="section">
+  <h2>Why Choose PDFMasterHub?</h2>
+  <p>Fast processing, secure file handling, and easy-to-use tools designed for everyone.</p>
+</section>
+
+<section class="section">
+  <h2>Latest Articles</h2>
+  <div class="articles">
+    <div class="article">
+      <h3>How to Compress PDF Without Losing Quality</h3>
+      <p>Learn simple techniques to reduce PDF size while keeping clarity.</p>
+    </div>
+    <div class="article">
+      <h3>Best Free PDF Tools in 2026</h3>
+      <p>Discover top tools to manage and edit PDF files online.</p>
+    </div>
+    <div class="article">
+      <h3>Convert PDF to Word Easily</h3>
+      <p>Step-by-step guide to convert PDF files into editable Word documents.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>FAQ</h2>
+  <div class="faq">
+    <h4>Is PDFMasterHub free?</h4>
+    <p>Yes, all tools are completely free to use.</p>
+
+    <h4>Are my files secure?</h4>
+    <p>Yes, files are automatically deleted after processing.</p>
+
+    <h4>Do I need to install anything?</h4>
+    <p>No, everything works directly in your browser.</p>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 PDFMasterHub</p>
+  <div>
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Contact</a>
+  </div>
+</footer>
 
 </body>
 </html>
