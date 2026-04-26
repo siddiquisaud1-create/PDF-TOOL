@@ -53,44 +53,22 @@ app.use(
     }
   })
 );
-scriptSrc: [
-  "'self'",
-  "'unsafe-inline'",
-  "https://pagead2.googlesyndication.com",
-  "https://www.googletagmanager.com",
-  "https://ep1.adtrafficquality.google",
-  "https://ep2.adtrafficquality.google"
-],
 
-        imgSrc: [
-          "'self'",
-          "data:",
-          "https://www.google-analytics.com"
-        ],
-
-        frameSrc: [
-          "https://googleads.g.doubleclick.net",
-          "https://tpc.googlesyndication.com"
-        ]
-      }
-    }
-  })
-);
 app.use(cors({ origin: "*" }));
 app.disable("x-powered-by");
 
-// Global limiter (light)
+// Global limiter
 app.use(rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 200
 }));
 
 // =======================
-// 🚫 STRICT LIMIT FOR CONVERT (IMPORTANT)
+// 🚫 STRICT LIMIT FOR CONVERT
 // =======================
 const convertLimiter = rateLimit({
-  windowMs: 60 * 1000, // 1 min
-  max: 5, // max 5 conversions per minute per IP
+  windowMs: 60 * 1000,
+  max: 5,
   message: "Too many conversions, please wait 1 minute"
 });
 
@@ -127,13 +105,11 @@ const lastRequestMap = new Map();
 app.post("/convert", convertLimiter, upload.single("file"), async (req, res) => {
   try {
 
-    // 🚫 BLOCK BOTS (Googlebot etc.)
     const ua = req.headers["user-agent"] || "";
     if (ua.includes("Googlebot") || ua.includes("bot")) {
       return res.status(403).send("Bots not allowed");
     }
 
-    // ⏱️ COOLDOWN PER IP (3 sec)
     const ip = req.ip;
     const now = Date.now();
 
@@ -148,9 +124,6 @@ app.post("/convert", convertLimiter, upload.single("file"), async (req, res) => 
     }
 
     const { input, output } = req.body;
-
-    console.log("📥 File:", req.file.originalname);
-    console.log("🔁 Convert:", input, "→", output);
 
     const job = await cloudConvert.jobs.create({
       tasks: {
@@ -168,15 +141,9 @@ app.post("/convert", convertLimiter, upload.single("file"), async (req, res) => 
       }
     });
 
-    console.log("🧠 JOB CREATED:", job.id);
-
     const uploadTask = job.tasks.find(t => t.name === "importFile");
 
-    if (!uploadTask) {
-      throw new Error("Upload task not found");
-    }
-
-    console.log("📤 Uploading...");
+    if (!uploadTask) throw new Error("Upload task not found");
 
     await cloudConvert.tasks.upload(
       uploadTask,
@@ -184,18 +151,14 @@ app.post("/convert", convertLimiter, upload.single("file"), async (req, res) => 
       req.file.originalname
     );
 
-    console.log("✅ Upload complete");
-
     const completedJob = await cloudConvert.jobs.wait(job.id);
 
     const convertTask = completedJob.tasks.find(t => t.name === "convertFile");
-
     if (!convertTask || convertTask.status !== "finished") {
       throw new Error(convertTask?.message || "Conversion failed");
     }
 
     const exportTask = completedJob.tasks.find(t => t.name === "exportFile");
-
     if (!exportTask || !exportTask.result || !exportTask.result.files) {
       throw new Error("Export failed");
     }
@@ -211,7 +174,6 @@ app.post("/convert", convertLimiter, upload.single("file"), async (req, res) => 
   } catch (err) {
     console.error("🔥 FINAL ERROR:", err.message || err);
 
-    // 👇 HANDLE 429 FROM API CLEANLY
     if (err.message && err.message.includes("429")) {
       return res.status(429).send("Server busy, try again after few seconds");
     }
@@ -229,7 +191,6 @@ app.post("/convert", convertLimiter, upload.single("file"), async (req, res) => 
 // =======================
 app.post("/resize-image", upload.single("file"), async (req, res) => {
   try {
-
     const width = parseInt(req.body.width);
     const height = parseInt(req.body.height);
 
@@ -241,7 +202,6 @@ app.post("/resize-image", upload.single("file"), async (req, res) => {
     res.send(buffer);
 
   } catch (err) {
-    console.error(err);
     res.status(500).send("Resize failed");
   } finally {
     if (req.file && fs.existsSync(req.file.path)) {
