@@ -121,7 +121,7 @@ text-decoration:none;
 </style>
 </head>
 
-<body>
+<body data-input="pdf" data-output="jpg">
 
 <header>
 <a href="/" class="logo"><span>PDF</span>MasterHub</a>
@@ -139,7 +139,7 @@ text-decoration:none;
 <h1>PNG to JPG</h1>
 <p style="margin-bottom:20px;color:#666;">Convert PNG images into JPG format easily</p>
 
-<div class="upload-box" onclick="openFile()">
+<div class="upload-box" <div class="upload-box" id="uploadBox">>
 <h2>📂 Click to upload PNG</h2>
 <p>Select image to convert</p>
 </div>
@@ -291,6 +291,6 @@ convertBtn.addEventListener("click", function(){
 
 });
 </script>
-
+<script src="/js/tools.js"></script>
 </body>
 </html>
