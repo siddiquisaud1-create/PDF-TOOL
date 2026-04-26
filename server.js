@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const multer = require("multer");
 const fs = require("fs");
+const path = require("path");
 const axios = require("axios");
 const FormData = require("form-data");
 const helmet = require("helmet");
@@ -26,20 +27,24 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // =======================
-// 📂 FILE UPLOAD
+// 📁 STATIC FILES (FIXED)
+// =======================
+app.use(express.static(path.join(__dirname, "public")));
+
+// =======================
+// 📂 UPLOAD CONFIG
 // =======================
 const upload = multer({
   dest: "uploads/",
   limits: { fileSize: 15 * 1024 * 1024 }
 });
 
-// =======================
 const API_KEY = process.env.API_KEY;
 
 // =======================
-// 🔥 CORE CONVERTER
+// 🔥 CONVERT FUNCTION
 // =======================
-async function convertFile(path, input, output) {
+async function convertFile(filePath, input, output) {
 
   console.log("🚀 Creating job...");
 
@@ -65,18 +70,14 @@ async function convertFile(path, input, output) {
     }
   );
 
-  console.log("🆔 Job ID:", job.data.data.id);
-
   const uploadTask = job.data.data.tasks.find(t => t.name === "import-1");
 
-  // Upload file
   const form = new FormData();
-
   Object.entries(uploadTask.result.form).forEach(([k, v]) => {
     form.append(k, v);
   });
 
-  form.append("file", fs.createReadStream(path));
+  form.append("file", fs.createReadStream(filePath));
 
   await axios.post(uploadTask.result.url, form, {
     headers: form.getHeaders()
@@ -84,12 +85,10 @@ async function convertFile(path, input, output) {
 
   console.log("📤 File uploaded");
 
-  // Poll job
   let fileUrl = null;
   let attempts = 0;
 
   while (!fileUrl && attempts < 30) {
-
     const status = await axios.get(
       `https://api.cloudconvert.com/v2/jobs/${job.data.data.id}`,
       {
@@ -115,8 +114,6 @@ async function convertFile(path, input, output) {
 
   if (!fileUrl) throw new Error("Conversion timeout");
 
-  console.log("⬇️ Downloading file...");
-
   const fileRes = await axios.get(fileUrl, {
     responseType: "arraybuffer"
   });
@@ -131,7 +128,6 @@ async function convertFile(path, input, output) {
 // =======================
 app.post("/convert", upload.single("file"), async (req, res) => {
   try {
-
     if (!req.file) return res.status(400).send("No file");
 
     const { input, output } = req.body;
@@ -152,15 +148,13 @@ app.post("/convert", upload.single("file"), async (req, res) => {
 });
 
 // =======================
-// 📄 MERGE PDF
+// 🧩 MERGE PDF
 // =======================
 app.post("/merge-pdf", upload.array("files"), async (req, res) => {
   try {
     if (!req.files || req.files.length < 2) {
       return res.status(400).send("Upload at least 2 files");
     }
-
-    console.log("🧩 Merging PDFs...");
 
     const job = await axios.post(
       "https://api.cloudconvert.com/v2/jobs",
@@ -232,7 +226,6 @@ app.post("/merge-pdf", upload.array("files"), async (req, res) => {
 // =======================
 app.post("/compress-pdf", upload.single("file"), async (req, res) => {
   try {
-
     const result = await convertFile(req.file.path, "pdf", "pdf");
 
     res.setHeader("Content-Disposition", "attachment; filename=compressed.pdf");
@@ -251,7 +244,6 @@ app.post("/compress-pdf", upload.single("file"), async (req, res) => {
 // =======================
 app.post("/resize-image", upload.single("file"), async (req, res) => {
   try {
-
     const width = parseInt(req.body.width);
     const height = parseInt(req.body.height);
 
@@ -267,6 +259,23 @@ app.post("/resize-image", upload.single("file"), async (req, res) => {
     res.status(500).send("Resize failed");
   } finally {
     fs.unlinkSync(req.file.path);
+  }
+});
+
+// =======================
+// 🌐 ROUTES FIX (NO MORE CANNOT GET)
+// =======================
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+app.get("/:page", (req, res) => {
+  const filePath = path.join(__dirname, "public", req.params.page + ".html");
+
+  if (fs.existsSync(filePath)) {
+    res.sendFile(filePath);
+  } else {
+    res.status(404).send("Page not found");
   }
 });
 
