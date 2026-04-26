@@ -250,37 +250,7 @@ PNG to PDF</a>
   <div id="globalBar" style="height:100%;width:0%;background:#4f46e5;transition:width 0.3s;"></div>
 </div>
 
-  <script>
-(function(){
-  const bar = document.getElementById("globalBar");
-  const container = document.getElementById("globalProgress");
 
-  // show on navigation click
-  document.querySelectorAll("a").forEach(link=>{
-    link.addEventListener("click", ()=>{
-      container.style.display = "block";
-      bar.style.width = "30%";
-
-      let progress = 30;
-      const interval = setInterval(()=>{
-        if(progress < 90){
-          progress += 10;
-          bar.style.width = progress + "%";
-        }
-      }, 200);
-
-      window.addEventListener("load", ()=>{
-        clearInterval(interval);
-        bar.style.width = "100%";
-        setTimeout(()=>{
-          container.style.display = "none";
-          bar.style.width = "0%";
-        },300);
-      });
-    });
-  });
-})();
-</script>
 <section class="section" id="privacy">
 <h2>Privacy Policy</h2>
 <p>Your privacy is important to us. Files uploaded are processed securely and automatically deleted.</p>
