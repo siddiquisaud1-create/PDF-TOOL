@@ -27,11 +27,13 @@ app.use(
           "https://pagead2.googlesyndication.com",
           "https://www.googletagmanager.com"
         ],
-
-        connectSrc: [
-          "'self'",
-          "https://www.google-analytics.com"
-        ],
+connectSrc: [
+  "'self'",
+  "https://www.google-analytics.com",
+  "https://pagead2.googlesyndication.com",
+  "https://googleads.g.doubleclick.net",
+  "https://ep1.adtrafficquality.google"
+],
 
         imgSrc: [
           "'self'",
