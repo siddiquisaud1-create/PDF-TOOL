@@ -45,10 +45,13 @@ app.use(
           "https://www.google-analytics.com"
         ],
 
-        frameSrc: [
-          "https://googleads.g.doubleclick.net",
-          "https://tpc.googlesyndication.com"
-        ]
+       frameSrc: [
+  "https://googleads.g.doubleclick.net",
+  "https://tpc.googlesyndication.com",
+  "https://ep1.adtrafficquality.google",
+  "https://ep2.adtrafficquality.google",
+  "https://www.google.com"
+]
       }
     }
   })
