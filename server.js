@@ -38,12 +38,20 @@ const upload = multer({
   limits: { fileSize: 15 * 1024 * 1024 }
 });
 
+// =======================
 const API_KEY = process.env.API_KEY;
+
+if (!API_KEY) {
+  console.error("❌ API_KEY is missing in environment variables");
+}
 
 // =======================
 // 🔥 CORE CONVERTER
 // =======================
 async function convertFile(filePath, input, output) {
+
+  if (!API_KEY) throw new Error("Missing API_KEY");
+
   try {
     console.log("🚀 Creating job...");
 
@@ -71,7 +79,6 @@ async function convertFile(filePath, input, output) {
 
     const uploadTask = job.data.data.tasks.find(t => t.name === "import-1");
 
-    // Upload file
     const form = new FormData();
     Object.entries(uploadTask.result.form).forEach(([k, v]) => {
       form.append(k, v);
@@ -82,9 +89,8 @@ async function convertFile(filePath, input, output) {
       headers: form.getHeaders()
     });
 
-    console.log("📤 Uploaded");
+    console.log("📤 File uploaded");
 
-    // Poll
     let fileUrl = null;
     let attempts = 0;
 
@@ -112,20 +118,21 @@ async function convertFile(filePath, input, output) {
       attempts++;
     }
 
-    if (!fileUrl) throw new Error("Timeout");
+    if (!fileUrl) throw new Error("Conversion timeout");
 
-    console.log("⬇️ Downloading...");
+    console.log("⬇️ Downloading file...");
 
     const fileRes = await axios.get(fileUrl, {
       responseType: "arraybuffer"
     });
 
-    console.log("📦 Size:", fileRes.data.length);
+    console.log("📦 File size:", fileRes.data.length);
 
     return fileRes.data;
 
   } catch (err) {
-    console.error("❌ CloudConvert Error:", err.response?.data || err.message);
+    console.error("🔥 CloudConvert ERROR:");
+    console.error(err.response?.data || err.message || err);
     throw err;
   }
 }
@@ -135,15 +142,22 @@ async function convertFile(filePath, input, output) {
 // =======================
 app.post("/convert", upload.single("file"), async (req, res) => {
   try {
-    if (!req.file) return res.status(400).send("No file");
+
+    if (!req.file) {
+      console.log("❌ No file received");
+      return res.status(400).send("No file uploaded");
+    }
+
+    console.log("📥 File received:", req.file.originalname);
 
     const { input, output } = req.body;
 
     if (!input || !output) {
+      console.log("❌ Missing input/output");
       return res.status(400).send("Missing format");
     }
 
-    console.log("🔁", input, "→", output);
+    console.log("🔁 Convert:", input, "→", output);
 
     const result = await convertFile(req.file.path, input, output);
 
@@ -151,10 +165,13 @@ app.post("/convert", upload.single("file"), async (req, res) => {
     res.send(result);
 
   } catch (err) {
-    console.error("❌ ERROR:", err.message);
+    console.error("🔥 FULL ERROR:");
+    console.error(err.response?.data || err.message || err);
     res.status(500).send("Conversion failed");
   } finally {
-    if (req.file) fs.unlinkSync(req.file.path);
+    if (req.file && fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path);
+    }
   }
 });
 
@@ -163,9 +180,12 @@ app.post("/convert", upload.single("file"), async (req, res) => {
 // =======================
 app.post("/merge-pdf", upload.array("files"), async (req, res) => {
   try {
+
     if (!req.files || req.files.length < 2) {
-      return res.status(400).send("Upload 2+ files");
+      return res.status(400).send("Upload at least 2 files");
     }
+
+    console.log("🧩 Merging PDFs...");
 
     const job = await axios.post(
       "https://api.cloudconvert.com/v2/jobs",
@@ -225,27 +245,12 @@ app.post("/merge-pdf", upload.array("files"), async (req, res) => {
     res.send(fileRes.data);
 
   } catch (err) {
-    console.error(err);
+    console.error("🔥 Merge ERROR:", err);
     res.status(500).send("Merge failed");
   } finally {
-    req.files.forEach(f => fs.unlinkSync(f.path));
-  }
-});
-
-// =======================
-// 🗜️ COMPRESS PDF
-// =======================
-app.post("/compress-pdf", upload.single("file"), async (req, res) => {
-  try {
-    const result = await convertFile(req.file.path, "pdf", "pdf");
-
-    res.setHeader("Content-Disposition", "attachment; filename=compressed.pdf");
-    res.send(result);
-
-  } catch (err) {
-    res.status(500).send("Compress failed");
-  } finally {
-    fs.unlinkSync(req.file.path);
+    req.files.forEach(f => {
+      if (fs.existsSync(f.path)) fs.unlinkSync(f.path);
+    });
   }
 });
 
@@ -254,6 +259,7 @@ app.post("/compress-pdf", upload.single("file"), async (req, res) => {
 // =======================
 app.post("/resize-image", upload.single("file"), async (req, res) => {
   try {
+
     const width = parseInt(req.body.width);
     const height = parseInt(req.body.height);
 
@@ -265,9 +271,12 @@ app.post("/resize-image", upload.single("file"), async (req, res) => {
     res.send(buffer);
 
   } catch (err) {
+    console.error("🔥 Resize ERROR:", err);
     res.status(500).send("Resize failed");
   } finally {
-    fs.unlinkSync(req.file.path);
+    if (req.file && fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path);
+    }
   }
 });
 
