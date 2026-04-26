@@ -3,6 +3,7 @@ const fileName = document.getElementById("fileName");
 const convertBtn = document.getElementById("convertBtn");
 const uploadBox = document.getElementById("uploadBox");
 const addBox = document.getElementById("addBox");
+const filePreview = document.getElementById("filePreview");
 
 // 🔥 auto detect formats
 const inputFormat = document.body.dataset.input;
@@ -20,15 +21,63 @@ if (addBox) {
 }
 
 // =======================
-// SHOW FILE NAME / COUNT
+// SHOW FILE NAME + PREVIEW
 // =======================
 if (fileInput) {
   fileInput.addEventListener("change", function(){
+
+    // file name / count
     if(this.files.length > 1){
       fileName.innerText = this.files.length + " files selected";
     } else if (this.files.length === 1){
       fileName.innerText = "Selected: " + this.files[0].name;
     }
+
+    // 🔥 PREVIEW
+    if (filePreview) {
+      filePreview.innerHTML = "";
+
+      Array.from(this.files).forEach(file => {
+
+        const div = document.createElement("div");
+        div.style.display = "flex";
+        div.style.alignItems = "center";
+        div.style.gap = "10px";
+        div.style.background = "#fff";
+        div.style.padding = "10px";
+        div.style.marginTop = "10px";
+        div.style.borderRadius = "8px";
+        div.style.boxShadow = "0 2px 8px rgba(0,0,0,0.05)";
+
+        // IMAGE PREVIEW
+        if (file.type.startsWith("image/")) {
+          const img = document.createElement("img");
+          img.src = URL.createObjectURL(file);
+          img.style.width = "50px";
+          img.style.height = "50px";
+          img.style.objectFit = "cover";
+          img.style.borderRadius = "6px";
+          div.appendChild(img);
+        }
+
+        // PDF ICON
+        else if (file.type === "application/pdf") {
+          const icon = document.createElement("img");
+          icon.src = "https://cdn-icons-png.flaticon.com/512/337/337946.png";
+          icon.style.width = "40px";
+          div.appendChild(icon);
+        }
+
+        // FILE NAME
+        const name = document.createElement("span");
+        name.innerText = file.name;
+
+        div.appendChild(name);
+        filePreview.appendChild(div);
+
+      });
+    }
+
   });
 }
 
