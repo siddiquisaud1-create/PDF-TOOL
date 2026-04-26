@@ -4,12 +4,11 @@ const express = require("express");
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
-const axios = require("axios");
-const FormData = require("form-data");
 const helmet = require("helmet");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const sharp = require("sharp");
+const CloudConvert = require("cloudconvert");
 
 const app = express();
 
@@ -38,111 +37,17 @@ const upload = multer({
   limits: { fileSize: 15 * 1024 * 1024 }
 });
 
+// =======================
 const API_KEY = process.env.API_KEY;
 
 if (!API_KEY) {
-  console.error("❌ API_KEY missing in Render environment");
+  console.error("❌ API_KEY missing in Render");
 }
 
 // =======================
-// 🔥 CORE CONVERTER
+// 🔥 CLOUDCONVERT INIT
 // =======================
-async function convertFile(filePath, input, output) {
-
-  if (!API_KEY) throw new Error("Missing API_KEY");
-
-  try {
-    console.log("🚀 Creating job...");
-
-    const job = await axios.post(
-      "https://api.cloudconvert.com/v2/jobs",
-      {
-        tasks: {
-          "import-1": { operation: "import/upload" },
-          "convert-1": {
-            operation: "convert",
-            input: "import-1",
-            input_format: input,
-            output_format: output
-          },
-          "export-1": {
-            operation: "export/url",
-            input: "convert-1"
-          }
-        }
-      },
-      {
-        headers: { Authorization: "Bearer " + API_KEY }
-      }
-    );
-
-    const uploadTask = job.data.data.tasks.find(t => t.name === "import-1");
-
-    // 🔥 FIXED UPLOAD (BUFFER METHOD)
-    const form = new FormData();
-
-    Object.entries(uploadTask.result.form).forEach(([k, v]) => {
-      form.append(k, v);
-    });
-
-    const fileBuffer = fs.readFileSync(filePath);
-
-    form.append("file", fileBuffer, {
-      filename: path.basename(filePath)
-    });
-
-    await axios.post(uploadTask.result.url, form, {
-      headers: form.getHeaders()
-    });
-
-    console.log("📤 File uploaded");
-
-    // Poll for result
-    let fileUrl = null;
-    let attempts = 0;
-
-    while (!fileUrl && attempts < 30) {
-      const status = await axios.get(
-        `https://api.cloudconvert.com/v2/jobs/${job.data.data.id}`,
-        {
-          headers: { Authorization: "Bearer " + API_KEY }
-        }
-      );
-
-      const exportTask = status.data.data.tasks.find(t => t.name === "export-1");
-
-      console.log("⏳ Status:", exportTask?.status);
-
-      if (
-        exportTask &&
-        exportTask.status === "finished" &&
-        exportTask.result?.files?.length
-      ) {
-        fileUrl = exportTask.result.files[0].url;
-      }
-
-      await new Promise(r => setTimeout(r, 2000));
-      attempts++;
-    }
-
-    if (!fileUrl) throw new Error("Conversion timeout");
-
-    console.log("⬇️ Downloading file...");
-
-    const fileRes = await axios.get(fileUrl, {
-      responseType: "arraybuffer"
-    });
-
-    console.log("📦 File size:", fileRes.data.length);
-
-    return fileRes.data;
-
-  } catch (err) {
-    console.error("🔥 CloudConvert ERROR:");
-    console.error(err.response?.data || err.message || err);
-    throw err;
-  }
-}
+const cloudConvert = new CloudConvert(API_KEY);
 
 // =======================
 // 🔄 CONVERT ROUTE
@@ -154,24 +59,57 @@ app.post("/convert", upload.single("file"), async (req, res) => {
       return res.status(400).send("No file uploaded");
     }
 
-    console.log("📥 File received:", req.file.originalname);
-
     const { input, output } = req.body;
 
-    if (!input || !output) {
-      return res.status(400).send("Missing format");
-    }
-
+    console.log("📥 File:", req.file.originalname);
     console.log("🔁 Convert:", input, "→", output);
 
-    const result = await convertFile(req.file.path, input, output);
+    // Create job
+    const job = await cloudConvert.jobs.create({
+      tasks: {
+        importFile: {
+          operation: "import/upload"
+        },
+        convertFile: {
+          operation: "convert",
+          input: "importFile",
+          input_format: input,
+          output_format: output
+        },
+        exportFile: {
+          operation: "export/url",
+          input: "convertFile"
+        }
+      }
+    });
+
+    // Upload file
+    const uploadTask = job.tasks.find(t => t.name === "importFile");
+
+    await cloudConvert.tasks.upload(uploadTask, fs.createReadStream(req.file.path));
+
+    console.log("📤 Uploaded");
+
+    // Wait for job
+    const completedJob = await cloudConvert.jobs.wait(job.id);
+
+    const exportTask = completedJob.tasks.find(t => t.name === "exportFile");
+
+    const fileUrl = exportTask.result.files[0].url;
+
+    console.log("⬇️ Downloading...");
+
+    // Download file
+    const response = await fetch(fileUrl);
+    const buffer = Buffer.from(await response.arrayBuffer());
+
+    console.log("📦 Size:", buffer.length);
 
     res.setHeader("Content-Disposition", `attachment; filename=converted.${output}`);
-    res.send(result);
+    res.send(buffer);
 
   } catch (err) {
-    console.error("🔥 FULL ERROR:");
-    console.error(err.response?.data || err.message || err);
+    console.error("🔥 ERROR:", err.message || err);
     res.status(500).send("Conversion failed");
   } finally {
     if (req.file && fs.existsSync(req.file.path)) {
