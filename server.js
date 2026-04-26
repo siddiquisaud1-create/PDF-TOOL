@@ -15,7 +15,38 @@ const app = express();
 // =======================
 // 🔐 SECURITY
 // =======================
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'", // allow inline scripts
+          "https://pagead2.googlesyndication.com",
+          "https://www.googletagmanager.com"
+        ],
+
+        connectSrc: [
+          "'self'",
+          "https://www.google-analytics.com"
+        ],
+
+        imgSrc: [
+          "'self'",
+          "data:",
+          "https://www.google-analytics.com"
+        ],
+
+        frameSrc: [
+          "https://googleads.g.doubleclick.net",
+          "https://tpc.googlesyndication.com"
+        ]
+      }
+    }
+  })
+);
 app.use(cors({ origin: "*" }));
 app.disable("x-powered-by");
 
