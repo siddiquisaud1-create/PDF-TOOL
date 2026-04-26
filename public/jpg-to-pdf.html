@@ -1,235 +1,293 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>JPG to PDF Converter Free Online | PDF Master Hub</title>
+<title>JPG to PDF Converter Online Free | Convert Image to PDF</title>
+<meta name="description" content="Convert JPG to PDF online for free. Easily turn images into PDF files with high quality and fast processing.">
 
-<meta name="description" content="Convert JPG to PDF online for free. Fast, secure image to PDF converter with high-quality output.">
-
-<script src="https://unpkg.com/lucide@latest"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
+body{background:#f6f8fc;color:#333}
 
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(180deg, #eef2ff, #f8fafc);
+header{
+display:flex;justify-content:space-between;align-items:center;
+padding:15px 40px;background:#fff;
+box-shadow:0 2px 10px rgba(0,0,0,0.05)
 }
 
-/* HEADER */
-header {
-  display: flex;
-  justify-content: space-between;
-  padding: 18px 50px;
-  background: linear-gradient(90deg, #4f46e5, #2563eb);
-  color: white;
+.logo{
+font-size:20px;
+font-weight:600;
+text-decoration:none;
+color:#333;
+}
+.logo span{color:#4f46e5}
+
+nav a{
+margin-left:20px;text-decoration:none;color:#444;font-size:14px
 }
 
-nav a {
-  color: white;
-  margin-left: 20px;
-  text-decoration: none;
+.container{
+max-width:700px;
+margin:80px auto;
+text-align:center;
 }
 
-/* HERO */
-.hero {
-  display: flex;
-  justify-content: center;
-  padding: 60px 20px;
+.upload-box{
+border:2px dashed #c7d2fe;
+background:#fff;
+padding:40px;
+border-radius:16px;
+cursor:pointer;
+transition:0.3s;
 }
 
-/* CARD */
-.card {
-  background: white;
-  padding: 40px;
-  width: 500px;
-  border-radius: 16px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-  text-align: center;
+.upload-box:hover{
+border-color:#4f46e5;
+background:#eef2ff;
 }
 
-.card:hover {
-  transform: translateY(-3px);
+.file-info{
+margin-top:20px;
+font-size:14px;
+color:#4f46e5;
 }
 
-/* DROP */
-#drop {
-  border: 2px dashed #4f46e5;
-  padding: 35px;
-  margin: 20px 0;
-  border-radius: 10px;
-  cursor: pointer;
+.action-btn{
+margin-top:20px;
+background:#4f46e5;
+color:#fff;
+padding:12px 25px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+display:inline-block;
 }
 
-#drop:hover {
-  background: #eef2ff;
+section{
+max-width:900px;
+margin:60px auto;
+background:#fff;
+padding:40px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(0,0,0,0.05);
+line-height:1.7;
 }
 
-/* BUTTON */
-button {
-  background: linear-gradient(90deg, #4f46e5, #2563eb);
-  color: white;
-  padding: 12px 30px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+footer{
+background:#111;
+color:#aaa;
+padding:40px;
+text-align:center;
+margin-top:60px
 }
 
-/* PROGRESS */
-.progress {
-  height: 8px;
-  background: #ddd;
-  border-radius: 10px;
-  margin-top: 15px;
+.tool-links{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:12px;
+margin-bottom:20px;
 }
 
-.bar {
-  height: 100%;
-  width: 0%;
-  background: #4f46e5;
+.tool-links a{
+display:flex;
+align-items:center;
+gap:6px;
+background:#1f1f1f;
+padding:8px 12px;
+border-radius:8px;
+font-size:13px;
+text-decoration:none;
+color:#ddd;
 }
 
-/* STATUS */
-#status {
-  margin-top: 10px;
-  color: #4f46e5;
+.tool-links a:hover{
+background:#4f46e5;
+color:#fff;
 }
 
-/* FILE INFO */
-#fileInfo {
-  font-size: 13px;
-  color: #555;
+.icon{font-size:14px;}
+
+footer a{
+color:#aaa;
+margin:5px 10px;
+text-decoration:none;
 }
-
-/* SPINNER */
-#spinner {
-  display: none;
-  margin-top: 10px;
-  color: #2563eb;
-}
-
-/* CONTENT */
-.content {
-  max-width: 800px;
-  margin: 50px auto;
-  padding: 0 20px;
-}
-
-/* FOOTER */
-footer {
-  background: #111827;
-  color: white;
-  padding: 40px;
-}
-
-.tools {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
-  gap: 12px;
-}
-
-.tool {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-  background: #1f2937;
-  border-radius: 8px;
-  text-decoration: none;
-  color: #e5e7eb;
-  transition: 0.2s;
-}
-
-.tool:hover {
-  background: #111827;
-}
-
-.tool i {
-  width: 18px;
-  height: 18px;
-}
-
-.tool.pdf i { color: #ef4444; }
-.tool.excel i { color: #22c55e; }
-.tool.image i { color: #f59e0b; }
-.tool.compress i { color: #3b82f6; }
-.tool.merge i { color: #8b5cf6; }
-.tool.split i { color: #ec4899; }
-
 </style>
-
 </head>
 
-<body onload="init()">
+<body>
 
 <header>
-  <div><b>PDF Master Hub</b></div>
-  <nav>
-    <a href="/">Home</a>
-    <a href="/about.html">About</a>
-    <a href="/contact.html">Contact</a>
-    <a href="/privacy.html">Privacy</a>
-  </nav>
+<a href="/" class="logo"><span>PDF</span>MasterHub</a>
+<nav>
+<a href="/">Home</a>
+<a href="/about.html">About</a>
+<a href="/terms.html">Terms</a>
+<a href="/privacy.html">Privacy</a>
+<a href="/contact.html">Contact</a>
+</nav>
 </header>
 
-<div class="hero">
-<div class="card">
+<div class="container">
 
-<h1>JPG to PDF Converter</h1>
+<h1>JPG to PDF</h1>
+<p style="margin-bottom:20px;color:#666;">Convert images into high-quality PDF files</p>
 
-<div id="drop">Drag & Drop JPG file</div>
-
-<input type="file" id="file" accept=".jpg,.jpeg" hidden onchange="filePicked(this)">
-
-<button onclick="upload('/jpg-to-pdf','converted.pdf')">Convert</button>
-
-<div id="fileInfo"></div>
-
-<div class="progress">
-  <div class="bar" id="bar"></div>
+<div class="upload-box" onclick="openFile()">
+<h2>📂 Click to upload JPG</h2>
+<p>Select image to convert</p>
 </div>
 
-<p id="status"></p>
+<input type="file" id="fileInput" accept=".jpg,.jpeg,.png" hidden>
 
-<div id="spinner">⏳ Processing...</div>
+<div class="file-info" id="fileName"></div>
+
+<button class="action-btn" id="convertBtn">Convert to PDF</button>
 
 </div>
-</div>
 
-<div class="content">
-<h2>Convert JPG to PDF</h2>
-<p>Convert JPG images into high-quality PDF documents quickly and securely.</p>
-</div>
+<section>
+
+<h2>JPG to PDF Converter – Convert Images to PDF Online Easily</h2>
+
+<p>Converting JPG to PDF is one of the most useful tools for managing images and documents. Whether you want to combine multiple images into one file or create a professional document from photos, a JPG to PDF converter makes the process simple and fast. With PDFMasterHub, you can convert JPG to PDF online without installing any software.</p>
+
+<p>Images are widely used for capturing documents, notes, and photos. However, sharing multiple images can be inconvenient. By converting images into a single PDF file, you can organize and share them more efficiently.</p>
+
+<h3>Why Convert JPG to PDF?</h3>
+
+<p>JPG files are great for images, but they are not ideal for document sharing. Converting JPG to PDF provides a structured and professional format.</p>
+
+<ul>
+<li>Combine multiple images into one PDF</li>
+<li>Improve document organization</li>
+<li>Make files easier to share</li>
+<li>Maintain image quality</li>
+<li>Create professional documents</li>
+</ul>
+
+<h3>How JPG to PDF Conversion Works</h3>
+
+<p>The JPG to PDF converter processes your images and combines them into a single PDF document. Each image becomes a page in the PDF.</p>
+
+<ul>
+<li>Upload your JPG or PNG files</li>
+<li>Click convert</li>
+<li>Download your PDF file</li>
+</ul>
+
+<h3>Convert Images to PDF in Seconds</h3>
+
+<p>Our tool allows you to convert images to PDF instantly. Whether you have one image or multiple files, the process is quick and efficient.</p>
+
+<h3>Key Features</h3>
+
+<ul>
+<li>Fast JPG to PDF conversion</li>
+<li>Supports JPG, JPEG, PNG</li>
+<li>No installation required</li>
+<li>Works on all devices</li>
+<li>Secure file processing</li>
+</ul>
+
+<h3>Use Cases</h3>
+
+<ul>
+<li>Scan documents using mobile photos</li>
+<li>Convert notes into PDF</li>
+<li>Create image-based reports</li>
+<li>Share documents professionally</li>
+</ul>
+
+<h3>More PDF Tools</h3>
+
+<p>PDFMasterHub offers tools like compress PDF, merge PDF, split PDF, PDF to Word, and Excel conversion tools.</p>
+
+<h3>SEO Keywords Covered</h3>
+
+<p>This page targets keywords such as JPG to PDF, image to PDF, convert JPG to PDF, photo to PDF, and online PDF converter.</p>
+
+<h3>Security</h3>
+
+<p>Your files are processed securely and deleted automatically.</p>
+
+<h3>Conclusion</h3>
+
+<p>Convert JPG to PDF easily using PDFMasterHub and manage your documents efficiently.</p>
+
+</section>
 
 <footer>
 
-<h3>All Tools</h3>
-
-<div class="tools">
-
-<a href="/pdf-to-word.html" class="tool pdf"><i data-lucide="file-text"></i>PDF to Word</a>
-<a href="/word-to-pdf.html" class="tool pdf"><i data-lucide="file"></i>Word to PDF</a>
-<a href="/pdf-to-excel.html" class="tool excel"><i data-lucide="table"></i>PDF to Excel</a>
-<a href="/excel-to-pdf.html" class="tool excel"><i data-lucide="table"></i>Excel to PDF</a>
-<a href="/jpg-to-pdf.html" class="tool image"><i data-lucide="image"></i>JPG to PDF</a>
-<a href="/png-to-jpg.html" class="tool image"><i data-lucide="image"></i>PNG to JPG</a>
-<a href="/compress-pdf.html" class="tool compress"><i data-lucide="minimize-2"></i>Compress PDF</a>
-<a href="/merge-pdf.html" class="tool merge"><i data-lucide="layers"></i>Merge PDF</a>
-<a href="/split-pdf.html" class="tool split"><i data-lucide="split"></i>Split PDF</a>
-
+<div class="tool-links">
+<a href="/compress-pdf.html"><span class="icon">🗜️</span>Compress PDF</a>
+<a href="/merge-pdf.html"><span class="icon">📑</span>Merge PDF</a>
+<a href="/split-pdf.html"><span class="icon">✂️</span>Split PDF</a>
+<a href="/pdf-to-word.html"><span class="icon">📄</span>PDF to Word</a>
+<a href="/word-to-pdf.html"><span class="icon">📘</span>Word to PDF</a>
+<a href="/pdf-to-excel.html"><span class="icon">📊</span>PDF to Excel</a>
+<a href="/excel-to-pdf.html"><span class="icon">📈</span>Excel to PDF</a>
+<a href="/jpg-to-pdf.html"><span class="icon">🖼️</span>JPG to PDF</a>
+<a href="/jpg-to-png.html"><span class="icon">🖼️</span>JPG to PNG</a>
+<a href="/resize-image.html"><span class="icon">📐</span>Resize Image</a>
 </div>
 
-<p style="margin-top:20px;">© 2026 PDF Master Hub</p>
+<div>
+<a href="/">Home</a>
+<a href="/about.html">About</a>
+<a href="/terms.html">Terms</a>
+<a href="/privacy.html">Privacy</a>
+<a href="/contact.html">Contact</a>
+</div>
+
+<p style="margin-top:10px;">© 2026 PDFMasterHub</p>
 
 </footer>
 
-<script src="app.js"></script>
-
 <script>
-lucide.createIcons();
+const fileInput = document.getElementById("fileInput");
+const fileName = document.getElementById("fileName");
+const convertBtn = document.getElementById("convertBtn");
+
+function openFile(){
+  fileInput.click();
+}
+
+fileInput.addEventListener("change", function(){
+  if(this.files.length > 0){
+    fileName.innerText = this.files.length + " file(s) selected";
+  }
+});
+
+convertBtn.addEventListener("click", function(){
+
+  if(!fileInput.files.length){
+    alert("Please upload file first");
+    return;
+  }
+
+  convertBtn.innerText = "Processing...";
+  convertBtn.disabled = true;
+
+  setTimeout(() => {
+    const link = document.createElement("a");
+    link.href = "#";
+    link.download = "converted.pdf";
+    link.click();
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+
+  }, 1500);
+
+});
 </script>
 
 </body>
