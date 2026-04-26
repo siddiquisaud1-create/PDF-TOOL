@@ -11,10 +11,12 @@ const sharp = require("sharp");
 const CloudConvert = require("cloudconvert");
 
 const app = express();
-const path = require("path");
 
-// Serve static files
+// =======================
+// 📁 STATIC FILES (IMPORTANT FOR robots.txt)
+// =======================
 app.use(express.static(path.join(__dirname, "public")));
+
 // =======================
 // 🔐 SECURITY
 // =======================
@@ -63,16 +65,19 @@ app.use(
       }
     }
   })
-); // ✅ THIS LINE WAS MISSING
+);
 
 app.use(cors({ origin: "*" }));
 app.disable("x-powered-by");
 
-// Global limiter
+// =======================
+// 🚫 GLOBAL RATE LIMIT
+// =======================
 app.use(rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 200
 }));
+
 // =======================
 // 🚫 STRICT LIMIT FOR CONVERT
 // =======================
@@ -81,11 +86,6 @@ const convertLimiter = rateLimit({
   max: 5,
   message: "Too many conversions, please wait 1 minute"
 });
-
-// =======================
-// 📁 STATIC FILES
-// =======================
-app.use(express.static(path.join(__dirname, "public")));
 
 // =======================
 // 📂 FILE UPLOAD
@@ -115,8 +115,9 @@ const lastRequestMap = new Map();
 app.post("/convert", convertLimiter, upload.single("file"), async (req, res) => {
   try {
 
+    // ✅ FIXED: Allow Googlebot (DO NOT BLOCK IT)
     const ua = req.headers["user-agent"] || "";
-    if (ua.includes("Googlebot") || ua.includes("bot")) {
+    if (ua.includes("bot") && !ua.includes("Googlebot")) {
       return res.status(403).send("Bots not allowed");
     }
 
