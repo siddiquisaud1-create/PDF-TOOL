@@ -13,106 +13,146 @@ const { PDFDocument } = require("pdf-lib");
 const app = express();
 app.set("trust proxy", 1);
 
-// 🔐 Security middlewares
+// 🔐 Security
 app.use(helmet());
 app.use(cors());
 app.use(express.static("public"));
 
-// 🔐 Rate limit
 app.use(rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100
 }));
 
-// 🔐 Multer (strict validation)
+// 🔐 Upload config
 const upload = multer({
   dest: "uploads/",
-  limits: {
-    fileSize: 20 * 1024 * 1024,
-    files: 10
-  },
-  fileFilter: (req, file, cb) => {
-    const allowed = [
-      "application/pdf",
-      "image/jpeg",
-      "image/png",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    ];
-
-    if (allowed.includes(file.mimetype)) cb(null, true);
-    else cb(new Error("Invalid file type"));
-  }
+  limits: { fileSize: 20 * 1024 * 1024 }
 });
 
 const API_KEY = process.env.API_KEY;
 
 // =======================
-// 🔥 CloudConvert helper
+// 🔥 CLEAN CONVERTER
 // =======================
 async function convertFile(path, input, output) {
-  try {
-    const job = await axios.post("https://api.cloudconvert.com/v2/jobs", {
+
+  const job = await axios.post(
+    "https://api.cloudconvert.com/v2/jobs",
+    {
       tasks: {
-        upload: { operation: "import/upload" },
-        convert: {
+        "import-1": { operation: "import/upload" },
+
+        "convert-1": {
           operation: "convert",
-          input: "upload",
+          input: "import-1",
           input_format: input,
           output_format: output
         },
-        export: { operation: "export/url", input: "convert" }
+
+        "export-1": {
+          operation: "export/url",
+          input: "convert-1"
+        }
       }
-    }, {
+    },
+    {
       headers: { Authorization: `Bearer ${API_KEY}` }
-    });
+    }
+  );
 
-    const uploadTask = job.data.data.tasks.find(t => t.name === "upload");
+  const uploadTask = job.data.data.tasks.find(t => t.name === "import-1");
 
-    const form = new FormData();
-    form.append("file", fs.createReadStream(path));
+  const form = new FormData();
+  form.append("file", fs.createReadStream(path));
 
-    await axios.post(uploadTask.result.form.url, form, {
-      headers: form.getHeaders()
-    });
+  await axios.post(uploadTask.result.form.url, form, {
+    headers: form.getHeaders()
+  });
 
-    let url = null;
+  let fileUrl;
 
-    for (let i = 0; i < 10; i++) {
-      const status = await axios.get(
-        `https://api.cloudconvert.com/v2/jobs/${job.data.data.id}`,
-        { headers: { Authorization: `Bearer ${API_KEY}` } }
-      );
-
-      const exportTask = status.data.data.tasks.find(t => t.name === "export");
-
-      if (exportTask?.result) {
-        url = exportTask.result.files[0].url;
-        break;
+  while (true) {
+    const status = await axios.get(
+      `https://api.cloudconvert.com/v2/jobs/${job.data.data.id}`,
+      {
+        headers: { Authorization: `Bearer ${API_KEY}` }
       }
+    );
 
-      await new Promise(r => setTimeout(r, 2000));
+    const exportTask = status.data.data.tasks.find(t => t.name === "export-1");
+
+    if (exportTask && exportTask.status === "finished") {
+      fileUrl = exportTask.result.files[0].url;
+      break;
     }
 
-    if (!url) throw new Error("Conversion timeout");
-
-    return url;
-
-  } catch (err) {
-    console.error("Conversion error:", err.message);
-    throw err;
+    await new Promise(r => setTimeout(r, 2000));
   }
+
+  const fileRes = await axios.get(fileUrl, {
+    responseType: "arraybuffer"
+  });
+
+  return fileRes.data;
 }
 
 // =======================
-// 🔥 Merge PDF
+// 🥇 TOOL #1 PDF → WORD
+// =======================
+app.post("/pdf-to-word", upload.single("file"), async (req, res) => {
+  try {
+    const result = await convertFile(req.file.path, "pdf", "docx");
+
+    res.setHeader("Content-Disposition", "attachment; filename=converted.docx");
+    res.send(result);
+
+  } catch (err) {
+    console.error("PDF→Word error:", err.message);
+    res.status(500).send("Conversion failed");
+  } finally {
+    if (req.file) fs.unlinkSync(req.file.path);
+  }
+});
+
+// =======================
+// 🔥 GENERIC ROUTE MAKER
+// =======================
+function createRoute(path, input, output, filename) {
+  app.post(path, upload.single("file"), async (req, res) => {
+    try {
+      const result = await convertFile(req.file.path, input, output);
+
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename=${filename}`
+      );
+
+      res.send(result);
+
+    } catch (err) {
+      console.error(`${path} error:`, err.message);
+      res.status(500).send("Conversion failed");
+    } finally {
+      if (req.file) fs.unlinkSync(req.file.path);
+    }
+  });
+}
+
+// =======================
+// 🔥 OTHER TOOLS
+// =======================
+createRoute("/word-to-pdf", "docx", "pdf", "converted.pdf");
+createRoute("/pdf-to-excel", "pdf", "xlsx", "converted.xlsx");
+createRoute("/excel-to-pdf", "xlsx", "pdf", "converted.pdf");
+createRoute("/jpg-to-pdf", "jpg", "pdf", "converted.pdf");
+createRoute("/png-to-jpg", "png", "jpg", "converted.jpg");
+createRoute("/compress-pdf", "pdf", "pdf", "compressed.pdf");
+
+// =======================
+// 🔥 MERGE PDF (LOCAL)
 // =======================
 app.post("/merge-pdf", upload.array("file", 10), async (req, res) => {
   try {
-    if (!req.files || req.files.length < 2) {
-      return res.status(400).send("Upload at least 2 PDFs");
-    }
-
     const merged = await PDFDocument.create();
 
     for (let f of req.files) {
@@ -135,54 +175,6 @@ app.post("/merge-pdf", upload.array("file", 10), async (req, res) => {
 });
 
 // =======================
-// 🔥 Split PDF
-// =======================
-app.post("/split-pdf", upload.single("file"), async (req, res) => {
-  try {
-    const bytes = fs.readFileSync(req.file.path);
-    const pdf = await PDFDocument.load(bytes);
-
-    const newPdf = await PDFDocument.create();
-    const [page] = await newPdf.copyPages(pdf, [0]);
-    newPdf.addPage(page);
-
-    const result = await newPdf.save();
-
-    res.setHeader("Content-Type", "application/pdf");
-    res.send(Buffer.from(result));
-
-  } catch {
-    res.status(500).send("Split error");
-  } finally {
-    if (req.file) fs.unlinkSync(req.file.path);
-  }
-});
-
-// =======================
-// 🔥 CloudConvert routes
-// =======================
-function route(path, input, output) {
-  app.post(path, upload.single("file"), async (req, res) => {
-    try {
-      const url = await convertFile(req.file.path, input, output);
-      res.redirect(url);
-    } catch {
-      res.status(500).send("Conversion failed");
-    } finally {
-      if (req.file) fs.unlinkSync(req.file.path);
-    }
-  });
-}
-
-route("/pdf-to-word", "pdf", "docx");
-route("/word-to-pdf", "docx", "pdf");
-route("/pdf-to-excel", "pdf", "xlsx");
-route("/excel-to-pdf", "xlsx", "pdf");
-route("/jpg-to-pdf", "jpg", "pdf");
-route("/png-to-jpg", "png", "jpg");
-route("/compress-pdf", "pdf", "pdf");
-
-// =======================
 app.listen(process.env.PORT || 3000, () =>
-  console.log("Server running")
+  console.log("🚀 Server running")
 );
