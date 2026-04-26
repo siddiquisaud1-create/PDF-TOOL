@@ -159,6 +159,24 @@ padding:20px 12px;
 
 .section{padding:40px 15px}
 }
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+ul li {
+  position: relative;
+  padding-left: 25px;
+  margin: 10px 0;
+}
+
+ul li::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  color: #4f46e5;
+  font-weight: bold;
+}
 </style>
 </head>
 
