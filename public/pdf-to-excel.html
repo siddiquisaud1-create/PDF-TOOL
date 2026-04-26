@@ -122,7 +122,7 @@ text-decoration:none;
 </style>
 </head>
 
-<body>
+<body data-input="pdf" data-output="xlsx">
 
 <header>
 <a href="/" class="logo"><span>PDF</span>MasterHub</a>
@@ -140,7 +140,7 @@ text-decoration:none;
 <h1>PDF to Excel</h1>
 <p style="margin-bottom:20px;color:#666;">Convert PDF tables into editable Excel spreadsheets</p>
 
-<div class="upload-box" onclick="openFile()">
+<div class="upload-box" id="uploadBox">
 <h2>📂 Click to upload PDF</h2>
 <p>Select file to convert</p>
 </div>
@@ -271,45 +271,7 @@ text-decoration:none;
 
 </footer>
 
-<script>
-const fileInput = document.getElementById("fileInput");
-const fileName = document.getElementById("fileName");
-const convertBtn = document.getElementById("convertBtn");
 
-function openFile(){
-  fileInput.click();
-}
-
-fileInput.addEventListener("change", function(){
-  if(this.files.length > 0){
-    fileName.innerText = "Selected: " + this.files[0].name;
-  }
-});
-
-convertBtn.addEventListener("click", function(){
-
-  if(!fileInput.files.length){
-    alert("Please upload file first");
-    return;
-  }
-
-  convertBtn.innerText = "Processing...";
-  convertBtn.disabled = true;
-
-  setTimeout(() => {
-    const link = document.createElement("a");
-    link.href = "#";
-    link.download = "converted.xlsx";
-    link.click();
-
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
-
-  }, 1500);
-
-});
-</script>
-
+<script src="/js/tools.js"></script>
 </body>
 </html>
