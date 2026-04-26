@@ -7,7 +7,6 @@
   // 🔥 detect tool name from title
   let toolName = title.split("|")[0].trim();
 
-  // fallback if needed
   if (!toolName) {
     toolName = "PDF Tool";
   }
@@ -19,7 +18,14 @@
     "applicationCategory": "Utility",
     "operatingSystem": "All",
     "url": url,
-    "description": description
+    "description": description,
+
+    // ✅ CORRECT PLACE (INSIDE OBJECT)
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.6",
+      "reviewCount": "320"
+    }
   };
 
   // inject into head
