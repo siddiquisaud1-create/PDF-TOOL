@@ -39,11 +39,15 @@ app.use(
           "https://ep2.adtrafficquality.google"
         ],
 
-        imgSrc: [
-          "'self'",
-          "data:",
-          "https://www.google-analytics.com"
-        ],
+     imgSrc: [
+  "'self'",
+  "data:",
+  "https://www.google-analytics.com",
+  "https://pagead2.googlesyndication.com",
+  "https://googleads.g.doubleclick.net",
+  "https://ep1.adtrafficquality.google",
+  "https://ep2.adtrafficquality.google"
+],
 
        frameSrc: [
   "https://googleads.g.doubleclick.net",
