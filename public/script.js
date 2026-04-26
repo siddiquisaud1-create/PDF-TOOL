@@ -17,14 +17,14 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("status").innerText =
         "Selected: " + card.innerText;
 
-      // auto scroll to upload
+      // scroll to upload
       document.getElementById("drop").scrollIntoView({
         behavior: "smooth"
       });
     });
   });
 
-  // FILE PICK
+  // FILE SELECT
   const btn = document.getElementById("btn");
   const fileInput = document.getElementById("file");
 
@@ -32,6 +32,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
   fileInput.addEventListener("change", (e) => {
     selectedFile = e.target.files[0];
+
+    if (selectedFile) {
+      btn.innerText = selectedFile.name;
+    }
+  });
+
+  // DRAG & DROP
+  const drop = document.getElementById("drop");
+
+  drop.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    drop.style.borderColor = "#ef4444";
+  });
+
+  drop.addEventListener("dragleave", () => {
+    drop.style.borderColor = "#3b82f6";
+  });
+
+  drop.addEventListener("drop", (e) => {
+    e.preventDefault();
+    drop.style.borderColor = "#3b82f6";
+
+    selectedFile = e.dataTransfer.files[0];
+    fileInput.files = e.dataTransfer.files;
 
     if (selectedFile) {
       btn.innerText = selectedFile.name;
@@ -68,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     xhr.onload = () => {
       if (xhr.status !== 200) {
-        document.getElementById("status").innerText = "Failed ❌";
+        document.getElementById("status").innerText = "Upload failed ❌";
         return;
       }
 
