@@ -13,7 +13,7 @@ const CloudConvert = require("cloudconvert");
 const app = express();
 
 // =======================
-// 📁 STATIC FILES (IMPORTANT FOR robots.txt)
+// 📁 STATIC FILES (IMPORTANT)
 // =======================
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -25,7 +25,6 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-
         scriptSrc: [
           "'self'",
           "'unsafe-inline'",
@@ -34,7 +33,6 @@ app.use(
           "https://ep1.adtrafficquality.google",
           "https://ep2.adtrafficquality.google"
         ],
-
         connectSrc: [
           "'self'",
           "https://www.google-analytics.com",
@@ -44,7 +42,6 @@ app.use(
           "https://ep2.adtrafficquality.google",
           "https://csi.gstatic.com"
         ],
-
         imgSrc: [
           "'self'",
           "data:",
@@ -54,7 +51,6 @@ app.use(
           "https://ep1.adtrafficquality.google",
           "https://ep2.adtrafficquality.google"
         ],
-
         frameSrc: [
           "https://googleads.g.doubleclick.net",
           "https://tpc.googlesyndication.com",
@@ -79,7 +75,7 @@ app.use(rateLimit({
 }));
 
 // =======================
-// 🚫 STRICT LIMIT FOR CONVERT
+// 🚫 CONVERT LIMIT
 // =======================
 const convertLimiter = rateLimit({
   windowMs: 60 * 1000,
@@ -115,11 +111,7 @@ const lastRequestMap = new Map();
 app.post("/convert", convertLimiter, upload.single("file"), async (req, res) => {
   try {
 
-    // ✅ FIXED: Allow Googlebot (DO NOT BLOCK IT)
-    const ua = req.headers["user-agent"] || "";
-    if (ua.includes("bot") && !ua.includes("Googlebot")) {
-      return res.status(403).send("Bots not allowed");
-    }
+    // ✅ IMPORTANT: NO BOT BLOCKING HERE
 
     const ip = req.ip;
     const now = Date.now();
@@ -153,7 +145,6 @@ app.post("/convert", convertLimiter, upload.single("file"), async (req, res) => 
     });
 
     const uploadTask = job.tasks.find(t => t.name === "importFile");
-
     if (!uploadTask) throw new Error("Upload task not found");
 
     await cloudConvert.tasks.upload(
@@ -183,7 +174,7 @@ app.post("/convert", convertLimiter, upload.single("file"), async (req, res) => 
     res.send(buffer);
 
   } catch (err) {
-    console.error("🔥 FINAL ERROR:", err.message || err);
+    console.error("🔥 ERROR:", err.message || err);
 
     if (err.message && err.message.includes("429")) {
       return res.status(429).send("Server busy, try again after few seconds");
