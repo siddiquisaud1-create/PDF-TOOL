@@ -66,18 +66,14 @@ app.use(
 app.use(cors({ origin: "*" }));
 app.disable("x-powered-by");
 
-
 // =======================
-// 🚫 CONVERT LIMIT
+// 🚫 GLOBAL LIMIT (BOT SAFE)
 // =======================
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 200,
-
   skip: (req) => {
     const ua = req.headers["user-agent"] || "";
-
-    // allow major bots
     return (
       ua.includes("Googlebot") ||
       ua.includes("Google-InspectionTool") ||
@@ -94,6 +90,15 @@ app.use(limiter);
 const upload = multer({
   dest: "uploads/",
   limits: { fileSize: 15 * 1024 * 1024 }
+});
+
+// =======================
+// 🔥 ADD THIS (FIX)
+// =======================
+const convertLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 5,
+  message: "Too many conversions, please wait 1 minute"
 });
 
 // =======================
@@ -115,9 +120,6 @@ const lastRequestMap = new Map();
 // =======================
 app.post("/convert", convertLimiter, upload.single("file"), async (req, res) => {
   try {
-
-    // ✅ IMPORTANT: NO BOT BLOCKING HERE
-
     const ip = req.ip;
     const now = Date.now();
 
@@ -208,7 +210,7 @@ app.post("/resize-image", upload.single("file"), async (req, res) => {
     res.setHeader("Content-Disposition", "attachment; filename=resized.jpg");
     res.send(buffer);
 
-  } catch (err) {
+  } catch {
     res.status(500).send("Resize failed");
   } finally {
     if (req.file && fs.existsSync(req.file.path)) {
@@ -217,14 +219,10 @@ app.post("/resize-image", upload.single("file"), async (req, res) => {
   }
 });
 
-
 // =======================
-// 🌐 ROUTES (FINAL FIXED)
+// 🌐 ROUTES
 // =======================
-
-// 🔥 robots.txt (force working for Google)
 app.get("/robots.txt", (req, res) => {
-  res.status(200);
   res.type("text/plain");
   res.send(`User-agent: *
 Disallow:
@@ -232,21 +230,17 @@ Disallow:
 Sitemap: https://pdfmasterhub.com/sitemap.xml`);
 });
 
-// 🔥 sitemap.xml
 app.get("/sitemap.xml", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "sitemap.xml"));
 });
 
-// 🔥 homepage (fix "Cannot GET /")
 app.get("/", (req, res) => {
-  res.status(200).sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// 🔥 dynamic pages (works for ALL tools)
 app.get("/:page", (req, res, next) => {
   const page = req.params.page;
 
-  // skip system files like robots.txt, sitemap.xml, etc.
   if (page.includes(".")) return next();
 
   const filePath = path.join(__dirname, "public", page + ".html");
@@ -254,9 +248,10 @@ app.get("/:page", (req, res, next) => {
   if (fs.existsSync(filePath)) {
     return res.sendFile(filePath);
   } else {
-    return next(); // IMPORTANT: don't block Google
+    return next();
   }
 });
+
 // =======================
 const PORT = process.env.PORT || 3000;
 
