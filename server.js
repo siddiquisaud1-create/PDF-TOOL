@@ -215,12 +215,13 @@ app.post("/resize-image", upload.single("file"), async (req, res) => {
 // =======================
 // 🌐 ROUTES
 // =======================
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
+app.get("/:page", (req, res, next) => {
+  const page = req.params.page;
 
-app.get("/:page", (req, res) => {
-  const filePath = path.join(__dirname, "public", req.params.page + ".html");
+  // skip files like robots.txt, sitemap.xml, etc.
+  if (page.includes(".")) return next();
+
+  const filePath = path.join(__dirname, "public", page + ".html");
 
   if (fs.existsSync(filePath)) {
     res.sendFile(filePath);
@@ -228,7 +229,6 @@ app.get("/:page", (req, res) => {
     res.status(404).send("Page not found");
   }
 });
-
 // =======================
 const PORT = process.env.PORT || 3000;
 
