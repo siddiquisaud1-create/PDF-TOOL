@@ -66,22 +66,27 @@ app.use(
 app.use(cors({ origin: "*" }));
 app.disable("x-powered-by");
 
-// =======================
-// 🚫 GLOBAL RATE LIMIT
-// =======================
-app.use(rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 200
-}));
 
 // =======================
 // 🚫 CONVERT LIMIT
 // =======================
-const convertLimiter = rateLimit({
-  windowMs: 60 * 1000,
-  max: 5,
-  message: "Too many conversions, please wait 1 minute"
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 200,
+
+  skip: (req) => {
+    const ua = req.headers["user-agent"] || "";
+
+    // allow major bots
+    return (
+      ua.includes("Googlebot") ||
+      ua.includes("Google-InspectionTool") ||
+      ua.includes("bingbot")
+    );
+  }
 });
+
+app.use(limiter);
 
 // =======================
 // 📂 FILE UPLOAD
