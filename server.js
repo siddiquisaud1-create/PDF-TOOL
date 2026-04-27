@@ -212,21 +212,44 @@ app.post("/resize-image", upload.single("file"), async (req, res) => {
   }
 });
 
+
 // =======================
-// 🌐 ROUTES
+// 🌐 ROUTES (FINAL FIXED)
 // =======================
+
+// 🔥 robots.txt (force working for Google)
+app.get("/robots.txt", (req, res) => {
+  res.status(200);
+  res.type("text/plain");
+  res.send(`User-agent: *
+Disallow:
+
+Sitemap: https://pdfmasterhub.com/sitemap.xml`);
+});
+
+// 🔥 sitemap.xml
+app.get("/sitemap.xml", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "sitemap.xml"));
+});
+
+// 🔥 homepage (fix "Cannot GET /")
+app.get("/", (req, res) => {
+  res.status(200).sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+// 🔥 dynamic pages (works for ALL tools)
 app.get("/:page", (req, res, next) => {
   const page = req.params.page;
 
-  // skip files like robots.txt, sitemap.xml, etc.
+  // skip system files like robots.txt, sitemap.xml, etc.
   if (page.includes(".")) return next();
 
   const filePath = path.join(__dirname, "public", page + ".html");
 
   if (fs.existsSync(filePath)) {
-    res.sendFile(filePath);
+    return res.sendFile(filePath);
   } else {
-    res.status(404).send("Page not found");
+    return next(); // IMPORTANT: don't block Google
   }
 });
 // =======================
