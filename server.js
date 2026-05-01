@@ -13,6 +13,40 @@ const CloudConvert = require("cloudconvert");
 const app = express();
 
 // =======================
+// 🌐 ROUTES
+// =======================
+
+app.get("/sitemap.xml", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "sitemap.xml"));
+});
+app.get("/robots.txt", (req, res) => {
+  res.type("text/plain");
+  res.send(`User-agent: *
+Allow: /
+
+Sitemap: https://pdfmasterhub.com/sitemap.xml`);
+});
+
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+app.get("/:page", (req, res, next) => {
+  const page = req.params.page;
+
+  if (page.includes(".")) return next();
+
+  const filePath = path.join(__dirname, "public", page + ".html");
+
+  if (fs.existsSync(filePath)) {
+    return res.sendFile(filePath);
+  } else {
+    return next();
+  }
+});
+
+// =======================
 // 📁 STATIC FILES (IMPORTANT)
 // =======================
 app.use(express.static(path.join(__dirname, "public")));
@@ -220,37 +254,7 @@ app.post("/resize-image", upload.single("file"), async (req, res) => {
 });
 
 // =======================
-// 🌐 ROUTES
-// =======================
-app.get("/robots.txt", (req, res) => {
-  res.type("text/plain");
-  res.send(`User-agent: *
-Allow: /
 
-Sitemap: https://pdfmasterhub.com/sitemap.xml`);
-});
-
-app.get("/sitemap.xml", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "sitemap.xml"));
-});
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
-app.get("/:page", (req, res, next) => {
-  const page = req.params.page;
-
-  if (page.includes(".")) return next();
-
-  const filePath = path.join(__dirname, "public", page + ".html");
-
-  if (fs.existsSync(filePath)) {
-    return res.sendFile(filePath);
-  } else {
-    return next();
-  }
-});
 
 // =======================
 const PORT = process.env.PORT || 3000;
