@@ -225,7 +225,7 @@ app.post("/resize-image", upload.single("file"), async (req, res) => {
 app.get("/robots.txt", (req, res) => {
   res.type("text/plain");
   res.send(`User-agent: *
-Disallow:
+Allow: /
 
 Sitemap: https://pdfmasterhub.com/sitemap.xml`);
 });
